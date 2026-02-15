@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="ucmism2m.feature"
+      label="UCMIS M2M Transformation Feature"
+      version="1.0.0.qualifier"
+      provider-name="UCMIS">
+
+   <description>
+      UCMIS Model-to-Model Transformation Feature for UML transformations.
+   </description>
+
+   <copyright>
+      Copyright (c) 2025 UCMIS
+   </copyright>
+
+   <license>
+      Apache License 2.0 or appropriate license
+   </license>
+
+   <plugin
+         id="ucmism2m.blackbox"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ucmism2m.transformation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ucmism2m.app"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -1,0 +1,59 @@
+/**
+ * QVTo library wrapper for JSONConfigLoader black-box operations.
+ * Namespace: blackboxlib
+ * 
+ * Compatible with Eclipse 2025-12, QVTo 3.11.1.
+ */
+library JSONConfigLoaderLib;
+
+modeltype ECORE uses 'http://www.eclipse.org/emf/2002/Ecore';
+
+/**
+ * Load JSON configuration file and return as Dictionary.
+ * 
+ * @param jsonPath Path to JSON configuration file
+ * @return Dictionary representation of JSON structure
+ */
+query loadConfig(jsonPath : String) : Dict(String, OclAny) 
+    implements blackboxlib::JSONConfigLoaderLib::loadConfig;
+
+/**
+ * Get string value from JSON configuration.
+ * 
+ * @param jsonPath Path to JSON file
+ * @param key Key to retrieve
+ * @return String value or null if not found
+ */
+query getStringValue(jsonPath : String, key : String) : String
+    implements blackboxlib::JSONConfigLoaderLib::getStringValue;
+
+/**
+ * Get list of strings from JSON configuration.
+ * 
+ * @param jsonPath Path to JSON file
+ * @param key Key to retrieve array
+ * @return Sequence of strings
+ */
+query getStringList(jsonPath : String, key : String) : Sequence(String)
+    implements blackboxlib::JSONConfigLoaderLib::getStringList;
+
+/**
+ * Get boolean value from JSON configuration.
+ * 
+ * @param jsonPath Path to JSON file
+ * @param key Key to retrieve
+ * @param defaultValue Default value if key not found
+ * @return Boolean value
+ */
+query getBooleanValue(jsonPath : String, key : String, defaultValue : Boolean) : Boolean
+    implements blackboxlib::JSONConfigLoaderLib::getBooleanValue;
+
+/**
+ * Check if JSON configuration contains a key.
+ * 
+ * @param jsonPath Path to JSON file
+ * @param key Key to check
+ * @return true if key exists, false otherwise
+ */
+query hasKey(jsonPath : String, key : String) : Boolean
+    implements blackboxlib::JSONConfigLoaderLib::hasKey;

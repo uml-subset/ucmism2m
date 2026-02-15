@@ -1,0 +1,22 @@
+{
+  "transformationName": "UCMIS M2M Transformation",
+  "version": "1.0.0",
+  "excludedElements": [
+    "TemporaryClass",
+    "DebugInfo"
+  ],
+  "mappingRules": {
+    "preserveComments": true,
+    "flattenInheritance": false,
+    "includeAbstractClasses": true
+  },
+  "datatypeMapping": {
+    "String": "Text",
+    "Integer": "Number",
+    "Boolean": "Flag"
+  },
+  "options": {
+    "verbose": true,
+    "validateOutput": true
+  }
+}

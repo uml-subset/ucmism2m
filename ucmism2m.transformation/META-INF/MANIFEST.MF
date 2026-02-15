@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UCMIS M2M Transformation
+Bundle-SymbolicName: ucmism2m.transformation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: UCMIS
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: ucmism2m.transformation
+Require-Bundle: org.eclipse.m2m.qvt.oml,
+ org.eclipse.uml2.uml,
+ org.eclipse.emf.ecore,
+ ucmism2m.blackbox
+Bundle-ActivationPolicy: lazy

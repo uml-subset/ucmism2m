@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UCMIS M2M Application
+Bundle-SymbolicName: ucmism2m.app;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: UCMIS
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: ucmism2m.app
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.equinox.app,
+ org.eclipse.m2m.qvt.oml,
+ org.eclipse.m2m.qvt.oml.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.uml2.uml,
+ org.eclipse.uml2.uml.resources,
+ ucmism2m.transformation,
+ ucmism2m.blackbox
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,220 @@
+/**
+ * UCMIS Model-to-Model Transformation
+ * 
+ * Main QVTo transformation script for UML model transformations.
+ * Uses JSON configuration for transformation parameters.
+ * 
+ * Compatible with:
+ * - Eclipse 2025-12
+ * - QVTo 3.11.1
+ * - UML2 5.0.0
+ */
+import blackbox.JSONConfigLoaderLib;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+
+/**
+ * Main transformation entry point.
+ * 
+ * @param inModel Input UML model
+ * @param outModel Output UML model
+ */
+transformation m2m(in inModel : UML, out outModel : UML) {
+    
+    // Configuration property for JSON file path
+    configuration property configPath : String;
+    
+    /**
+     * Main transformation logic.
+     */
+    main() {
+        log('UCMIS M2M Transformation started');
+        log('Configuration file: ' + configPath);
+        
+        // Load configuration
+        var config : Dict(String, OclAny) := loadConfiguration(configPath);
+        log('Configuration loaded successfully');
+        
+        // Transform root packages
+        inModel.rootObjects()[Package]->map transformPackage(config);
+        
+        log('UCMIS M2M Transformation completed');
+    }
+    
+    /**
+     * Load JSON configuration file.
+     * 
+     * @param path Path to JSON configuration file
+     * @return Dictionary containing configuration
+     */
+    helper loadConfiguration(path : String) : Dict(String, OclAny) {
+        if path = null or path = '' then {
+            log('Warning: No configuration file specified, using defaults');
+            return Dict {};
+        } endif;
+        
+        return JSONConfigLoaderLib::loadConfig(path).oclAsType(Dict(String, OclAny));
+    }
+    
+    /**
+     * Transform a UML Package.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Package::transformPackage(config : Dict(String, OclAny)) : Package {
+        name := self.name;
+        
+        log('Transforming package: ' + self.name);
+        
+        // Transform owned elements based on configuration
+        self.packagedElement[Class]->map transformClass(config);
+        self.packagedElement[DataType]->map transformDataType(config);
+        self.packagedElement[Association]->map transformAssociation(config);
+        self.packagedElement[Package]->map transformPackage(config);
+    }
+    
+    /**
+     * Transform a UML Class.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Class::transformClass(config : Dict(String, OclAny)) : Class {
+        name := self.name;
+        isAbstract := self.isAbstract;
+        
+        // Check if this class should be excluded based on configuration
+        if shouldExcludeElement(self.name, config) then {
+            log('Excluding class: ' + self.name);
+            return null;
+        } endif;
+        
+        log('Transforming class: ' + self.name);
+        
+        // Transform properties
+        ownedAttribute := self.ownedAttribute->map transformProperty(config);
+        
+        // Transform operations
+        ownedOperation := self.ownedOperation->map transformOperation(config);
+        
+        // Handle generalizations
+        generalization := self.generalization->map transformGeneralization(config);
+    }
+    
+    /**
+     * Transform a UML Property.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Property::transformProperty(config : Dict(String, OclAny)) : Property {
+        name := self.name;
+        type := self.type.resolveone(Type);
+        lower := self.lower;
+        upper := self.upper;
+        isReadOnly := self.isReadOnly;
+        isDerived := self.isDerived;
+        
+        log('  Transforming property: ' + self.name);
+    }
+    
+    /**
+     * Transform a UML Operation.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Operation::transformOperation(config : Dict(String, OclAny)) : Operation {
+        name := self.name;
+        isAbstract := self.isAbstract;
+        
+        // Transform parameters
+        ownedParameter := self.ownedParameter->map transformParameter(config);
+        
+        log('  Transforming operation: ' + self.name);
+    }
+    
+    /**
+     * Transform a UML Parameter.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Parameter::transformParameter(config : Dict(String, OclAny)) : Parameter {
+        name := self.name;
+        type := self.type.resolveone(Type);
+        direction := self.direction;
+        lower := self.lower;
+        upper := self.upper;
+    }
+    
+    /**
+     * Transform a UML DataType.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping DataType::transformDataType(config : Dict(String, OclAny)) : DataType {
+        name := self.name;
+        
+        if shouldExcludeElement(self.name, config) then {
+            log('Excluding datatype: ' + self.name);
+            return null;
+        } endif;
+        
+        log('Transforming datatype: ' + self.name);
+        
+        // Transform owned attributes
+        ownedAttribute := self.ownedAttribute->map transformProperty(config);
+    }
+    
+    /**
+     * Transform a UML Association.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Association::transformAssociation(config : Dict(String, OclAny)) : Association {
+        name := self.name;
+        
+        if shouldExcludeElement(self.name, config) then {
+            log('Excluding association: ' + self.name);
+            return null;
+        } endif;
+        
+        log('Transforming association: ' + self.name);
+        
+        // Transform member ends
+        memberEnd := self.memberEnd->map transformProperty(config);
+        ownedEnd := self.ownedEnd->map transformProperty(config);
+    }
+    
+    /**
+     * Transform a UML Generalization.
+     * 
+     * @param config Transformation configuration
+     */
+    mapping Generalization::transformGeneralization(config : Dict(String, OclAny)) : Generalization {
+        general := self.general.resolveone(Classifier);
+        
+        log('  Transforming generalization to: ' + self.general.name);
+    }
+    
+    /**
+     * Check if element should be excluded based on configuration.
+     * 
+     * @param elementName Name of the element
+     * @param config Transformation configuration
+     * @return true if element should be excluded
+     */
+    query shouldExcludeElement(elementName : String, config : Dict(String, OclAny)) : Boolean {
+        if config->isEmpty() then {
+            return false;
+        } endif;
+        
+        // Check if there's an exclusion list in configuration
+        if config->hasKey('excludedElements') then {
+            var exclusions := config->get('excludedElements');
+            if exclusions <> null then {
+                // This would require additional type checking in real implementation
+                return false; // Simplified for example
+            } endif;
+        } endif;
+        
+        return false;
+    }
+}
