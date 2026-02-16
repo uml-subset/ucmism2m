@@ -7,8 +7,7 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
+.mvn
 
 # Eclipse
 .metadata
@@ -55,5 +54,9 @@ Thumbs.db
 *.log
 *.out
 
-# Track lifecycle mapping metadata but not other Eclipse settings
-!**/lifecycle-mapping-metadata.xml
+# Generated Files
+generated/
+*.log
+
+# Local backup
+z_backup/
