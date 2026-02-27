@@ -1,0 +1,17 @@
+@prefix mapping: <http://example.org/transformation/mapping> .
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/#> .
+@prefix ddsc: <http://w3id.org/cdif/ddsc/1.0/ddsc/xmi/> .
+@prefix sssom: <https://w3id.org/sssom#> .
+
+mapping:Mapping1 a sssom:Mapping ;
+    sssom:subject_id cdi:InstanceVariable ;
+    sssom:subject_label "DDI-CDI instance variable" ;
+    sssom:object_id ddsc:InstanceVariable ;
+    sssom:object_label "CDIF DDSC instance variable" ;
+    sssom:predicate_id sssom:narrowerMapping ;
+    sssom:predicate_label "derived from DDI-CDI" ;
+    sssom:subjectCategory "UML Class" ;
+    sssom:objectCategory "UML Class" ;
+    sssom:confidence 0.8 ;
+    sssom:comment "more information needed" ;
+    mapping:mappingType "map" .

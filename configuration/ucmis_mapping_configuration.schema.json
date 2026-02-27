@@ -1,0 +1,561 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "JSON Schema for UCMIS mapping configuration",
+	"description": "This JSON Schema is used to validate the UCMIS mapping configuration. With such a mapping, a submodel can be created from a UCMIS model. UCMIS is the UML Class Model Interoperable Subset.",
+	"$comment": "Some details on UCMIS. UCMIS uses the following classes from the UML metamodel: Association, Classifier, Comment, Dependency, Element, Enumeration, Generalization, MultiplicityElement, NamedElement, Package, Property, StructuredClassifier, TypedElement. UCMIS uses the following XMI types: Association, Class, Comment, DataType, Dependency, Enumeration, EnumerationLiteral, Generalization, LiteralInteger, LiteralString, LiteralUnlimitedNatural, Model, Package, PrimitiveType, Property. This configuration addresses only a subset of them. UCMIS uses single inheritance. UCMIS uses binary associations, which can be understood as a triple, consisting of the subject class, the association name as the predicate, and the object class. Associations are located in the package of the object class.",
+	"type": "object",
+	"properties": {
+		"_comment": {
+			"type": "string"
+		},
+		"transformation": {
+			"$ref": "#/$defs/transformation_type"
+		},
+		"package": {
+			"$ref": "#/$defs/targetPackage_type"
+		},
+		"mapping": {
+			"$ref": "#/$defs/mapping_type"
+		}
+	},
+	"additionalProperties": false,
+	"$defs": {
+		"transformation_type": {
+			"description": "Generic definition of the transformation. Note: all transformations flatten inheritance. Class attribute and association names may contain inherited names. All definitions, data types used by class attributes, multiplicities of class attributes and association ends, and aggregation kinds of associations are automatically reused in the target model unless they are explicitly overwritten.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"version": {
+					"description": "The version of this mapping configuration.",
+					"type": "string"
+				},
+				"sourceModel": {
+					"$ref": "#/$defs/sourceModel_type"
+				},
+				"targetModel": {
+					"$ref": "#/$defs/targetModel_type"
+				}
+			},
+			"required": [
+				"description",
+				"version",
+				"sourceModel",
+				"targetModel"
+			],
+			"additionalProperties": false
+		},
+		"targetPackage_type": {
+			"title": "Target packages",
+			"description": "Defines additional packages in the target model. Each entry specifies a package name, its parent, and a definition.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"_comment": {
+						"type": "string"
+					},
+					"name": {
+						"title": "Package name",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"parent": {
+						"title": "Parent package name or model name",
+						"description": "The name of the parent package or model in the case of a top-level package.",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"definition": {
+						"title": "Definition",
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"parent",
+					"definition"
+				],
+				"additionalProperties": false
+			}
+		},
+		"sourceModel_type": {
+			"title": "Source model definition",
+			"description": "Identifies the UCMIS source model by name, main package, and URI.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"name": {
+					"$ref": "#/$defs/modelName_type"
+				},
+				"mainPackage": {
+					"title": "Main package name",
+					"description": "The main package in the source model that contains all the mentioned classes and associations, including those within its subpackages.",
+					"$ref": "#/$defs/elementName_type"
+				},
+				"uri": {
+					"title": "URI",
+					"description": "The URI of the model namespace.",
+					"type": "string",
+					"format": "uri"
+				}
+			},
+			"required": [
+				"name",
+				"mainPackage",
+				"uri"
+			],
+			"additionalProperties": false
+		},
+		"targetModel_type": {
+			"title": "Target model definition",
+			"description": "Describes the UCMIS target model by name, URI, and other details.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"acronym": {
+					"title": "Acronym",
+					"$ref": "#/$defs/modelName_type"
+				},
+				"modelTitle": {
+					"title": "Title",
+					"type": "string"
+				},
+				"subTitle": {
+					"title": "Subtitle",
+					"type": "string"
+				},
+				"majorVersion": {
+					"title": "Major version",
+					"type": "string"
+				},
+				"minorVersion": {
+					"title": "Minor version",
+					"type": "string"
+				},
+				"language": {
+					"title": "Language of the definitions in the model",
+					"type": "string"
+				},
+				"uri": {
+					"title": "URI",
+					"description": "The URI of the model namespace.",
+					"type": "string",
+					"format": "uri"
+				},
+				"definition": {
+					"title": "Definition",
+					"type": "string"
+				},
+				"mainPackage": {
+					"title": "Main package name",
+					"description": "The main package in the target model that contains all the mentioned classes and associations, including those within its subpackages.",
+					"$ref": "#/$defs/elementName_type"
+				},
+				"mainPackageDefinition": {
+					"type": "string"
+				},
+				"dataTypesPackage": {
+					"title": "Main package name for data types",
+					"description": "The data types package in the target model that contains all required data types according to the structure in the source model, including those within its subpackages.",
+					"$ref": "#/$defs/elementName_type"
+				}
+			},
+			"required": [
+				"acronym",
+				"modelTitle",
+				"subTitle",
+				"majorVersion",
+				"minorVersion",
+				"language",
+				"uri",
+				"definition",
+				"mainPackage",
+				"mainPackageDefinition",
+				"dataTypesPackage"
+			],
+			"additionalProperties": false
+		},
+		"modelName_type": {
+			"title": "Model name",
+			"description": "Must start with a letter; subsequent characters may be letters, digits, or hyphens.",
+			"type": "string",
+			"pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
+		},
+		"elementName_type": {
+			"title": "Element name",
+			"description": "Only letters in CamelCase are permitted.",
+			"type": "string",
+			"pattern": "^[A-Z][a-zA-Z]*$"
+		},
+		"attributeName_type": {
+			"title": "Attribute name",
+			"description": "Only letters in lowerCamelCase are permitted.",
+			"type": "string",
+			"pattern": "^[a-z][a-zA-Z]*$"
+		},
+		"associationName_type": {
+			"title": "Association name",
+			"description": "This is a type of qualified association name. The underscore is the separator between the names of the association end classes and the association name, which can be understood as subject, predicate and object. Only letters in CamelCase are permitted for class names. Only letters in lowerCamelCase are permitted for pure association names. Association names in UCMIS are always fully qualified triples.",
+			"type": "string",
+			"pattern": "^[A-Z][a-zA-Z]*_[a-z][a-zA-Z]*_[A-Z][a-zA-Z]*$"
+		},
+		"mapping_type": {
+			"title": "Mapping of classes and associations",
+			"description": "Contains the class and association mapping definitions.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"class": {
+					"$ref": "#/$defs/class_type"
+				},
+				"association": {
+					"$ref": "#/$defs/association_type"
+				}
+			},
+			"additionalProperties": false
+		},
+		"class_type": {
+			"title": "Class mappings",
+			"description": "Class mapping definitions. Supports three mapping types: 'map' for direct source-to-target mapping, 'new' for target classes with no source equivalent, and 'merge' for merging two source classes into one target class.",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "object",
+				"oneOf": [
+					{
+						"title": "Mapping type 'map'",
+						"properties": {
+							"_comment": {
+								"type": "string"
+							},
+							"mappingType": {
+								"title": "Direct source-to-target mapping",
+								"const": "map"
+							},
+							"sourceClass": {
+								"title": "Source class",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"targetPackage": {
+								"title": "Target package",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"targetClass": {
+								"title": "Target class",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"definitionFrom": {
+								"title": "Source class of definition",
+								"description": "The name of the source class whose definition should be used for the target class definition.",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"attribute": {
+								"$ref": "#/$defs/mapAttribute_type"
+							},
+							"sssom": {
+								"title": "SSSOM Details",
+								"description": "subject_id and object_id are set by the transformation.",
+								"$ref": "#/$defs/sssom_type"
+							}
+						},
+						"required": [
+							"mappingType",
+							"sourceClass",
+							"targetPackage",
+							"targetClass"
+						],
+						"additionalProperties": false
+					},
+					{
+						"title": "Mapping type 'new'",
+						"properties": {
+							"_comment": {
+								"type": "string"
+							},
+							"mappingType": {
+								"title": "Target class with no source equivalent",
+								"const": "new"
+							},
+							"targetPackage": {
+								"title": "Target package",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"targetClass": {
+								"title": "Target class",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"definition": {
+								"title": "Definition",
+								"type": "string"
+							},
+							"attribute": {
+								"$ref": "#/$defs/newAttribute_type"
+							},
+							"sssom": {
+								"title": "SSSOM Details",
+								"description": "subject_id and object_id are set by the transformation.",
+								"$ref": "#/$defs/sssom_type"
+							}
+						},
+						"required": [
+							"mappingType",
+							"targetPackage",
+							"targetClass",
+							"definition",
+							"attribute"
+						],
+						"additionalProperties": false
+					},
+					{
+						"title": "Mapping type 'merge'",
+						"properties": {
+							"_comment": {
+								"type": "string"
+							},
+							"mappingType": {
+								"title": "Merging two source classes into one target class",
+								"const": "merge"
+							},
+							"sourceClass": {
+								"title": "Two source classes",
+								"description": "Exactly two source classes to be merged into the target class.",
+								"type": "array",
+								"items": {
+									"title": "Source class",
+									"$ref": "#/$defs/elementName_type"
+								},
+								"minItems": 2,
+								"maxItems": 2
+							},
+							"targetPackage": {
+								"title": "Target package",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"targetClass": {
+								"title": "Target class",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"definitionFrom": {
+								"title": "Source class of definition",
+								"description": "The name of the source class whose definition should be used for the target class definition.",
+								"$ref": "#/$defs/elementName_type"
+							},
+							"attribute": {
+								"$ref": "#/$defs/mergeAttribute_type"
+							},
+							"sssom": {
+								"title": "SSSOM Details",
+								"description": "subject_id and object_id are set by the transformation.",
+								"$ref": "#/$defs/sssom_type"
+							}
+						},
+						"required": [
+							"mappingType",
+							"sourceClass",
+							"targetPackage",
+							"targetClass"
+						],
+						"additionalProperties": false
+					}
+				]
+			}
+		},
+		"mapAttribute_type": {
+			"title": "Mapped attribute",
+			"description": "Attribute definition for a mapped class. All properties except 'name' are optional; missing values are used from the source class.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"_comment": {
+						"type": "string"
+					},
+					"name": {
+						"$ref": "#/$defs/attributeName_type"
+					},
+					"dataType": {
+						"title": "Data type",
+						"description": "The data type is one of the available types in the source model. This approach doesn't allow to define new data types.",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"definition": {
+						"title": "Definition",
+						"type": "string"
+					},
+					"multiplicity": {
+						"$ref": "#/$defs/multiplicity_type"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"additionalProperties": false
+			}
+		},
+		"mergeAttribute_type": {
+			"title": "Merged class attribute",
+			"description": "Attribute definition for a merged class. Use 'fromSourceClass' to define the origin of the attribute. All properties except 'name' are optional; missing values are used from the respective source class.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"_comment": {
+						"type": "string"
+					},
+					"name": {
+						"$ref": "#/$defs/attributeName_type"
+					},
+					"fromSourceClass": {
+						"title": "Source class of attribute",
+						"description": "Defines the source class from which the attribute should be used in the event of a class merge.",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"dataType": {
+						"title": "Data type",
+						"description": "The data type is one of the available types in the source model. This approach doesn't allow to define new data types.",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"definition": {
+						"title": "Definition",
+						"type": "string"
+					},
+					"multiplicity": {
+						"$ref": "#/$defs/multiplicity_type"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"additionalProperties": false
+			}
+		},
+		"newAttribute_type": {
+			"title": "New attribute",
+			"description": "Attribute definition for a newly created class. All properties are required since no source model exists to inherit values from.",
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"type": "object",
+				"properties": {
+					"_comment": {
+						"type": "string"
+					},
+					"name": {
+						"$ref": "#/$defs/attributeName_type"
+					},
+					"dataType": {
+						"title": "Data type",
+						"description": "The data type is one of the available types in the source model. This approach doesn't allow to define new data types.",
+						"$ref": "#/$defs/elementName_type"
+					},
+					"definition": {
+						"title": "Definition",
+						"type": "string"
+					},
+					"multiplicity": {
+						"$ref": "#/$defs/multiplicity_type"
+					}
+				},
+				"required": [
+					"name",
+					"dataType",
+					"definition",
+					"multiplicity"
+				],
+				"additionalProperties": false
+			}
+		},
+		"multiplicity_type": {
+			"title": "Multiplicity",
+			"description": "Permitted values are a single digit (0–9) or * for unlimited.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"lower": {
+					"$ref": "#/$defs/multiplicityRange_type"
+				},
+				"upper": {
+					"$ref": "#/$defs/multiplicityRange_type"
+				}
+			},
+			"required": [
+				"lower",
+				"upper"
+			],
+			"additionalProperties": false
+		},
+		"multiplicityRange_type": {
+			"title": "Multiplicity range",
+			"description": "A single digit (0–9) or * for unlimited. The range is deliberately narrow.",
+			"type": "string",
+			"pattern": "^[0-9*]$"
+		},
+		"sssom_type": {
+			"subject_label": "string",
+			"object_label": "string",
+			"predicate_id": "string",
+			"predicate_label": "string",
+			"confidence": "integer",
+			"comment": "string"
+		},
+		"association_type": {
+			"title": "Association mapping",
+			"description": "Association mapping definitions. Only sourceAssociationName is required; other properties are reused from the source model unless explicitly overridden. Association names are unique in UCMIS models.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"_comment": {
+						"type": "string"
+					},
+					"sourceAssociationName": {
+						"$ref": "#/$defs/associationName_type"
+					},
+					"targetAssociationName": {
+						"$ref": "#/$defs/associationName_type"
+					},
+					"subjectClass": {
+						"$ref": "#/$defs/elementName_type"
+					},
+					"objectClass": {
+						"$ref": "#/$defs/elementName_type"
+					},
+					"definition": {
+						"title": "Definition",
+						"type": "string"
+					},
+					"subjectClassMultiplicity": {
+						"$ref": "#/$defs/multiplicity_type"
+					},
+					"objectClassMultiplicity": {
+						"$ref": "#/$defs/multiplicity_type"
+					},
+					"objectClassAggregationKind": {
+						"title": "Aggregation kind",
+						"description": "Specifies the UML aggregation kind of the object class end of the association.",
+						"enum": [
+							"none",
+							"shared",
+							"composite"
+						]
+					}
+				},
+				"required": [
+					"sourceAssociationName"
+				],
+				"additionalProperties": false
+			}
+		}
+	}
+}

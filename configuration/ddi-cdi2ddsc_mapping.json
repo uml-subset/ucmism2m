@@ -1,0 +1,859 @@
+{
+  "$schema": "ucmis_mapping_configuration.schema.json",
+  "_comment": "Questions: attribute and association definitions from source model? Multiplicity of subject class from source model? Other placed indicated with??",
+  "transformation": {
+    "description": "DDI-CDI to CDIF Profile Data Description",
+    "version": "1",
+    "sourceModel": {
+      "name": "DDI-CDI",
+      "mainPackage": "DDICDILibrary",
+      "uri": "http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/"
+    },
+    "targetModel": {
+      "acronym": "CDIF",
+      "modelTitle": "UML Model for the Cross-Domain Interoperability Framework (CDIF)",
+      "subTitle": "A Standards‑Based Framework for Cross‑Domain Data Exchange and Reuse",
+      "majorVersion": "1",
+      "minorVersion": "0",
+      "language": "en",
+      "uri": "http://w3id.org/cdif/ddsc/1.0/ddsc/xmi/",
+      "definition": "Many important research questions demand a multi-disciplinary approach in which data and resources are used across domain and infrastructure boundaries. In such scenarios, domain-specific community standards fall short of the requirements for FAIR exchange of the critical metadata and other information needed. The Cross-Domain Interoperability Framework (CDIF) is designed to support FAIR implementation for these projects by establishing a ‘lingua franca’ for this information, based on existing standards and technology to support interoperability, in both human- and machine-actionable fashion. CDIF is a set of implementation recommendations, based on profiles of common, domain-neutral metadata standards which are aligned to work together to support core functions required by FAIR.",
+      "mainPackage": "DDSC",
+      "mainPackageDefinition": "Profile for Data Description",
+      "dataTypesPackage": "DDSC"
+    }
+  },
+  "package": [
+    {
+      "name": "Classes",
+      "parent": "DDSC",
+      "definition": "This package contains the definitions of the classes in the DDSC profile with all their relationships and attributes."
+    }
+  ],
+  "mapping": {
+    "class": [
+      {
+        "mappingType": "map",
+        "sourceClass": "DataStore",
+        "targetPackage": "Classes",
+        "targetClass": "DataStore",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ],
+        "sssom": [
+          {
+            "subject_label":"DDI-CDI DataStore",
+            "object_label":"CDIF DDSC DataStore",
+            "predicate_id": "skos:narrorMatch",
+            "predicate_label": "Object class has less attributes.",
+            "confidence": 1.0,
+            "comment": "Object class has less attributes."
+            
+          }
+        ]
+      },
+      {
+        "mappingType": "merge",
+        "sourceClass": [
+          "WideDataSet",
+          "PhysicalDataSet"
+        ],
+        "targetPackage": "Classes",
+        "targetClass": "WideDataSet",
+        "definitionFrom": "WideDataSet",
+        "attribute": [
+          {
+            "name": "name",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "physicalFileName",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ],
+        "sssom": [
+          {
+            "subject_label":"Merge of DDI-CDI WideDataSet and PhysicalDataSet",
+            "object_label":"CDIF DDSC WideDataSet",
+            "predicate_id": "skos:relatedMatch",
+            "predicate_label": "Object class takes definition from WideDataSet and some attributes from PhysicalDataSet.",
+            "confidence": 1.0,
+            "comment": "Object class takes definition from WideDataSet and some attributes from PhysicalDataSet."
+            
+          }
+        ]
+      },
+      {
+        "mappingType": "merge",
+        "sourceClass": [
+          "LongDataSet",
+          "PhysicalDataSet"
+        ],
+        "targetPackage": "Classes",
+        "targetClass": "LongDataSet",
+        "definitionFrom": "LongDataSet",
+        "attribute": [
+          {
+            "name": "name",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "physicalFileName",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "merge",
+        "sourceClass": [
+          "DimensionalDataSet",
+          "PhysicalDataSet"
+        ],
+        "targetPackage": "Classes",
+        "targetClass": "DimensionalDataSet",
+        "definitionFrom": "WideDataSet",
+        "attribute": [
+          {
+            "name": "name",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "physicalFileName",
+            "fromSourceClass": "PhysicalDataSet",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "WideDataStructure",
+        "targetPackage": "Classes",
+        "targetClass": "WideDataStructure"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "InstanceVariable",
+        "targetPackage": "Classes",
+        "targetClass": "InstanceVariable",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "definition",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "describedUnitOfMeasure",
+            "multiplicity": {
+              "lower": "0",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "unitOfMeasureKind",
+            "multiplicity": {
+              "lower": "0",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "RepresentedVariable",
+        "targetPackage": "Classes",
+        "targetClass": "RepresentedVariable",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "definition",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "describedUnitOfMeasure",
+            "multiplicity": {
+              "lower": "0",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "unitOfMeasureKind",
+            "multiplicity": {
+              "lower": "0",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "ReferenceVariable",
+        "targetPackage": "Classes",
+        "targetClass": "ReferenceVariable",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "DescriptorVariable",
+        "targetPackage": "Classes",
+        "targetClass": "DescriptorVariable",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "SubstantiveValueDomain",
+        "targetPackage": "Classes",
+        "targetClass": "SubstantiveValueDomain",
+        "attribute": [
+          {
+            "name": "recommendedDataType",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "SentinelValueDomain",
+        "targetPackage": "Classes",
+        "targetClass": "SentinelValueDomain",
+        "attribute": [
+          {
+            "name": "recommendedDataType",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "DescriptorValueDomain",
+        "targetPackage": "Classes",
+        "targetClass": "DescriptorValueDomain"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "Descriptor",
+        "targetPackage": "Classes",
+        "targetClass": "Descriptor",
+        "attribute": [
+          {
+            "name": "content",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "UnitType",
+        "targetPackage": "Classes",
+        "targetClass": "UnitType",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "descriptiveText"
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "Universe",
+        "targetPackage": "Classes",
+        "targetClass": "Universe",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "descriptiveText"
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "Population",
+        "targetPackage": "Classes",
+        "targetClass": "Population",
+        "attribute": [
+          {
+            "name": "name",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "descriptiveText"
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "IdentifierComponent",
+        "targetPackage": "Classes",
+        "targetClass": "IdentifierComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "MeasureComponent",
+        "targetPackage": "Classes",
+        "targetClass": "MeasureComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "AttributeComponent",
+        "targetPackage": "Classes",
+        "targetClass": "AttributeComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "DimensionComponent",
+        "targetPackage": "Classes",
+        "targetClass": "DimensionComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "ComponentPosition",
+        "targetPackage": "Classes",
+        "targetClass": "ComponentPosition",
+        "attribute": [
+          {
+            "name": "value",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "PrimaryKey",
+        "targetPackage": "Classes",
+        "targetClass": "PrimaryKey"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "PrimaryKeyComponent",
+        "targetPackage": "Classes",
+        "targetClass": "PrimaryKeyComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "VariableValueComponent",
+        "targetPackage": "Classes",
+        "targetClass": "VariableValueComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "VariableDescriptorComponent",
+        "targetPackage": "Classes",
+        "targetClass": "VariableDescriptorComponent"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "PhysicalSegmentLayout",
+        "targetPackage": "Classes",
+        "targetClass": "PhysicalSegmentLayout",
+        "attribute": [
+          {
+            "name": "delimiter"
+          },
+          {
+            "name": "encoding",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "escapeCharacter"
+          },
+          {
+            "name": "hasHeader"
+          },
+          {
+            "name": "headerRowCount"
+          },
+          {
+            "name": "isDelimited"
+          },
+          {
+            "name": "isFixedWidth"
+          },
+          {
+            "name": "lineTerminator"
+          },
+          {
+            "name": "quoteChatacter"
+          },
+          {
+            "name": "skipInitialSpace"
+          },
+          {
+            "name": "trim"
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "ValueMapping",
+        "targetPackage": "Classes",
+        "targetClass": "ValueMapping",
+        "attribute": [
+          {
+            "name": "decimalPositions"
+          },
+          {
+            "name": "defaultDecimalSeparator"
+          },
+          {
+            "name": "length"
+          },
+          {
+            "name": "maximumLength"
+          },
+          {
+            "name": "minimumLength"
+          }
+        ]
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "ValueMappingPosition",
+        "targetPackage": "Classes",
+        "targetClass": "ValueMappingPosition",
+        "attribute": [
+          {
+            "name": "value",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          },
+          {
+            "name": "indexes",
+            "multiplicity": {
+              "lower": "1",
+              "upper": "1"
+            }
+          }
+        ]
+      }
+    ],
+    "association": [
+      {
+        "sourceAssociationName": "DataStore_has_LogicalRecord",
+        "targetAssociationName": "DataStore_has_LogicalRecord",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_organizes_DataSet",
+        "targetAssociationName": "LogicalRecord_organizes_WideDataSet"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_organizes_DataSet",
+        "targetAssociationName": "LogicalRecord_organizes_LongDataSet"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_organizes_DataSet",
+        "targetAssociationName": "LogicalRecord_organizes_DimensionalDataSet"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_has_InstanceVariable",
+        "targetAssociationName": "LogicalRecord_has_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
+        "targetAssociationName": "LogicalRecord_isDefinedBy_UnitType"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
+        "targetAssociationName": "LogicalRecord_isDefinedBy_UnitType"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
+        "targetAssociationName": "LogicalRecord_isDefinedBy_Universe"
+      },
+      {
+        "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
+        "targetAssociationName": "LogicalRecord_isDefinedBy_Population"
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_PrimaryKey",
+        "targetAssociationName": "DataStructure_has_PrimaryKey"
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "WideDataStructure_has_IdentifierComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "WideDataStructure_has_AttributeComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "WideDataStructure_has_MeasureComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "LongDataStructure_has_IdentifierComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "LongDataStructure_has_AttributeComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "LongDataStructure_has_VariableDescriptorComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "LongDataStructure_has_VariableValueComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "DimensionalDataStructure_has_IdentifierComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "DimensionalDataStructure_has_AttributeComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_DataStructureComponent",
+        "targetAssociationName": "DimensionalDataStructure_has_MeasureComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructure_has_ComponentPosition",
+        "targetAssociationName": "DimensionalDataStructure_has_ComponentPosition"
+      },
+      {
+        "sourceAssociationName": "ConceptualVariable_measures_UnitType",
+        "targetAssociationName": "InstanceVariable_measures_Population"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
+        "targetAssociationName": "InstanceVariable_takesSubstantiveValuesFrom_EnumerationDomain"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain",
+        "targetAssociationName": "InstanceVariable_takesSentinelValuesFrom_SentinelValueDomain"
+      },
+      {
+        "sourceAssociationName": "ConceptualVariable_measures_UnitType",
+        "targetAssociationName": "RepresentedVariable_measures_Universe"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
+        "targetAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain",
+        "targetAssociationName": "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
+        "targetAssociationName": "ReferenceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain",
+        "targetAssociationName": "ReferenceVariable_takesSentinelValuesFrom_SentinelValueDomain"
+      },
+      {
+        "sourceAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
+        "targetAssociationName": "DescriptorVariable_takesSubstantiveValuesFrom_DescriptorValueDomain",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "Descriptor_identifies_ReferenceVariable",
+        "targetAssociationName": "Descriptor_identifies_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "Concept_uses_Concept",
+        "targetAssociationName": "Universe_uses_UnitType"
+      },
+      {
+        "sourceAssociationName": "Concept_uses_Concept",
+        "targetAssociationName": "Population_uses_Universe",
+        "objectClassMultiplicity": {
+          "lower": "*",
+          "upper": "2"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
+        "targetAssociationName": "IdentifierComponent_isDefinedBy_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
+        "targetAssociationName": "MeasureComponent_isDefinedBy_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
+        "targetAssociationName": "AttributeComponent_isDefinedBy_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
+        "targetAssociationName": "DimensionComponent_isDefinedBy_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "ComponentPosition_indexes_DataStructureComponent",
+        "targetAssociationName": "ComponentPosition_indexes_DimensionComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "PrimaryKey_isComposedOf_PrimaryKeyComponent",
+        "targetAssociationName": "PrimaryKey_isComposedOf_PrimaryKeyComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "PrimaryKeyComponent_correspondsTo_DataStructureComponent",
+        "targetAssociationName": "PrimaryKeyComponent_correspondsTo_IdentifierComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
+        "targetAssociationName": "DataStructureComponent_isDefinedBy_ReferenceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "_comment": "??pdf says: refersTo (Required) – A reference to an instance of cdi:DescriptorVariable",
+        "sourceAssociationName": "VariableDescriptorComponent_refersTo_VariableValueComponent",
+        "targetAssociationName": "VariableDescriptorComponent_refersTo_VariableValueComponent",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "PhysicalSegmentLayout_formats_LogicalRecord",
+        "targetAssociationName": "PhysicalSegmentLayout_formats_LogicalRecord",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "1"
+        }
+      },
+      {
+        "sourceAssociationName": "PhysicalSegmentLayout_has_ValueMapping",
+        "targetAssociationName": "PhysicalSegmentLayout_has_ValueMapping",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "PhysicalSegmentLayout_has_ValueMappingPosition",
+        "targetAssociationName": "PhysicalSegmentLayout_has_ValueMappingPosition",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "sourceAssociationName": "ValueMapping_formats_DataPoint",
+        "targetAssociationName": "ValueMapping_formats_InstanceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "sourceAssociationName": "ValueMapping_formats_DataPoint",
+        "targetAssociationName": "ValueMapping_formats_RepresentedVariable,",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "sourceAssociationName": "ValueMapping_formats_DataPoint",
+        "targetAssociationName": "ValueMapping_formats_ReferenceVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "sourceAssociationName": "ValueMapping_formats_DataPoint",
+        "targetAssociationName": "ValueMapping_formats_DescriptorVariable",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      },
+      {
+        "sourceAssociationName": "ValueMappingPosition_indexes_ValueMapping",
+        "targetAssociationName": "ValueMappingPosition_indexes_ValueMapping",
+        "objectClassMultiplicity": {
+          "lower": "1",
+          "upper": "*"
+        }
+      }
+    ]
+  }
+}

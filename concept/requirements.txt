@@ -1,0 +1,36 @@
+Requirements:
+
+- Modular structure
+  -- Reusable components should be created.
+  -- QVTo mappings should be in a separate file.
+  -- QVTo helpers should be in a separate file.
+- Configuration
+  -- The JSON Schema for mapping configurations is at configuration/ucmis_mapping_configuration.schema.json
+  -- A validated example mapping JSON file is at configuration/ddi-cdi2ddsc_mapping.json
+- Mapping
+  -- Class, attribute, and association mappings are defined in the configuration. They steer the whole mapping process.
+  -- Definitions in the configuration result in UML comments of the related UML items.
+- Documentation
+  -- Details in comments in each file should be created.
+  -- readme / usage guide for each major component should be created.
+- UML Data types
+  -- all (by class attributes) required data types should iteratively be copied from the source model (could have structured data types) to the target model
+  -- The package structure of the data types should be maintained in the target model.
+  -- The data type packages should be below the package specified in the property 'dataTypesPackage'.
+- Metadata of the target model
+  -- Following configuration properties of the target model should be attributes of the datatype 'metadata' in the package 'metadata':
+     acronym, modelTitle, subTitle, majorVersion, minorVersion, language, uri.
+  -- The configuration property values become UML attribute values and should be set to readonly.
+  -- The package 'metadata' should be below the package specified in the property 'mainPackageName' of the target model.
+- Provenance documentation
+  -- Each class mapping should create a dependency relationship in the target model with a name.
+  -- The dependency name should be named and structured like ClientClass_dependsOn_SupplierClass.
+  -- A UML Comment should be attached which describes the relationship in formal words in restructureText format. An example is available in the file example/provenance_example.rst. 
+  -- An additional section in the UML Comment should describe the provenance in RDF turtle. An example is available in the file concept/provenance_example.ttl.
+- SSSOM
+  -- A class mapping can have an object sssom with related properties. They should be used in the provenance documentation of dependencies.
+  -- The subject_id is the supplier class (the source) of the dependency. The object_id is the client class. 
+  -- The value of href of the dependency supplier class is the namespace plus '#' plus supplier class name like 'http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/#InstanceVariable'.
+  -- The identifier of the dependency client class is set in the xmi:id of the client.
+  -- subjectCategory and objectCategory have both the value "UML Class".
+
