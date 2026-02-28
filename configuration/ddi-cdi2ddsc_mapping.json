@@ -59,6 +59,12 @@
         ]
       },
       {
+        "mappingType": "map",
+        "sourceClass": "LogicalRecord",
+        "targetPackage": "Classes",
+        "targetClass": "LogicalRecord"
+      },
+      {
         "mappingType": "merge",
         "sourceClass": [
           "WideDataSet",
@@ -133,7 +139,7 @@
         ],
         "targetPackage": "Classes",
         "targetClass": "DimensionalDataSet",
-        "definitionFrom": "WideDataSet",
+        "definitionFrom": "DimensionalDataSet",
         "attribute": [
           {
             "name": "name",
@@ -158,6 +164,18 @@
         "sourceClass": "WideDataStructure",
         "targetPackage": "Classes",
         "targetClass": "WideDataStructure"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "LongDataStructure",
+        "targetPackage": "Classes",
+        "targetClass": "LongDataStructure"
+      },
+      {
+        "mappingType": "map",
+        "sourceClass": "DimensionalDataStructure",
+        "targetPackage": "Classes",
+        "targetClass": "DimensionalDataStructure"
       },
       {
         "mappingType": "map",
@@ -555,10 +573,6 @@
       },
       {
         "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
-        "targetAssociationName": "LogicalRecord_isDefinedBy_UnitType"
-      },
-      {
-        "sourceAssociationName": "LogicalRecord_isDefinedBy_Concept",
         "targetAssociationName": "LogicalRecord_isDefinedBy_Universe"
       },
       {
@@ -567,7 +581,7 @@
       },
       {
         "sourceAssociationName": "DataStructure_has_PrimaryKey",
-        "targetAssociationName": "DataStructure_has_PrimaryKey"
+        "targetAssociationName": "WideDataStructure_has_PrimaryKey"
       },
       {
         "sourceAssociationName": "DataStructure_has_DataStructureComponent",
@@ -658,8 +672,9 @@
         "targetAssociationName": "InstanceVariable_measures_Population"
       },
       {
+        "_comment": "??pdf p137 says: 'takesSubstantiveValuesFrom (Required) - a link to an instance of cdi:EnumeratedValueDomain'",
         "sourceAssociationName": "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain",
-        "targetAssociationName": "InstanceVariable_takesSubstantiveValuesFrom_EnumerationDomain"
+        "targetAssociationName": "InstanceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain"
       },
       {
         "sourceAssociationName": "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain",
@@ -709,7 +724,7 @@
         "sourceAssociationName": "Concept_uses_Concept",
         "targetAssociationName": "Population_uses_Universe",
         "objectClassMultiplicity": {
-          "lower": "*",
+          "lower": "0",
           "upper": "2"
         }
       },
@@ -771,14 +786,14 @@
       },
       {
         "sourceAssociationName": "DataStructureComponent_isDefinedBy_RepresentedVariable",
-        "targetAssociationName": "DataStructureComponent_isDefinedBy_ReferenceVariable",
+        "targetAssociationName": "VariableValueComponent_isDefinedBy_ReferenceVariable",
         "objectClassMultiplicity": {
           "lower": "1",
           "upper": "1"
         }
       },
       {
-        "_comment": "??pdf says: refersTo (Required) – A reference to an instance of cdi:DescriptorVariable",
+        "_comment": "??pdf p145 says: refersTo (Required) – A reference to an instance of cdi:DescriptorVariable",
         "sourceAssociationName": "VariableDescriptorComponent_refersTo_VariableValueComponent",
         "targetAssociationName": "VariableDescriptorComponent_refersTo_VariableValueComponent",
         "objectClassMultiplicity": {
@@ -811,7 +826,7 @@
         }
       },
       {
-        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "_comment": "??cdi says 'ValueMapping_formats_DataPoint' But DataPoint has no subclasses",
         "sourceAssociationName": "ValueMapping_formats_DataPoint",
         "targetAssociationName": "ValueMapping_formats_InstanceVariable",
         "objectClassMultiplicity": {
@@ -820,16 +835,16 @@
         }
       },
       {
-        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "_comment": "??cdi says 'ValueMapping_formats_DataPoint' But DataPoint has no subclasses",
         "sourceAssociationName": "ValueMapping_formats_DataPoint",
-        "targetAssociationName": "ValueMapping_formats_RepresentedVariable,",
+        "targetAssociationName": "ValueMapping_formats_RepresentedVariable",
         "objectClassMultiplicity": {
           "lower": "1",
           "upper": "*"
         }
       },
       {
-        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "_comment": "??cdi says 'ValueMapping_formats_DataPoint' But DataPoint has no subclasses",
         "sourceAssociationName": "ValueMapping_formats_DataPoint",
         "targetAssociationName": "ValueMapping_formats_ReferenceVariable",
         "objectClassMultiplicity": {
@@ -838,7 +853,7 @@
         }
       },
       {
-        "_comment": "??cdi says ValueMapping_formats_DataPoint, DataPoint has no subclasses",
+        "_comment": "??cdi says 'ValueMapping_formats_DataPoint' But DataPoint has no subclasses",
         "sourceAssociationName": "ValueMapping_formats_DataPoint",
         "targetAssociationName": "ValueMapping_formats_DescriptorVariable",
         "objectClassMultiplicity": {

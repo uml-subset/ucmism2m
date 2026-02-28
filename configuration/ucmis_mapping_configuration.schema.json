@@ -502,12 +502,36 @@
 			"pattern": "^[0-9*]$"
 		},
 		"sssom_type": {
-			"subject_label": "string",
-			"object_label": "string",
-			"predicate_id": "string",
-			"predicate_label": "string",
-			"confidence": "integer",
-			"comment": "string"
+			"title": "SSSOM Properties",
+			"description": "These properties are according to the Simple Standard for Sharing Ontological Mappings (SSSOM) documentation at https://mapping-commons.github.io/sssom/linkml-index/.",
+			"type": "object",
+			"properties": {
+				"_comment": {
+					"type": "string"
+				},
+				"subject_label": {
+					"type": "string"
+				},
+				"object_label": {
+					"type": "string"
+				},
+				"predicate_id": {
+					"type": "string"
+				},
+				"predicate_label": {
+					"type": "string"
+				},
+				"confidence": {
+					"type": "string"
+				},
+				"comment": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"predicate_id"
+			],
+			"additionalProperties": false
 		},
 		"association_type": {
 			"title": "Association mapping",

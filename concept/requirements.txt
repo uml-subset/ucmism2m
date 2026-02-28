@@ -26,11 +26,12 @@ Requirements:
   -- Each class mapping should create a dependency relationship in the target model with a name.
   -- The dependency name should be named and structured like ClientClass_dependsOn_SupplierClass.
   -- A UML Comment should be attached which describes the relationship in formal words in restructureText format. An example is available in the file example/provenance_example.rst. 
-  -- An additional section in the UML Comment should describe the provenance in RDF turtle. An example is available in the file concept/provenance_example.ttl.
+  -- An additional section in the UML Comment should describe the provenance in RDF turtle. An example is available in the file example/provenance_example.ttl.
 - SSSOM
   -- A class mapping can have an object sssom with related properties. They should be used in the provenance documentation of dependencies.
   -- The subject_id is the supplier class (the source) of the dependency. The object_id is the client class. 
   -- The value of href of the dependency supplier class is the namespace plus '#' plus supplier class name like 'http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/#InstanceVariable'.
   -- The identifier of the dependency client class is set in the xmi:id of the client.
   -- subjectCategory and objectCategory have both the value "UML Class".
+- All UML Comments of source model items should be maintained in the target model. 
 
