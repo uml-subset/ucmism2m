@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DDI-CDI to CDIF Profile Data Description</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  >
+  <style>
+    body { font-size: 0.9rem; }
+    th   { white-space: nowrap; }
+    code { font-size: 0.85em; }
+    .table td, .table th { vertical-align: middle; }
+    .collapse-sssom { font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+<div class="container-fluid py-4">
+  <h2 class="mb-4">DDI-CDI to CDIF Profile Data Description</h2>
+
+  
+<div class="card mb-4 shadow-sm">
+  <div class="card-header bg-dark text-white">
+    <h4 class="mb-0">Mapping Configuration</h4>
+  </div>
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Description</dt>
+      <dd class="col-sm-9">DDI-CDI to CDIF Profile Data Description</dd>
+      <dt class="col-sm-3">Version</dt>
+      <dd class="col-sm-9">1</dd>
+      <dt class="col-sm-3">Source model</dt>
+      <dd class="col-sm-9">DDI-CDI &mdash; <a href="http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/" target="_blank">http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/</a></dd>
+      <dt class="col-sm-3">Target model</dt>
+      <dd class="col-sm-9">UML Model for the Cross-Domain Interoperability Framework (CDIF) &mdash; <a href="http://w3id.org/cdif/ddsc/1.0/ddsc/xmi/" target="_blank">http://w3id.org/cdif/ddsc/1.0/ddsc/xmi/</a></dd>
+    </dl>
+  </div>
+</div>
+
+  
+<h5 class="mt-4">Packages</h5>
+<div class="table-responsive mb-4">
+  <table class="table table-sm table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Package</th>
+        <th>Parent</th>
+        <th>Definition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Classes</code></td>
+        <td><code>DDSC</code></td>
+        <td>This package contains the definitions of the classes in the DDSC profile with all their relationships and attributes.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  
+<h5 class="mt-4">Class Mappings
+  <span class="badge bg-secondary ms-2">31</span>
+</h5>
+<p class="text-muted small">Click <span class="badge bg-outline border border-info text-info">SSSOM</span> to expand inline SSSOM details. A separate SSSOM reference table is below.</p>
+<div class="table-responsive mb-4">
+  <table class="table table-sm table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Type</th>
+        <th>Source class(es)</th>
+        <th>Target class</th>
+        <th>Target package</th>
+        <th>Attributes</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>DataStore</code></td>
+        <td><code>DataStore</code> <button class="btn btn-outline-info btn-sm py-0 px-1 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#sssom_inline_0" aria-expanded="false" aria-controls="sssom_inline_0">SSSOM</button>
+          
+<div class="collapse" id="sssom_inline_0">
+  <div class="p-2 bg-light border-top">
+    <small><strong>SSSOM Mappings</strong></small>
+    <table class="table table-sm table-bordered mt-1 mb-0">
+      <thead class="table-secondary">
+        <tr>
+          <th>Subject label</th>
+          <th>Object label</th>
+          <th>Predicate ID</th>
+          <th>Predicate label</th>
+          <th>Confidence</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>DDI-CDI DataStore</td>
+            <td>CDIF DDSC DataStore</td>
+            <td><code>skos:narrowMatch</code></td>
+            <td>Object class has less attributes.</td>
+            <td>1.0</td>
+            <td>Object class has less attributes.</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>LogicalRecord</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-warning text-dark">merge</span></td>
+        <td><code>WideDataSet</code><br><code>PhysicalDataSet</code></td>
+        <td><code>WideDataSet</code> <button class="btn btn-outline-info btn-sm py-0 px-1 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#sssom_inline_2" aria-expanded="false" aria-controls="sssom_inline_2">SSSOM</button>
+          
+<div class="collapse" id="sssom_inline_2">
+  <div class="p-2 bg-light border-top">
+    <small><strong>SSSOM Mappings</strong></small>
+    <table class="table table-sm table-bordered mt-1 mb-0">
+      <thead class="table-secondary">
+        <tr>
+          <th>Subject label</th>
+          <th>Object label</th>
+          <th>Predicate ID</th>
+          <th>Predicate label</th>
+          <th>Confidence</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>Merge of DDI-CDI WideDataSet and PhysicalDataSet</td>
+            <td>CDIF DDSC WideDataSet</td>
+            <td><code>skos:relatedMatch</code></td>
+            <td>Object class takes definition from WideDataSet and some attributes from PhysicalDataSet.</td>
+            <td>1.0</td>
+            <td>Object class takes definition from WideDataSet and some attributes from PhysicalDataSet.</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small><br><code>physicalFileName</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small></td>
+        <td>Definition from: <code>WideDataSet</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-warning text-dark">merge</span></td>
+        <td><code>LongDataSet</code><br><code>PhysicalDataSet</code></td>
+        <td><code>LongDataSet</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small><br><code>physicalFileName</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small></td>
+        <td>Definition from: <code>LongDataSet</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-warning text-dark">merge</span></td>
+        <td><code>DimensionalDataSet</code><br><code>PhysicalDataSet</code></td>
+        <td><code>DimensionalDataSet</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small><br><code>physicalFileName</code> [1..1] <small class='text-muted'>(from PhysicalDataSet)</small></td>
+        <td>Definition from: <code>DimensionalDataSet</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>WideDataStructure</code></td>
+        <td><code>WideDataStructure</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>LongDataStructure</code></td>
+        <td><code>LongDataStructure</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>DimensionalDataStructure</code></td>
+        <td><code>DimensionalDataStructure</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>InstanceVariable</code></td>
+        <td><code>InstanceVariable</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]<br><code>definition</code> [1..1]<br><code>describedUnitOfMeasure</code> [0..1]<br><code>unitOfMeasureKind</code> [0..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>RepresentedVariable</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]<br><code>definition</code> [1..1]<br><code>describedUnitOfMeasure</code> [0..1]<br><code>unitOfMeasureKind</code> [0..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>ReferenceVariable</code></td>
+        <td><code>ReferenceVariable</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>DescriptorVariable</code></td>
+        <td><code>DescriptorVariable</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>SubstantiveValueDomain</code></td>
+        <td><code>SubstantiveValueDomain</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>recommendedDataType</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>SentinelValueDomain</code></td>
+        <td><code>SentinelValueDomain</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>recommendedDataType</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>DescriptorValueDomain</code></td>
+        <td><code>DescriptorValueDomain</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>Descriptor</code></td>
+        <td><code>Descriptor</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>content</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>UnitType</code></td>
+        <td><code>UnitType</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]<br><code>descriptiveText</code> [0..*]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>Universe</code></td>
+        <td><code>Universe</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]<br><code>descriptiveText</code> [0..*]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>Population</code></td>
+        <td><code>Population</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>name</code> [1..1]<br><code>descriptiveText</code> [0..*]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>IdentifierComponent</code></td>
+        <td><code>IdentifierComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>MeasureComponent</code></td>
+        <td><code>MeasureComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>AttributeComponent</code></td>
+        <td><code>AttributeComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>DimensionComponent</code></td>
+        <td><code>DimensionComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>ComponentPosition</code></td>
+        <td><code>ComponentPosition</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>value</code> [1..1]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>PrimaryKey</code></td>
+        <td><code>PrimaryKey</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>PrimaryKeyComponent</code></td>
+        <td><code>PrimaryKeyComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>VariableValueComponent</code></td>
+        <td><code>VariableValueComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>VariableDescriptorComponent</code></td>
+        <td><code>VariableDescriptorComponent</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><em class='text-muted'>—</em></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>PhysicalSegmentLayout</code></td>
+        <td><code>PhysicalSegmentLayout</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>delimiter</code> [0..*]<br><code>encoding</code> [1..1]<br><code>escapeCharacter</code> [0..*]<br><code>hasHeader</code> [0..*]<br><code>headerRowCount</code> [0..*]<br><code>isDelimited</code> [0..*]<br><code>isFixedWidth</code> [0..*]<br><code>lineTerminator</code> [0..*]<br><code>quoteCharacter</code> [0..*]<br><code>skipInitialSpace</code> [0..*]<br><code>trim</code> [0..*]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>ValueMapping</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>decimalPositions</code> [0..*]<br><code>defaultDecimalSeparator</code> [0..*]<br><code>length</code> [0..*]<br><code>maximumLength</code> [0..*]<br><code>minimumLength</code> [0..*]</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="badge bg-primary">map</span></td>
+        <td><code>ValueMappingPosition</code></td>
+        <td><code>ValueMappingPosition</code>
+          
+        </td>
+        <td><code>Classes</code></td>
+        <td><code>value</code> [1..1]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  
+<h5 class="mt-4">Association Mappings
+  <span class="badge bg-secondary ms-2">49</span>
+</h5>
+<p class="text-muted small">Rows highlighted in yellow indicate associations where the target name differs from the source name.</p>
+<div class="table-responsive mb-4">
+  <table class="table table-sm table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Source association</th>
+        <th>Target association</th>
+        <th>Subject class</th>
+        <th>Predicate</th>
+        <th>Object class</th>
+        <th>Object multiplicity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="">
+        <td><code>DataStore_has_LogicalRecord</code></td>
+        <td><code>DataStore_has_LogicalRecord</code></td>
+        <td><code>DataStore</code></td>
+        <td><code>has</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_organizes_DataSet</code></td>
+        <td><code>LogicalRecord_organizes_WideDataSet</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>organizes</code></td>
+        <td><code>DataSet</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_organizes_DataSet</code></td>
+        <td><code>LogicalRecord_organizes_LongDataSet</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>organizes</code></td>
+        <td><code>DataSet</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_organizes_DataSet</code></td>
+        <td><code>LogicalRecord_organizes_DimensionalDataSet</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>organizes</code></td>
+        <td><code>DataSet</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="">
+        <td><code>LogicalRecord_has_InstanceVariable</code></td>
+        <td><code>LogicalRecord_has_InstanceVariable</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>has</code></td>
+        <td><code>InstanceVariable</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_isDefinedBy_Concept</code></td>
+        <td><code>LogicalRecord_isDefinedBy_UnitType</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>Concept</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_isDefinedBy_Concept</code></td>
+        <td><code>LogicalRecord_isDefinedBy_Universe</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>Concept</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>LogicalRecord_isDefinedBy_Concept</code></td>
+        <td><code>LogicalRecord_isDefinedBy_Population</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>Concept</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_PrimaryKey</code></td>
+        <td><code>WideDataStructure_has_PrimaryKey</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>PrimaryKey</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>WideDataStructure_has_IdentifierComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>WideDataStructure_has_AttributeComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>WideDataStructure_has_MeasureComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>LongDataStructure_has_IdentifierComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>LongDataStructure_has_AttributeComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>LongDataStructure_has_VariableDescriptorComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>LongDataStructure_has_VariableValueComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>DimensionalDataStructure_has_IdentifierComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>DimensionalDataStructure_has_AttributeComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_DataStructureComponent</code></td>
+        <td><code>DimensionalDataStructure_has_MeasureComponent</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructure_has_ComponentPosition</code></td>
+        <td><code>DimensionalDataStructure_has_ComponentPosition</code></td>
+        <td><code>DataStructure</code></td>
+        <td><code>has</code></td>
+        <td><code>ComponentPosition</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ConceptualVariable_measures_UnitType</code></td>
+        <td><code>InstanceVariable_measures_Population</code></td>
+        <td><code>ConceptualVariable</code></td>
+        <td><code>measures</code></td>
+        <td><code>UnitType</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>InstanceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSubstantiveValuesFrom</code></td>
+        <td><code>SubstantiveValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>InstanceVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSentinelValuesFrom</code></td>
+        <td><code>SentinelValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ConceptualVariable_measures_UnitType</code></td>
+        <td><code>RepresentedVariable_measures_Universe</code></td>
+        <td><code>ConceptualVariable</code></td>
+        <td><code>measures</code></td>
+        <td><code>UnitType</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="">
+        <td><code>RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSubstantiveValuesFrom</code></td>
+        <td><code>SubstantiveValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="">
+        <td><code>RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSentinelValuesFrom</code></td>
+        <td><code>SentinelValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>ReferenceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSubstantiveValuesFrom</code></td>
+        <td><code>SubstantiveValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>ReferenceVariable_takesSentinelValuesFrom_SentinelValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSentinelValuesFrom</code></td>
+        <td><code>SentinelValueDomain</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain</code></td>
+        <td><code>DescriptorVariable_takesSubstantiveValuesFrom_DescriptorValueDomain</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>takesSubstantiveValuesFrom</code></td>
+        <td><code>SubstantiveValueDomain</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>Descriptor_identifies_ReferenceVariable</code></td>
+        <td><code>Descriptor_identifies_InstanceVariable</code></td>
+        <td><code>Descriptor</code></td>
+        <td><code>identifies</code></td>
+        <td><code>ReferenceVariable</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>Concept_uses_Concept</code></td>
+        <td><code>Universe_uses_UnitType</code></td>
+        <td><code>Concept</code></td>
+        <td><code>uses</code></td>
+        <td><code>Concept</code></td>
+        <td><code>0..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>Concept_uses_Concept</code></td>
+        <td><code>Population_uses_Universe</code></td>
+        <td><code>Concept</code></td>
+        <td><code>uses</code></td>
+        <td><code>Concept</code></td>
+        <td><code>0..2</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructureComponent_isDefinedBy_RepresentedVariable</code></td>
+        <td><code>IdentifierComponent_isDefinedBy_InstanceVariable</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructureComponent_isDefinedBy_RepresentedVariable</code></td>
+        <td><code>MeasureComponent_isDefinedBy_InstanceVariable</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructureComponent_isDefinedBy_RepresentedVariable</code></td>
+        <td><code>AttributeComponent_isDefinedBy_InstanceVariable</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructureComponent_isDefinedBy_RepresentedVariable</code></td>
+        <td><code>DimensionComponent_isDefinedBy_InstanceVariable</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ComponentPosition_indexes_DataStructureComponent</code></td>
+        <td><code>ComponentPosition_indexes_DimensionComponent</code></td>
+        <td><code>ComponentPosition</code></td>
+        <td><code>indexes</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="">
+        <td><code>PrimaryKey_isComposedOf_PrimaryKeyComponent</code></td>
+        <td><code>PrimaryKey_isComposedOf_PrimaryKeyComponent</code></td>
+        <td><code>PrimaryKey</code></td>
+        <td><code>isComposedOf</code></td>
+        <td><code>PrimaryKeyComponent</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>PrimaryKeyComponent_correspondsTo_DataStructureComponent</code></td>
+        <td><code>PrimaryKeyComponent_correspondsTo_IdentifierComponent</code></td>
+        <td><code>PrimaryKeyComponent</code></td>
+        <td><code>correspondsTo</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>DataStructureComponent_isDefinedBy_RepresentedVariable</code></td>
+        <td><code>VariableValueComponent_isDefinedBy_ReferenceVariable</code></td>
+        <td><code>DataStructureComponent</code></td>
+        <td><code>isDefinedBy</code></td>
+        <td><code>RepresentedVariable</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="">
+        <td><code>VariableDescriptorComponent_refersTo_VariableValueComponent</code></td>
+        <td><code>VariableDescriptorComponent_refersTo_VariableValueComponent</code></td>
+        <td><code>VariableDescriptorComponent</code></td>
+        <td><code>refersTo</code></td>
+        <td><code>VariableValueComponent</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="">
+        <td><code>PhysicalSegmentLayout_formats_LogicalRecord</code></td>
+        <td><code>PhysicalSegmentLayout_formats_LogicalRecord</code></td>
+        <td><code>PhysicalSegmentLayout</code></td>
+        <td><code>formats</code></td>
+        <td><code>LogicalRecord</code></td>
+        <td><code>1..1</code></td>
+      </tr>
+      <tr class="">
+        <td><code>PhysicalSegmentLayout_has_ValueMapping</code></td>
+        <td><code>PhysicalSegmentLayout_has_ValueMapping</code></td>
+        <td><code>PhysicalSegmentLayout</code></td>
+        <td><code>has</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="">
+        <td><code>PhysicalSegmentLayout_has_ValueMappingPosition</code></td>
+        <td><code>PhysicalSegmentLayout_has_ValueMappingPosition</code></td>
+        <td><code>PhysicalSegmentLayout</code></td>
+        <td><code>has</code></td>
+        <td><code>ValueMappingPosition</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ValueMapping_formats_DataPoint</code></td>
+        <td><code>ValueMapping_formats_InstanceVariable</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>formats</code></td>
+        <td><code>DataPoint</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ValueMapping_formats_DataPoint</code></td>
+        <td><code>ValueMapping_formats_RepresentedVariable</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>formats</code></td>
+        <td><code>DataPoint</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ValueMapping_formats_DataPoint</code></td>
+        <td><code>ValueMapping_formats_ReferenceVariable</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>formats</code></td>
+        <td><code>DataPoint</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="table-warning">
+        <td><code>ValueMapping_formats_DataPoint</code></td>
+        <td><code>ValueMapping_formats_DescriptorVariable</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>formats</code></td>
+        <td><code>DataPoint</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+      <tr class="">
+        <td><code>ValueMappingPosition_indexes_ValueMapping</code></td>
+        <td><code>ValueMappingPosition_indexes_ValueMapping</code></td>
+        <td><code>ValueMappingPosition</code></td>
+        <td><code>indexes</code></td>
+        <td><code>ValueMapping</code></td>
+        <td><code>1..*</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  
+<h5 class="mt-5">SSSOM Mapping Reference
+  <span class="badge bg-secondary ms-2">2</span>
+</h5>
+<p class="text-muted small">All SSSOM mapping entries, cross-referenced by target class.</p>
+<div class="table-responsive mb-4">
+  <table class="table table-sm table-bordered table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Target class</th>
+        <th>Subject label</th>
+        <th>Object label</th>
+        <th>Predicate ID</th>
+        <th>Predicate label</th>
+        <th>Confidence</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>DataStore</code></td>
+        <td>DDI-CDI DataStore</td>
+        <td>CDIF DDSC DataStore</td>
+        <td><code>skos:narrowMatch</code></td>
+        <td>Object class has less attributes.</td>
+        <td>1.0</td>
+        <td>Object class has less attributes.</td>
+      </tr>
+      <tr>
+        <td><code>WideDataSet</code></td>
+        <td>Merge of DDI-CDI WideDataSet and PhysicalDataSet</td>
+        <td>CDIF DDSC WideDataSet</td>
+        <td><code>skos:relatedMatch</code></td>
+        <td>Object class takes definition from WideDataSet and some attributes from PhysicalDataSet.</td>
+        <td>1.0</td>
+        <td>Object class takes definition from WideDataSet and some attributes from PhysicalDataSet.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+</div>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmkCA8DLZInuvHhS5tn3ZkAjvTzi"
+  crossorigin="anonymous"
+></script>
+</body>
+</html>

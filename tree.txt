@@ -1,0 +1,104 @@
+ucmism2m.blackbox/
+├── bin
+│   └── blackbox
+│       ├── config
+│       │   ├── AssociationMappingConfig.class
+│       │   ├── AttributeConfig.class
+│       │   ├── ClassMappingConfig.class
+│       │   ├── MultiplicityConfig.class
+│       │   ├── PackageConfig.class
+│       │   ├── ParsedConfig$MappingConfig.class
+│       │   ├── ParsedConfig.class
+│       │   ├── SourceClassDeserializer.class
+│       │   ├── SourceModelConfig.class
+│       │   ├── SssomConfig.class
+│       │   ├── TargetModelConfig.class
+│       │   └── TransformationConfig.class
+│       └── JSONConfigLoader.class
+├── build.properties
+├── META-INF
+│   ├── MANIFEST.MF
+│   ├── MANIFEST.MF.v1
+│   ├── MANIFEST.MF.v2
+│   └── MANIFEST.txt
+├── plugin.xml
+├── pom.xml
+├── src
+│   └── blackbox
+│       ├── config
+│       │   ├── AssociationMappingConfig.java
+│       │   ├── AttributeConfig.java
+│       │   ├── ClassMappingConfig.java
+│       │   ├── MultiplicityConfig.java
+│       │   ├── PackageConfig.java
+│       │   ├── ParsedConfig.java
+│       │   ├── SourceClassDeserializer.java
+│       │   ├── SourceModelConfig.java
+│       │   ├── SssomConfig.java
+│       │   ├── TargetModelConfig.java
+│       │   └── TransformationConfig.java
+│       └── JSONConfigLoader.java
+├── target
+│   ├── classes
+│   │   └── blackbox
+│   │       ├── config
+│   │       │   ├── AssociationMappingConfig.class
+│   │       │   ├── AttributeConfig.class
+│   │       │   ├── ClassMappingConfig.class
+│   │       │   ├── MultiplicityConfig.class
+│   │       │   ├── PackageConfig.class
+│   │       │   ├── ParsedConfig$MappingConfig.class
+│   │       │   ├── ParsedConfig.class
+│   │       │   ├── SourceClassDeserializer.class
+│   │       │   ├── SourceModelConfig.class
+│   │       │   ├── SssomConfig.class
+│   │       │   ├── TargetModelConfig.class
+│   │       │   └── TransformationConfig.class
+│   │       └── JSONConfigLoader.class
+│   ├── generated-sources
+│   │   └── annotations
+│   ├── local-artifacts.properties
+│   ├── MANIFEST.MF
+│   ├── maven-archiver
+│   │   └── pom.properties
+│   ├── p2artifacts.xml
+│   ├── p2content.xml
+│   ├── skippedP2Dependencies.txt
+│   └── ucmism2m.blackbox-1.0.0-SNAPSHOT.jar
+└── z_backup
+    ├── JSONConfigLoaderLib.qvto
+    ├── JSONConfigLoaderLib.qvto.v1
+    ├── plugin.xml
+    └── SourceClassDeserializer.java
+ucmism2m.transformation/
+├── build.properties
+├── META-INF
+│   └── MANIFEST.MF
+├── pom.xml
+├── target
+│   ├── local-artifacts.properties
+│   ├── MANIFEST.MF
+│   ├── maven-archiver
+│   │   └── pom.properties
+│   ├── p2artifacts.xml
+│   ├── p2content.xml
+│   ├── skippedP2Dependencies.txt
+│   └── ucmism2m.transformation-1.0.0-SNAPSHOT.jar
+├── transforms
+│   ├── ConfigLib.qvto
+│   ├── helpers.qvto
+│   ├── m2m.qvto
+│   └── mappings.qvto
+└── z_backup
+    ├── ConfigLib.v1.qvto
+    ├── ConfigLib.v2.OK1.qvto
+    ├── ConfigLib.v3.qvto
+    ├── helpers.v1.qvto
+    ├── m2m.v1.qvto
+    ├── m2m.v2.OK1.qvto
+    ├── m2m.v3.qvto
+    ├── mappings.qvto
+    ├── mappings.v1.qvto
+    └── mappings.v2.qvto
+
+20 directories, 80 files

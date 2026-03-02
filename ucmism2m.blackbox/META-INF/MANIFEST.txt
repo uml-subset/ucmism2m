@@ -1,0 +1,49 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UCMIS M2M Black-box Operations
+Bundle-SymbolicName: ucmism2m.blackbox;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: UCMIS
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: ucmism2m.blackbox
+
+# Runtime dependencies required by this bundle.
+# org.eclipse.m2m.qvt.oml       — provides the @Module and @Operation annotations
+#                                  used to register Java methods as QVTo black-box
+#                                  operations.
+# org.eclipse.emf.ecore          — required for EcoreUtil.create() and InternalEObject
+#                                  used when constructing unresolved EMF proxy objects
+#                                  for Dependency supplier references.
+# org.eclipse.uml2.uml           — provides UMLPackage.Literals.CLASS and the
+#                                  org.eclipse.uml2.uml.Class / NamedElement types
+#                                  used in createSupplierProxy(). Must be declared
+#                                  explicitly — org.eclipse.emf.ecore does not
+#                                  re-export UML2 types.
+# com.fasterxml.jackson.core.jackson-databind
+#                                — Jackson 2.20.1 data binding (ObjectMapper, annotations,
+#                                  StdDeserializer). Sourced from Eclipse 2025-12 p2.
+# com.fasterxml.jackson.core.jackson-core
+#                                — Jackson streaming API (JsonParser, JsonToken etc.).
+#                                  Must be declared explicitly even though jackson-databind
+#                                  depends on it: OSGi does not re-export transitive
+#                                  bundle dependencies — each bundle must Require-Bundle
+#                                  everything it directly references at the Java level.
+#                                  SourceClassDeserializer references JsonParser directly,
+#                                  and the Tycho compiler resolves types bundle-by-bundle.
+# com.fasterxml.jackson.core.jackson-annotations
+#                                — Jackson annotations (@JsonProperty, @JsonIgnoreProperties,
+#                                  @JsonDeserialize). Same OSGi transitivity rule applies.
+Require-Bundle: org.eclipse.m2m.qvt.oml,
+ org.eclipse.emf.ecore,
+ org.eclipse.uml2.uml,
+ com.fasterxml.jackson.core.jackson-core,
+ com.fasterxml.jackson.core.jackson-annotations,
+ com.fasterxml.jackson.core.jackson-databind
+
+# Export the blackbox package so that ucmism2m.transformation and ucmism2m.app
+# can resolve the JSONConfigLoader class and the QVTo wrapper library at runtime.
+# The blackbox.config package is intentionally NOT exported — it is an internal
+# implementation detail and QVTo never accesses the POJOs directly.
+Export-Package: blackbox
+
+Bundle-ActivationPolicy: lazy

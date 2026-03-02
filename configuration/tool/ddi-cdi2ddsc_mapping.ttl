@@ -1,0 +1,1093 @@
+# RDF Turtle representation of the DDI-CDI to DDSC mapping configuration
+# Description : DDI-CDI to CDIF Profile Data Description
+# Version     : 1
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sssom: <https://w3id.org/sssom/> .
+@prefix uml: <http://www.omg.org/spec/UML/2.5.1/> .
+@prefix transform: <http://w3id.org/ucmis/vocab/transform#> .
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ddsc: <http://w3id.org/cdif/ddsc/1.0/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# ── Transformation activity ──────────────────────────────────────────────────
+
+cdi:DDICDILibrary
+    a uml:Model ;
+    rdfs:label "DDI-CDI" ;
+    dcterms:identifier "DDICDILibrary" ;
+    rdfs:isDefinedBy <http://ddialliance.org/Specification/DDI-CDI/1.0/XMI/> .
+
+ddsc:DDSC
+    a uml:Model ;
+    rdfs:label "UML Model for the Cross-Domain Interoperability Framework (CDIF)" ;
+    dcterms:identifier "DDSC" ;
+    rdfs:comment "Many important research questions demand a multi-disciplinary approach in which data and resources are used across domain and infrastructure boundaries. In such scenarios, domain-specific community standards fall short of the requirements for FAIR exchange of the critical metadata and other information needed. The Cross-Domain Interoperability Framework (CDIF) is designed to support FAIR implementation for these projects by establishing a ‘lingua franca’ for this information, based on existing standards and technology to support interoperability, in both human- and machine-actionable fashion. CDIF is a set of implementation recommendations, based on profiles of common, domain-neutral metadata standards which are aligned to work together to support core functions required by FAIR." ;
+    rdfs:isDefinedBy <http://w3id.org/cdif/ddsc/1.0/ddsc/xmi/> .
+
+[] a prov:Activity ;
+    rdfs:label "DDI-CDI to CDIF Profile Data Description" ;
+    dcterms:hasVersion "1" ;
+    prov:used cdi:DDICDILibrary ;
+    prov:generated ddsc:DDSC .
+
+# ── Packages ─────────────────────────────────────────────────────────────────
+
+ddsc:Classes
+    a uml:Package ;
+    rdfs:label "Classes" ;
+    rdfs:comment "This package contains the definitions of the classes in the DDSC profile with all their relationships and attributes." ;
+    transform:parentPackage ddsc:DDSC .
+
+# ── Class mappings ───────────────────────────────────────────────────────────
+
+ddsc:ClassMapping_DataStore
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:DataStore ;
+    transform:targetClass ddsc:DataStore ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasMapping ddsc:SSSOMMapping_DataStore_1 .
+
+ddsc:SSSOMMapping_DataStore_1
+    a sssom:Mapping ;
+    sssom:subject_label "DDI-CDI DataStore" ;
+    sssom:object_label "CDIF DDSC DataStore" ;
+    sssom:predicate_id "skos:narrowMatch" ;
+    sssom:predicate_label "Object class has less attributes." ;
+    sssom:confidence "1.0"^^xsd:decimal ;
+    rdfs:comment "Object class has less attributes." .
+
+ddsc:ClassMapping_LogicalRecord
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:LogicalRecord ;
+    transform:targetClass ddsc:LogicalRecord ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_WideDataSet
+    a transform:ClassMapping ;
+    transform:mappingType "merge" ;
+    transform:sourceClass cdi:WideDataSet, cdi:PhysicalDataSet ;
+    transform:targetClass ddsc:WideDataSet ;
+    transform:targetPackage ddsc:Classes ;
+    transform:definitionFrom cdi:WideDataSet ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "physicalFileName" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ] ;
+    transform:hasMapping ddsc:SSSOMMapping_WideDataSet_1 .
+
+ddsc:SSSOMMapping_WideDataSet_1
+    a sssom:Mapping ;
+    sssom:subject_label "Merge of DDI-CDI WideDataSet and PhysicalDataSet" ;
+    sssom:object_label "CDIF DDSC WideDataSet" ;
+    sssom:predicate_id "skos:relatedMatch" ;
+    sssom:predicate_label "Object class takes definition from WideDataSet and some attributes from PhysicalDataSet." ;
+    sssom:confidence "1.0"^^xsd:decimal ;
+    rdfs:comment "Object class takes definition from WideDataSet and some attributes from PhysicalDataSet." .
+
+ddsc:ClassMapping_LongDataSet
+    a transform:ClassMapping ;
+    transform:mappingType "merge" ;
+    transform:sourceClass cdi:LongDataSet, cdi:PhysicalDataSet ;
+    transform:targetClass ddsc:LongDataSet ;
+    transform:targetPackage ddsc:Classes ;
+    transform:definitionFrom cdi:LongDataSet ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "physicalFileName" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ]
+
+ddsc:ClassMapping_DimensionalDataSet
+    a transform:ClassMapping ;
+    transform:mappingType "merge" ;
+    transform:sourceClass cdi:DimensionalDataSet, cdi:PhysicalDataSet ;
+    transform:targetClass ddsc:DimensionalDataSet ;
+    transform:targetPackage ddsc:Classes ;
+    transform:definitionFrom cdi:DimensionalDataSet ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "physicalFileName" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1" ;
+        transform:fromSourceClass cdi:PhysicalDataSet
+    ]
+
+ddsc:ClassMapping_WideDataStructure
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:WideDataStructure ;
+    transform:targetClass ddsc:WideDataStructure ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_LongDataStructure
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:LongDataStructure ;
+    transform:targetClass ddsc:LongDataStructure ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_DimensionalDataStructure
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:DimensionalDataStructure ;
+    transform:targetClass ddsc:DimensionalDataStructure ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_InstanceVariable
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:InstanceVariable ;
+    transform:targetClass ddsc:InstanceVariable ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "definition" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "describedUnitOfMeasure" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "1"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "unitOfMeasureKind" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_RepresentedVariable
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:RepresentedVariable ;
+    transform:targetClass ddsc:RepresentedVariable ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "definition" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "describedUnitOfMeasure" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "1"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "unitOfMeasureKind" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_ReferenceVariable
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:ReferenceVariable ;
+    transform:targetClass ddsc:ReferenceVariable ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_DescriptorVariable
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:DescriptorVariable ;
+    transform:targetClass ddsc:DescriptorVariable ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_SubstantiveValueDomain
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:SubstantiveValueDomain ;
+    transform:targetClass ddsc:SubstantiveValueDomain ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "recommendedDataType" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_SentinelValueDomain
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:SentinelValueDomain ;
+    transform:targetClass ddsc:SentinelValueDomain ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "recommendedDataType" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_DescriptorValueDomain
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:DescriptorValueDomain ;
+    transform:targetClass ddsc:DescriptorValueDomain ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_Descriptor
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:Descriptor ;
+    transform:targetClass ddsc:Descriptor ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "content" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_UnitType
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:UnitType ;
+    transform:targetClass ddsc:UnitType ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "descriptiveText" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ]
+
+ddsc:ClassMapping_Universe
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:Universe ;
+    transform:targetClass ddsc:Universe ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "descriptiveText" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ]
+
+ddsc:ClassMapping_Population
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:Population ;
+    transform:targetClass ddsc:Population ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "name" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "descriptiveText" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ]
+
+ddsc:ClassMapping_IdentifierComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:IdentifierComponent ;
+    transform:targetClass ddsc:IdentifierComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_MeasureComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:MeasureComponent ;
+    transform:targetClass ddsc:MeasureComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_AttributeComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:AttributeComponent ;
+    transform:targetClass ddsc:AttributeComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_DimensionComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:DimensionComponent ;
+    transform:targetClass ddsc:DimensionComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_ComponentPosition
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:ComponentPosition ;
+    transform:targetClass ddsc:ComponentPosition ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "value" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+ddsc:ClassMapping_PrimaryKey
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:PrimaryKey ;
+    transform:targetClass ddsc:PrimaryKey ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_PrimaryKeyComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:PrimaryKeyComponent ;
+    transform:targetClass ddsc:PrimaryKeyComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_VariableValueComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:VariableValueComponent ;
+    transform:targetClass ddsc:VariableValueComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_VariableDescriptorComponent
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:VariableDescriptorComponent ;
+    transform:targetClass ddsc:VariableDescriptorComponent ;
+    transform:targetPackage ddsc:Classes .
+
+ddsc:ClassMapping_PhysicalSegmentLayout
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:PhysicalSegmentLayout ;
+    transform:targetClass ddsc:PhysicalSegmentLayout ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "delimiter" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "encoding" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "escapeCharacter" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "hasHeader" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "headerRowCount" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "isDelimited" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "isFixedWidth" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "lineTerminator" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "quoteCharacter" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "skipInitialSpace" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "trim" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ]
+
+ddsc:ClassMapping_ValueMapping
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:ValueMapping ;
+    transform:targetClass ddsc:ValueMapping ;
+    transform:targetPackage ddsc:Classes ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "decimalPositions" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "defaultDecimalSeparator" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "length" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] ;
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "maximumLength" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ] .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "minimumLength" ;
+        transform:multiplicityLower "0" ;
+        transform:multiplicityUpper "*"
+    ]
+
+ddsc:ClassMapping_ValueMappingPosition
+    a transform:ClassMapping ;
+    transform:mappingType "map" ;
+    transform:sourceClass cdi:ValueMappingPosition ;
+    transform:targetClass ddsc:ValueMappingPosition ;
+    transform:targetPackage ddsc:Classes .
+    transform:hasAttribute
+    [
+        a uml:Attribute ;
+        rdfs:label "value" ;
+        transform:multiplicityLower "1" ;
+        transform:multiplicityUpper "1"
+    ]
+
+
+# ── Association mappings ─────────────────────────────────────────────────────
+
+ddsc:AssocMapping_DataStore_has_LogicalRecord
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStore_has_LogicalRecord" ;
+    transform:targetAssociationName "DataStore_has_LogicalRecord" ;
+    transform:subjectClass ddsc:DataStore ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:LogicalRecord ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_organizes_WideDataSet
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_organizes_DataSet" ;
+    transform:targetAssociationName "LogicalRecord_organizes_WideDataSet" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "organizes" ;
+    transform:objectClass ddsc:DataSet ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_organizes_LongDataSet
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_organizes_DataSet" ;
+    transform:targetAssociationName "LogicalRecord_organizes_LongDataSet" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "organizes" ;
+    transform:objectClass ddsc:DataSet ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_organizes_DimensionalDataSet
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_organizes_DataSet" ;
+    transform:targetAssociationName "LogicalRecord_organizes_DimensionalDataSet" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "organizes" ;
+    transform:objectClass ddsc:DataSet ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_has_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_has_InstanceVariable" ;
+    transform:targetAssociationName "LogicalRecord_has_InstanceVariable" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:InstanceVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_isDefinedBy_UnitType
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_isDefinedBy_Concept" ;
+    transform:targetAssociationName "LogicalRecord_isDefinedBy_UnitType" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:Concept ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_isDefinedBy_Universe
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_isDefinedBy_Concept" ;
+    transform:targetAssociationName "LogicalRecord_isDefinedBy_Universe" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:Concept ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LogicalRecord_isDefinedBy_Population
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "LogicalRecord_isDefinedBy_Concept" ;
+    transform:targetAssociationName "LogicalRecord_isDefinedBy_Population" ;
+    transform:subjectClass ddsc:LogicalRecord ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:Concept ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_WideDataStructure_has_PrimaryKey
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_PrimaryKey" ;
+    transform:targetAssociationName "WideDataStructure_has_PrimaryKey" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:PrimaryKey ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_WideDataStructure_has_IdentifierComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "WideDataStructure_has_IdentifierComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_WideDataStructure_has_AttributeComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "WideDataStructure_has_AttributeComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_WideDataStructure_has_MeasureComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "WideDataStructure_has_MeasureComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LongDataStructure_has_IdentifierComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "LongDataStructure_has_IdentifierComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LongDataStructure_has_AttributeComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "LongDataStructure_has_AttributeComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LongDataStructure_has_VariableDescriptorComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "LongDataStructure_has_VariableDescriptorComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_LongDataStructure_has_VariableValueComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "LongDataStructure_has_VariableValueComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_DimensionalDataStructure_has_IdentifierComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "DimensionalDataStructure_has_IdentifierComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_DimensionalDataStructure_has_AttributeComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "DimensionalDataStructure_has_AttributeComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_DimensionalDataStructure_has_MeasureComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_DataStructureComponent" ;
+    transform:targetAssociationName "DimensionalDataStructure_has_MeasureComponent" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_DimensionalDataStructure_has_ComponentPosition
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructure_has_ComponentPosition" ;
+    transform:targetAssociationName "DimensionalDataStructure_has_ComponentPosition" ;
+    transform:subjectClass ddsc:DataStructure ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:ComponentPosition ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_InstanceVariable_measures_Population
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ConceptualVariable_measures_UnitType" ;
+    transform:targetAssociationName "InstanceVariable_measures_Population" ;
+    transform:subjectClass ddsc:ConceptualVariable ;
+    rdfs:label "measures" ;
+    transform:objectClass ddsc:UnitType ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_InstanceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:targetAssociationName "InstanceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSubstantiveValuesFrom" ;
+    transform:objectClass ddsc:SubstantiveValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_InstanceVariable_takesSentinelValuesFrom_SentinelValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:targetAssociationName "InstanceVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSentinelValuesFrom" ;
+    transform:objectClass ddsc:SentinelValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_RepresentedVariable_measures_Universe
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ConceptualVariable_measures_UnitType" ;
+    transform:targetAssociationName "RepresentedVariable_measures_Universe" ;
+    transform:subjectClass ddsc:ConceptualVariable ;
+    rdfs:label "measures" ;
+    transform:objectClass ddsc:UnitType ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:targetAssociationName "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSubstantiveValuesFrom" ;
+    transform:objectClass ddsc:SubstantiveValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:targetAssociationName "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSentinelValuesFrom" ;
+    transform:objectClass ddsc:SentinelValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ReferenceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:targetAssociationName "ReferenceVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSubstantiveValuesFrom" ;
+    transform:objectClass ddsc:SubstantiveValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ReferenceVariable_takesSentinelValuesFrom_SentinelValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:targetAssociationName "ReferenceVariable_takesSentinelValuesFrom_SentinelValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSentinelValuesFrom" ;
+    transform:objectClass ddsc:SentinelValueDomain ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_DescriptorVariable_takesSubstantiveValuesFrom_DescriptorValueDomain
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "RepresentedVariable_takesSubstantiveValuesFrom_SubstantiveValueDomain" ;
+    transform:targetAssociationName "DescriptorVariable_takesSubstantiveValuesFrom_DescriptorValueDomain" ;
+    transform:subjectClass ddsc:RepresentedVariable ;
+    rdfs:label "takesSubstantiveValuesFrom" ;
+    transform:objectClass ddsc:SubstantiveValueDomain ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_Descriptor_identifies_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "Descriptor_identifies_ReferenceVariable" ;
+    transform:targetAssociationName "Descriptor_identifies_InstanceVariable" ;
+    transform:subjectClass ddsc:Descriptor ;
+    rdfs:label "identifies" ;
+    transform:objectClass ddsc:ReferenceVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_Universe_uses_UnitType
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "Concept_uses_Concept" ;
+    transform:targetAssociationName "Universe_uses_UnitType" ;
+    transform:subjectClass ddsc:Concept ;
+    rdfs:label "uses" ;
+    transform:objectClass ddsc:Concept ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_Population_uses_Universe
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "Concept_uses_Concept" ;
+    transform:targetAssociationName "Population_uses_Universe" ;
+    transform:subjectClass ddsc:Concept ;
+    rdfs:label "uses" ;
+    transform:objectClass ddsc:Concept ;
+    transform:objectClassMultiplicityLower "0" ;
+    transform:objectClassMultiplicityUpper "2" .
+
+ddsc:AssocMapping_IdentifierComponent_isDefinedBy_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructureComponent_isDefinedBy_RepresentedVariable" ;
+    transform:targetAssociationName "IdentifierComponent_isDefinedBy_InstanceVariable" ;
+    transform:subjectClass ddsc:DataStructureComponent ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:RepresentedVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_MeasureComponent_isDefinedBy_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructureComponent_isDefinedBy_RepresentedVariable" ;
+    transform:targetAssociationName "MeasureComponent_isDefinedBy_InstanceVariable" ;
+    transform:subjectClass ddsc:DataStructureComponent ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:RepresentedVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_AttributeComponent_isDefinedBy_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructureComponent_isDefinedBy_RepresentedVariable" ;
+    transform:targetAssociationName "AttributeComponent_isDefinedBy_InstanceVariable" ;
+    transform:subjectClass ddsc:DataStructureComponent ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:RepresentedVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_DimensionComponent_isDefinedBy_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructureComponent_isDefinedBy_RepresentedVariable" ;
+    transform:targetAssociationName "DimensionComponent_isDefinedBy_InstanceVariable" ;
+    transform:subjectClass ddsc:DataStructureComponent ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:RepresentedVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_ComponentPosition_indexes_DimensionComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ComponentPosition_indexes_DataStructureComponent" ;
+    transform:targetAssociationName "ComponentPosition_indexes_DimensionComponent" ;
+    transform:subjectClass ddsc:ComponentPosition ;
+    rdfs:label "indexes" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_PrimaryKey_isComposedOf_PrimaryKeyComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "PrimaryKey_isComposedOf_PrimaryKeyComponent" ;
+    transform:targetAssociationName "PrimaryKey_isComposedOf_PrimaryKeyComponent" ;
+    transform:subjectClass ddsc:PrimaryKey ;
+    rdfs:label "isComposedOf" ;
+    transform:objectClass ddsc:PrimaryKeyComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_PrimaryKeyComponent_correspondsTo_IdentifierComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "PrimaryKeyComponent_correspondsTo_DataStructureComponent" ;
+    transform:targetAssociationName "PrimaryKeyComponent_correspondsTo_IdentifierComponent" ;
+    transform:subjectClass ddsc:PrimaryKeyComponent ;
+    rdfs:label "correspondsTo" ;
+    transform:objectClass ddsc:DataStructureComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_VariableValueComponent_isDefinedBy_ReferenceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "DataStructureComponent_isDefinedBy_RepresentedVariable" ;
+    transform:targetAssociationName "VariableValueComponent_isDefinedBy_ReferenceVariable" ;
+    transform:subjectClass ddsc:DataStructureComponent ;
+    rdfs:label "isDefinedBy" ;
+    transform:objectClass ddsc:RepresentedVariable ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_VariableDescriptorComponent_refersTo_VariableValueComponent
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "VariableDescriptorComponent_refersTo_VariableValueComponent" ;
+    transform:targetAssociationName "VariableDescriptorComponent_refersTo_VariableValueComponent" ;
+    transform:subjectClass ddsc:VariableDescriptorComponent ;
+    rdfs:label "refersTo" ;
+    transform:objectClass ddsc:VariableValueComponent ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_PhysicalSegmentLayout_formats_LogicalRecord
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "PhysicalSegmentLayout_formats_LogicalRecord" ;
+    transform:targetAssociationName "PhysicalSegmentLayout_formats_LogicalRecord" ;
+    transform:subjectClass ddsc:PhysicalSegmentLayout ;
+    rdfs:label "formats" ;
+    transform:objectClass ddsc:LogicalRecord ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "1" .
+
+ddsc:AssocMapping_PhysicalSegmentLayout_has_ValueMapping
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "PhysicalSegmentLayout_has_ValueMapping" ;
+    transform:targetAssociationName "PhysicalSegmentLayout_has_ValueMapping" ;
+    transform:subjectClass ddsc:PhysicalSegmentLayout ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:ValueMapping ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_PhysicalSegmentLayout_has_ValueMappingPosition
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "PhysicalSegmentLayout_has_ValueMappingPosition" ;
+    transform:targetAssociationName "PhysicalSegmentLayout_has_ValueMappingPosition" ;
+    transform:subjectClass ddsc:PhysicalSegmentLayout ;
+    rdfs:label "has" ;
+    transform:objectClass ddsc:ValueMappingPosition ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ValueMapping_formats_InstanceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ValueMapping_formats_DataPoint" ;
+    transform:targetAssociationName "ValueMapping_formats_InstanceVariable" ;
+    transform:subjectClass ddsc:ValueMapping ;
+    rdfs:label "formats" ;
+    transform:objectClass ddsc:DataPoint ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ValueMapping_formats_RepresentedVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ValueMapping_formats_DataPoint" ;
+    transform:targetAssociationName "ValueMapping_formats_RepresentedVariable" ;
+    transform:subjectClass ddsc:ValueMapping ;
+    rdfs:label "formats" ;
+    transform:objectClass ddsc:DataPoint ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ValueMapping_formats_ReferenceVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ValueMapping_formats_DataPoint" ;
+    transform:targetAssociationName "ValueMapping_formats_ReferenceVariable" ;
+    transform:subjectClass ddsc:ValueMapping ;
+    rdfs:label "formats" ;
+    transform:objectClass ddsc:DataPoint ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ValueMapping_formats_DescriptorVariable
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ValueMapping_formats_DataPoint" ;
+    transform:targetAssociationName "ValueMapping_formats_DescriptorVariable" ;
+    transform:subjectClass ddsc:ValueMapping ;
+    rdfs:label "formats" ;
+    transform:objectClass ddsc:DataPoint ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .
+
+ddsc:AssocMapping_ValueMappingPosition_indexes_ValueMapping
+    a transform:AssociationMapping ;
+    transform:sourceAssociationName "ValueMappingPosition_indexes_ValueMapping" ;
+    transform:targetAssociationName "ValueMappingPosition_indexes_ValueMapping" ;
+    transform:subjectClass ddsc:ValueMappingPosition ;
+    rdfs:label "indexes" ;
+    transform:objectClass ddsc:ValueMapping ;
+    transform:objectClassMultiplicityLower "1" ;
+    transform:objectClassMultiplicityUpper "*" .

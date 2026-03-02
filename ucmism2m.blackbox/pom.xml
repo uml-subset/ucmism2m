@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  File   : ucmism2m.blackbox/pom.xml
+  Purpose: Maven/Tycho build descriptor for the ucmism2m.blackbox OSGi bundle.
+           This bundle contains:
+             - Java black-box operations (JSONConfigLoader) that QVTo calls
+               as if they were native QVTo queries.
+             - Jackson-bound configuration POJOs (blackbox.config package).
+             - The QVTo library wrapper (JSONConfigLoaderLib.qvto).
+           Jackson 2.20.1 is NOT declared as a Maven <dependency> here because
+           it is resolved from the Eclipse 2025-12 p2 target platform, not from
+           Maven Central. The Require-Bundle header in MANIFEST.MF is sufficient
+           for both the Tycho CLI build and the Eclipse PDE IDE resolution.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.ucmis</groupId>
         <artifactId>ucmism2m-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    
+
     <artifactId>ucmism2m.blackbox</artifactId>
     <packaging>eclipse-plugin</packaging>
-    
+
     <name>UCMIS M2M Black-box Operations</name>
-    
-    <dependencies>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
-        </dependency>
-    </dependencies>
-    
+
     <profiles>
-        <!-- This profile is only active in Eclipse, not in Maven CLI -->
+        <!--
+          m2e lifecycle mapping profile.
+          Active only inside the Eclipse IDE (the m2e.version property is set
+          exclusively by the m2e Maven integration plugin). Instructs m2e to
+          ignore the tycho-bnd-plugin:process goal, which m2e does not
+          understand and would otherwise mark as an error in the Problems view.
+          This profile is invisible to the Maven CLI build.
+        -->
         <profile>
             <id>only-eclipse</id>
             <activation>

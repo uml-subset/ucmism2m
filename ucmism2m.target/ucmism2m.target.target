@@ -1,38 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="UCMIS M2M Target Platform" sequenceNumber="1">
+<!--
+  File   : ucmism2m.target.target
+  Purpose: Defines the Eclipse target platform for the ucmism2m project.
+           All compile-time and runtime dependencies are declared here.
+           Three dependency sources are used:
+             1. Eclipse 2025-12 p2 repository — Eclipse Platform, EMF, UML2,
+                QVTo, Equinox executable, and Jackson 2.20.1 (as proper OSGi bundles).
+             2. QVTo 3.11.1 p2 repository — QVTo SDK and runtime features.
+           Note: org.json has been removed. Jackson 2.20.1 is used instead,
+           sourced directly from the Eclipse 2025-12 p2 repository to avoid
+           the need for missingManifest="generate" Maven dependency handling.
+           This keeps IDE (PDE) and CLI (Tycho) dependency resolution consistent.
+-->
+<target name="UCMIS M2M Target Platform" sequenceNumber="2">
     <locations>
-        <!-- Eclipse 2025-12 Platform -->
-        <location includeAllPlatforms="true" includeConfigurePhase="true" 
+
+        <!--
+          Eclipse 2025-12 platform repository.
+          Provides: Eclipse Platform, EMF Ecore/Common, UML2, Equinox executable,
+          and the Jackson 2.20.1 OSGi bundles (jackson-core, jackson-annotations,
+          jackson-databind). includeAllPlatforms="true" ensures that native
+          fragments for all supported platforms (Linux, Windows, macOS x86_64
+          and aarch64) are resolved even when the build runs on a single OS.
+          This is required for the multi-platform product assembly profiles.
+        -->
+        <location includeAllPlatforms="true" includeConfigurePhase="true"
                   includeMode="planner" includeSource="true" type="InstallableUnit">
             <repository location="https://download.eclipse.org/releases/2025-12/"/>
+
+            <!-- Eclipse Platform (core runtime, Equinox OSGi) -->
             <unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
+
+            <!-- EMF core — required by UML2 and QVTo -->
             <unit id="org.eclipse.emf.ecore.feature.group" version="0.0.0"/>
             <unit id="org.eclipse.emf.common.feature.group" version="0.0.0"/>
+
+            <!-- UML2 5.0.0 — the metamodel used for source and target models -->
             <unit id="org.eclipse.uml2.feature.group" version="0.0.0"/>
+
+            <!-- Equinox executable — required for building the standalone launcher -->
             <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+
+            <!--
+              Jackson 2.20.1 — JSON parsing and POJO data binding.
+              These three bundles are the standard Jackson 2.x core components.
+              All three are present in the Eclipse 2025-12 p2 repository as
+              proper OSGi bundles and require no manifest generation.
+              jackson-databind depends on the other two; all three are declared
+              explicitly for clarity and to ensure correct resolution ordering.
+            -->
+            <unit id="com.fasterxml.jackson.core.jackson-annotations" version="0.0.0"/>
+            <unit id="com.fasterxml.jackson.core.jackson-core" version="0.0.0"/>
+            <unit id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
         </location>
-        
-        <!-- QVTo 3.11.1 -->
-        <location includeAllPlatforms="true" includeConfigurePhase="true" 
+
+        <!--
+          QVTo 3.11.1 dedicated p2 repository.
+          Provides: QVTo SDK (includes development tools and source) and the
+          QVTo runtime feature (required for product assembly).
+          Both features are declared: the SDK for IDE development and source
+          navigation, the runtime for the headless CLI product.
+        -->
+        <location includeAllPlatforms="true" includeConfigurePhase="true"
                   includeMode="planner" includeSource="true" type="InstallableUnit">
             <repository location="https://download.eclipse.org/mmt/qvto/builds/release/3.11.1/"/>
+
+            <!-- QVTo SDK — development tools, QVTo editor, compiler, source -->
             <unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="0.0.0"/>
+
+            <!-- QVTo runtime — required for product materalisation -->
             <unit id="org.eclipse.m2m.qvt.oml.runtime.feature.group" version="0.0.0"/>
         </location>
-        
-        <!-- Maven dependencies -->
-        <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
-            <dependencies>
-                <dependency>
-                    <groupId>org.json</groupId>
-                    <artifactId>json</artifactId>
-                    <version>20240303</version>
-                    <type>jar</type>
-                </dependency>
-            </dependencies>
-        </location>
+
     </locations>
-    
+
+    <!-- Target JRE: Java 21 as required by the project -->
     <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
 </target>

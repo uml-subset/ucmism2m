@@ -1,0 +1,195 @@
+/**
+ * File   : ConfigLib.qvto
+ * Bundle : ucmism2m.transformation
+ * Path   : transforms/ConfigLib.qvto
+ * Purpose: QVTo library that exposes all JSONConfigLoader Java black-box operations
+ *          as QVTo helpers using the "blackbox helper" declaration syntax.
+ *
+ *          How this works in QVTo 3.11:
+ *            - plugin.xml in ucmism2m.blackbox registers blackbox.JSONConfigLoader
+ *              directly under the javaBlackboxUnits extension point (no unit/namespace).
+ *            - Each "blackbox helper" declaration here binds a QVTo helper signature
+ *              to the Java method with the matching name and parameter types.
+ *            - No "import" statement is needed — the blackbox keyword handles
+ *              the binding automatically via the extension point registration.
+ *
+ *          Other QVTo scripts import this library with:
+ *            import transforms.ConfigLib;
+ *          and then call helpers directly, e.g.:
+ *            var pkg := getTargetModelMainPackage(configPath);
+ */
+library ConfigLib;
+
+//modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Source model metadata
+-- ═══════════════════════════════════════════════════════════════════════════
+
+blackbox helper getSourceModelName(configPath : String) : String;
+
+blackbox helper getSourceModelMainPackage(configPath : String) : String;
+
+blackbox helper getSourceModelUri(configPath : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Target model metadata
+-- ═══════════════════════════════════════════════════════════════════════════
+
+blackbox helper getTargetModelAcronym(configPath : String) : String;
+
+blackbox helper getTargetModelTitle(configPath : String) : String;
+
+blackbox helper getTargetModelSubTitle(configPath : String) : String;
+
+blackbox helper getTargetModelMajorVersion(configPath : String) : String;
+
+blackbox helper getTargetModelMinorVersion(configPath : String) : String;
+
+blackbox helper getTargetModelLanguage(configPath : String) : String;
+
+blackbox helper getTargetModelUri(configPath : String) : String;
+
+blackbox helper getTargetModelDefinition(configPath : String) : String;
+
+blackbox helper getTargetModelMainPackage(configPath : String) : String;
+
+blackbox helper getTargetModelMainPackageDefinition(configPath : String) : String;
+
+blackbox helper getTargetModelDataTypesPackage(configPath : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Package definitions
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns names of all additional packages defined in the "package" array.
+blackbox helper getDefinedPackageNames(configPath : String) : Sequence(String);
+
+-- Returns the parent package name for the named additional package.
+blackbox helper getDefinedPackageParent(configPath : String, packageName : String) : String;
+
+-- Returns the definition text for the named additional package.
+blackbox helper getDefinedPackageDefinition(configPath : String, packageName : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Class mapping — iteration and typing
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns all sourceClass values from "map" mappings, in config order.
+blackbox helper getMapSourceClasses(configPath : String) : Sequence(String);
+
+-- Returns all targetClass values from "merge" mappings, in config order.
+blackbox helper getMergeTargetClasses(configPath : String) : Sequence(String);
+
+-- Returns all targetClass values from "new" mappings, in config order.
+blackbox helper getNewTargetClasses(configPath : String) : Sequence(String);
+
+-- Returns the targetClass name for the given sourceClass (map mapping).
+blackbox helper getTargetClassForSourceClass(configPath : String, sourceClass : String) : String;
+
+-- Returns the targetPackage for the given sourceClass (map mapping).
+blackbox helper getTargetPackageForSourceClass(configPath : String, sourceClass : String) : String;
+
+-- Returns the targetPackage for the given targetClass (merge or new mapping).
+blackbox helper getTargetPackageForTargetClass(configPath : String, targetClass : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Class mapping — merge specifics
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns the two source class names for the given merge targetClass.
+blackbox helper getMergeSourceClasses(configPath : String, targetClass : String) : Sequence(String);
+
+-- Returns the definitionFrom class name for the given merge targetClass.
+blackbox helper getMergeDefinitionFromClass(configPath : String, targetClass : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Class mapping — new specifics
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns the definition text for the given new targetClass.
+blackbox helper getNewClassDefinition(configPath : String, targetClass : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Attribute selection
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns ordered selected attribute names. classKey = sourceClass for map,
+-- targetClass for merge/new. Empty sequence if no attribute array in config.
+blackbox helper getClassAttributeNames(configPath : String, classKey : String) : Sequence(String);
+
+-- Returns fromSourceClass for the named attribute in a merge mapping.
+blackbox helper getMergeAttributeSourceClass(configPath : String, targetClass : String,
+                                              attrName : String) : String;
+
+-- Returns lower multiplicity override or empty string.
+blackbox helper getAttributeLower(configPath : String, classKey : String,
+                                   attrName : String) : String;
+
+-- Returns upper multiplicity override or empty string.
+blackbox helper getAttributeUpper(configPath : String, classKey : String,
+                                   attrName : String) : String;
+
+-- Returns definition override or empty string.
+blackbox helper getAttributeDefinition(configPath : String, classKey : String,
+                                        attrName : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Association mappings
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns all targetAssociationName values in config order.
+blackbox helper getTargetAssociationNames(configPath : String) : Sequence(String);
+
+-- Returns the sourceAssociationName for the given target name.
+blackbox helper getSourceAssociationName(configPath : String, targetAssocName : String) : String;
+
+-- Returns the subject class (first segment) from the target triple.
+blackbox helper getAssociationSubjectClass(configPath : String, targetAssocName : String) : String;
+
+-- Returns the object class (last segment) from the target triple.
+blackbox helper getAssociationObjectClass(configPath : String, targetAssocName : String) : String;
+
+-- Returns the predicate (middle segment) from the target triple.
+blackbox helper getAssociationPredicate(configPath : String, targetAssocName : String) : String;
+
+-- Returns object end lower multiplicity override or empty string.
+blackbox helper getAssociationObjectLower(configPath : String, targetAssocName : String) : String;
+
+-- Returns object end upper multiplicity override or empty string.
+blackbox helper getAssociationObjectUpper(configPath : String, targetAssocName : String) : String;
+
+-- Returns subject end lower multiplicity override or empty string.
+blackbox helper getAssociationSubjectLower(configPath : String, targetAssocName : String) : String;
+
+-- Returns subject end upper multiplicity override or empty string.
+blackbox helper getAssociationSubjectUpper(configPath : String, targetAssocName : String) : String;
+
+-- Returns definition override for the association or empty string.
+blackbox helper getAssociationDefinition(configPath : String, targetAssocName : String) : String;
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Provenance and proxy
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- Returns the supplier URI: sourceModel.uri + "#" + sourceClass.
+blackbox helper getSupplierUri(configPath : String, sourceClass : String) : String;
+
+-- Generates the full provenance comment body (RST + RDF Turtle) for a Dependency.
+blackbox helper buildProvenanceCommentBody(configPath : String, targetClass : String,
+                                            sourceClass : String) : String;
+
+-- Returns an unresolved EMF proxy for a Dependency supplier reference.
+-- Return type is OclAny because UML::NamedElement cannot be resolved in a
+-- library context (no transformation/modeltype scope). The call sites in
+-- mappings.qvto cast the result to UML::NamedElement via oclAsType().
+blackbox helper createSupplierProxy(supplierUri : String) : OclAny;

@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+
+<!--
+It is not necessary to use unit, name, or namespace attributes in plugin.xml for the Java blackbox to work.
+When unit / name / namespace are optional QVTo’s org.eclipse.m2m.qvt.oml.javaBlackboxUnits extension is flexible.
+Register the library directly under the extension, without wrapping it in <unit>.
+This is sufficient if one only needs a simple one‑to‑one mapping from Java class to QVTo blackbox helpers.
+Everything still works, as long as:
+- blackbox.JSONConfigLoader is on the OSGi classpath,
+- its methods are annotated with @Operation, and
+- the QVTo library declares matching blackbox helper ...; signatures.
+-->
    <extension point="org.eclipse.m2m.qvt.oml.javaBlackboxUnits">
-      <unit name="JSONConfigLoaderLib" 
+         <library class="blackbox.JSONConfigLoader"/>
+
+<!--
+The unit/name/namespace structure becomes useful when:
+- You want to group multiple Java libraries under one “unit” (multiple <library> inside one <unit>).
+- You need to explicitly declare metamodel URIs (<metamodel nsURI="..."/>) for operations that use types from custom DSLs.
+- You want a qualifier‑name for the blackbox unit that does not literally mirror the Java class name.
+
+In case of the <unit> variant, the name and namespace are mainly for organizational / qualification purposes;
+they are not required for core blackbox functionality in this setup.
+
+      <unit name="JSONConfigLoaderLib"
             namespace="blackboxlib">
-         <library class="blackbox.JSONConfigLoader" 
+         <library class="blackbox.JSONConfigLoader"
                   name="JSONConfigLoaderLib"/>
       </unit>
+-->
+
    </extension>
 </plugin>

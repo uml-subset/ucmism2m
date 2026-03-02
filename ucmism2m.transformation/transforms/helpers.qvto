@@ -1,0 +1,411 @@
+/**
+ * File   : helpers.qvto
+ * Bundle : ucmism2m.transformation
+ * Path   : transforms/helpers.qvto
+ * Purpose: QVTo helper library providing two categories of support for the
+ *          transformation:
+ *
+ *          1. Source model lookup queries
+ *             Named-element lookup operations that search the inModel for
+ *             classes, associations, packages, and data types by name.
+ *             All source class names are guaranteed unique within the source
+ *             model scope. Lookups use allInstances() rather than navigating
+ *             the package hierarchy, which avoids assumptions about depth.
+ *
+ *          2. Type tracking
+ *             A module-level OrderedSet that records which data type names have
+ *             already been copied into the target model. Prevents duplicate
+ *             type creation and guards against infinite recursion when a
+ *             structured data type references itself or another already-copied
+ *             type.
+ *
+ *          3. Multiplicity helpers
+ *             Utility operations for converting multiplicity string values
+ *             (from config or source model) into UML lower/upper bound integers.
+ *
+ *          Import this library in other QVTo scripts with:
+ *            import helpers;
+ */
+
+
+import ConfigLib;
+library helpers;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Type tracking
+-- ═══════════════════════════════════════════════════════════════════════════
+
+--
+-- Tracks the names of data types that have already been copied into the
+-- target model during the current transformation run. Because QVTo
+-- OrderedSet is a value type, reassignment with ->including() is required
+-- each time an entry is added. This variable is module-level (effectively
+-- global within a single transformation execution).
+--
+-- Usage pattern:
+--   if not copiedTypeNames->includes(typeName) then
+--       copiedTypeNames := copiedTypeNames->including(typeName);
+--       ... copy the type ...
+--   endif;
+--
+//var copiedTypeNames : OrderedSet(String) := OrderedSet{};
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Source model lookup — classes
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Finds a UML Class in the source model (inModel) by name.
+ * Uses allInstances() across the entire model extent, which is necessary
+ * because classes may be nested at arbitrary depths within the package
+ * hierarchy and class names are globally unique within the source model.
+ *
+ * Returns null (OclVoid) if no class with the given name is found.
+ * The caller is responsible for checking the result before use.
+ */
+query findSourceClassByName(inModel : UML::Model, className : String) : UML::Class {
+    -- allInstances() returns every Class in the model extent regardless of containment depth.
+    -- selectOne() returns the first match or null if none found.
+    return inModel.allInstances(UML::Class)->selectOne(c | c.name = className);
+}
+
+/**
+ * Finds a UML Class in the source model by name and asserts that it exists.
+ * Raises a fatal error if the class is not found. Use this variant when
+ * the class is expected to be present (i.e. it was listed in the config).
+ */
+query requireSourceClassByName(inModel : UML::Model, className : String) : UML::Class {
+    var cls := findSourceClassByName(inModel, className);
+    assert fatal (cls <> null)
+        with log('Source class not found in source model: ' + className);
+    return cls;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Source model lookup — associations
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Finds a UML Association in the source model by its triple name.
+ * Associations are globally unique by name in the source model.
+ * The association may be owned by any package at any depth — allInstances()
+ * handles this without requiring package traversal.
+ *
+ * Returns null if not found.
+ */
+query findSourceAssociationByName(inModel : UML::Model,
+                                   assocName : String) : UML::Association {
+    return inModel.allInstances(UML::Association)->selectOne(a | a.name = assocName);
+}
+
+/**
+ * Finds and asserts a source association exists. Fatal error if not found.
+ */
+query requireSourceAssociationByName(inModel : UML::Model,
+                                      assocName : String) : UML::Association {
+    var assoc := findSourceAssociationByName(inModel, assocName);
+    assert fatal (assoc <> null)
+        with log('Source association not found in source model: ' + assocName);
+    return assoc;
+}
+
+/**
+ * Returns the member end Property of an association whose type matches the
+ * given class name. Used to distinguish the subject end from the object end
+ * when both names are known.
+ *
+ * Returns null if neither end matches (should not occur with valid config).
+ */
+query getAssociationEndByTypeName(assoc : UML::Association,
+                                   typeName : String) : UML::Property {
+    -- memberEnds includes both navigable and non-navigable ends.
+    -- Each end's type is the class the end points TO.
+    return assoc.memberEnd->selectOne(e |
+        e.type <> null and e.type.name = typeName
+    );
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Source model lookup — packages
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Finds a UML Package by name in any UML Namespace (Model or Package).
+ * Used during data type copying to locate the source package that contains
+ * a given data type, so its path can be reproduced in the target model.
+ *
+ * Returns null if not found at the immediate nesting level.
+ */
+query findNestedPackageByName(ns : UML::Namespace,
+                               pkgName : String) : UML::Package {
+    -- nestedPackage navigates only one level of nesting.
+    -- For deep hierarchies this is called recursively with each level.
+    return ns.nestedPackage->selectOne(p | p.name = pkgName);
+}
+
+/**
+ * Finds a UML Package by name anywhere in the source model, regardless of
+ * nesting depth. Used when the exact parent is not known in advance.
+ */
+query findSourcePackageByName(inModel : UML::Model,
+                               pkgName : String) : UML::Package {
+    return inModel.allInstances(UML::Package)->selectOne(p | p.name = pkgName);
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Source model lookup — data types
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Finds a UML DataType in the source model by name.
+ * Data types are contained in packages (never top-level) but may be at
+ * arbitrary nesting depth, so allInstances() is used.
+ *
+ * Returns null if not found.
+ */
+query findSourceDataTypeByName(inModel : UML::Model,
+                                typeName : String) : UML::DataType {
+    return inModel.allInstances(UML::DataType)->selectOne(dt | dt.name = typeName);
+}
+
+/**
+ * Returns the ordered sequence of package names from the immediate parent
+ * of the data type up to (but not including) the source model's main package.
+ * This path is reproduced under the target data types package.
+ *
+ * Example: if a DataType lives in DDI-CDI > DataTypes > Primitive > ISO,
+ * and the main package is "DDI-CDI", this returns ["DataTypes", "Primitive", "ISO"].
+ *
+ * Implementation: walks the namespace chain from the DataType's immediate
+ * owner upward, collecting package names, then reverses the list so it
+ * runs root-to-leaf order.
+ */
+query getDataTypePackagePath(dt : UML::DataType,
+                              mainPkgName : String) : Sequence(String) {
+    -- Start at the DataType's owning package (immediate parent).
+    var path : Sequence(String) := Sequence{};
+    var current : UML::Namespace := dt.namespace;
+
+    -- Walk up the namespace chain, collecting names until we reach the main
+    -- package or the model root (which has no namespace).
+    while (current <> null
+           and current.name <> mainPkgName
+           and current.oclIsKindOf(UML::Package)) {
+        path := path->prepend(current.name);
+        -- Move up one level; namespace is the parent namespace of 'current'
+        current := current.namespace;
+    };
+
+    return path;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Target model lookup
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Finds an already-created target package by name within the target model.
+ * Uses resolveone() which scans all output objects of type Package.
+ * This works because package names are unique within the target model.
+ *
+ * Called by mappings.qvto when locating the correct owner package for a
+ * newly created class or when navigating the target package tree.
+ */
+query findTargetPackageByName(pkgName : String) : UML::Package {
+    -- resolveone() searches across all objects created in the output model
+    -- during the current transformation. The predicate filters by name.
+    return UML::Package.allInstances()->selectOne(p | p.name = pkgName);
+}
+
+/**
+ * Finds an already-created target class by name.
+ * Used when resolving association endpoints and dependency clients.
+ */
+query findTargetClassByName(className : String) : UML::Class {
+    return UML::Class.allInstances()->selectOne(c | c.name = className);
+}
+
+/**
+ * Finds an already-created target DataType by name.
+ * Used during data type copying to detect existing copies and avoid duplicates.
+ */
+query findTargetDataTypeByName(typeName : String) : UML::DataType {
+    return UML::DataType.allInstances()->selectOne(dt | dt.name = typeName);
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Attribute lookup helpers
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Returns all attributes of a class including inherited ones (i.e. attributes
+ * defined on any ancestor class reachable via generalization).
+ * UML2's getAllAttributes() operation performs this inherited traversal.
+ *
+ * This is the correct operation to use when the config references an attribute
+ * by name without specifying which class in the hierarchy owns it.
+ */
+query getAllAttributesIncludingInherited(cls : UML::Class) : Sequence(UML::Property) {
+    -- UML2 Classifier::getAllAttributes() walks the generalization hierarchy.
+    -- The result is returned as a Sequence to preserve order.
+    return cls.getAllAttributes()->asSequence();
+}
+
+/**
+ * Finds a named attribute on a class, including inherited attributes.
+ * Returns null if not found.
+ *
+ * Note: attribute names are assumed unique within the full attribute set
+ * of a class (including inherited ones) as per the source model convention.
+ */
+query findAttributeByName(cls : UML::Class, attrName : String) : UML::Property {
+    return getAllAttributesIncludingInherited(cls)->selectOne(a | a.name = attrName);
+}
+
+/**
+ * Finds a named attribute and asserts it exists. Fatal error if not found.
+ * Use this variant when the attribute is guaranteed by the configuration.
+ */
+query requireAttributeByName(cls : UML::Class, attrName : String) : UML::Property {
+    var attr := findAttributeByName(cls, attrName);
+    assert fatal (attr <> null)
+        with log('Attribute "' + attrName + '" not found on class ' + cls.name
+                 + ' (including inherited attributes)');
+    return attr;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Multiplicity helpers
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Converts a multiplicity lower-bound string to an Integer for use as the
+ * lowerValue of a UML MultiplicityElement. The string comes from either
+ * the configuration override or a source model attribute/association end.
+ *
+ * Valid inputs: "0" through "9". Returns 0 for empty or unrecognised input.
+ */
+query parseLower(lowerStr : String) : Integer {
+    if lowerStr = '' then
+        return 0
+    endif;
+    -- Integer value derived from single-character digit string.
+    -- toInteger() is a standard OCL String operation.
+    return lowerStr.toInteger();
+}
+
+/**
+ * Converts a multiplicity upper-bound string to an Integer for use as the
+ * upperValue of a UML MultiplicityElement.
+ *
+ * "*" (unlimited) is represented as -1 in UML LiteralUnlimitedNatural.
+ * Any digit string is converted to its integer value.
+ * Empty string defaults to 1 (most common UML default upper bound).
+ */
+query parseUpper(upperStr : String) : Integer {
+    if upperStr = '*' then
+        return -1   -- -1 is the EMF/UML2 sentinel value for "unlimited"
+    endif;
+    if upperStr = '' then
+        return 1    -- Default upper bound when not specified
+    endif;
+    return upperStr.toInteger();
+}
+
+/**
+ * Returns the lower-bound string from a source model Property (attribute or
+ * association end). The lowerValue may be a LiteralInteger or absent.
+ * Returns "0" as the UML default when not explicitly set.
+ */
+query sourceLowerStr(prop : UML::Property) : String {
+    -- lowerValue is typed as ValueSpecification; cast to LiteralInteger to read value.
+    if prop.lowerValue = null then
+        return '0'   -- UML default: lower bound of 0
+    endif;
+    return prop.lower.toString();
+}
+
+/**
+ * Returns the upper-bound string from a source model Property.
+ * Returns "*" when the upper bound is -1 (unlimited), digit string otherwise.
+ * Returns "1" as the UML default when not explicitly set.
+ */
+query sourceUpperStr(prop : UML::Property) : String {
+    if prop.upperValue = null then
+        return '1'   -- UML default: upper bound of 1
+    endif;
+    if prop.upper = -1 then
+        return '*'
+    endif;
+    return prop.upper.toString();
+}
+
+/**
+ * Applies a lower/upper multiplicity pair to a target UML Property.
+ * Creates LiteralInteger for lower and LiteralUnlimitedNatural for upper,
+ * which is the correct EMF representation for UML multiplicities.
+ *
+ * @param prop      The target Property to set multiplicity on
+ * @param lowerStr  Lower bound as string ("0".."9")
+ * @param upperStr  Upper bound as string ("0".."9" or "*")
+ */
+mapping UML::Property::applyMultiplicity(lowerStr : String, upperStr : String) {
+    -- Create and assign a LiteralInteger for the lower bound.
+    -- The lowerValue containment must be set, not just the 'lower' derived property.
+    var lo : UML::LiteralInteger := object UML::LiteralInteger {
+        value := parseLower(lowerStr);
+    };
+    self.lowerValue := lo;
+
+    -- Create and assign a LiteralUnlimitedNatural for the upper bound.
+    -- -1 is the UML2/EMF sentinel for unlimited (*).
+    var hi : UML::LiteralUnlimitedNatural := object UML::LiteralUnlimitedNatural {
+        value := parseUpper(upperStr);
+    };
+    self.upperValue := hi;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Comment helpers
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates a UML Comment with the given body text and attaches it to the
+ * given annotated element. The comment is owned by the element (containment).
+ *
+ * This is a mapping (not a query) because it creates a new model element
+ * and establishes containment and annotation relationships.
+ *
+ * @param owner  The element that will own and be annotated by the comment
+ * @param body   The comment body text
+ */
+mapping UML::Element::addComment(body : String) : UML::Comment {
+    -- 'self' is the annotated element. The comment is placed in self.ownedComment
+    -- (containment), and annotatedElement points back to self (annotation).
+    self.ownedComment += result;
+    result.annotatedElement += self;
+    result.body := body;
+}
+
+/**
+ * Returns the body of the first OwnedComment on the given element, or
+ * empty string if there are no comments. Used when copying definitions
+ * from source elements to target elements.
+ */
+query firstCommentBody(element : UML::Element) : String {
+    if element.ownedComment->isEmpty() then
+        return ''
+    endif;
+    return element.ownedComment->first().body;
+}

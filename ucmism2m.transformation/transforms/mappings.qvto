@@ -1,0 +1,831 @@
+/**
+ * File   : mappings.qvto
+ * Bundle : ucmism2m.transformation
+ * Path   : transforms/mappings.qvto
+ * Purpose: All QVTo mapping and helper operations that construct elements
+ *          in the target model. This file is the core transformation engine.
+ *
+ *          Operations are organised in the order they are called from m2m.qvto:
+ *
+ *            1.  createTargetModel      — root Model element
+ *            2.  createMainPackage      — main package (e.g. DDSC)
+ *            3.  createMetadataPackage  — metadata package + DataType + attributes
+ *            4.  createDefinedPackages  — additional config-defined packages
+ *            5.  mapClass               — one source class -> one target class
+ *            6.  mergeClass             — two source classes -> one target class
+ *            7.  newClass               — zero source classes -> one target class
+ *            8.  copyAttribute          — one attribute with multiplicity + comment
+ *            9.  copyDataTypes          — post-pass: copy all needed data types
+ *            10. copyOneDataType        — recursive single-type copy with tracking
+ *            11. createAssociation      — one association in the target model
+ *            12. createDependencies     — provenance Dependency + Comment per class
+ *
+ *          Design rules observed:
+ *            - Every new UML element is assigned to a containment feature
+ *              immediately after creation (QVTo does not auto-place objects).
+ *            - Collections use ->including() because QVTo OrderedSet/Sequence
+ *              are value types (no in-place mutation).
+ *            - Null checks use "= null" and "<> null" (not isNil/notNil).
+ *            - Conditionals use "then / endif" blocks (no braces).
+ *            - The keyword "end" is never used as a variable name.
+ *
+ *          Import this library in m2m.qvto with:
+ *            import mappings;
+ */
+
+
+import ConfigLib;
+import helpers;
+library mappings;
+
+modeltype UML uses 'http://www.eclipse.org/uml2/5.0.0/UML';
+
+-- URI of the UML primitive types library bundled with UML2.
+-- Used to resolve the String primitive type for metadata attributes.
+property UML_PRIMITIVE_TYPES_URI : String :=
+    'pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml';
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 1. Root model element
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates the root UML Model element.
+ *
+ * The model name is the acronym from the configuration (e.g. "CDIF").
+ * The model definition is attached as an OwnedComment so that the purpose
+ * of the target model is documented in the model itself.
+ *
+ * @param configPath  Path to the JSON mapping configuration file
+ * @return            The newly created root Model element
+ */
+mapping createTargetModel(configPath : String) : UML::Model {
+    -- Name is the short acronym (e.g. "CDIF"), used as the XMI root element name.
+    result.name := getTargetModelAcronym(configPath);
+
+    -- Attach the full model definition as a UML comment on the model element.
+    result.map addComment(getTargetModelDefinition(configPath));
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 2. Main package
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates the main package directly under the root Model.
+ * In the DDI-CDI to DDSC configuration this is the "DDSC" package.
+ * All other packages, classes, and associations are nested under this package.
+ *
+ * @param rootModel   The root Model element created by createTargetModel
+ * @param configPath  Path to the JSON mapping configuration file
+ * @return            The main package element
+ */
+mapping UML::Model::createMainPackage(configPath : String) : UML::Package {
+    result.name := getTargetModelMainPackage(configPath);
+
+    -- Place the package inside the model's packagedElement containment.
+    self.packagedElement += result;
+
+    -- Attach the package definition as a UML comment.
+    result.map addComment(getTargetModelMainPackageDefinition(configPath));
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 3. Metadata package and DataType
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates the "metadata" package as a child of the main package, then creates
+ * a "metadata" DataType inside it with seven read-only String attributes.
+ *
+ * The seven attributes carry target model identity values as default values
+ * (LiteralString). This makes model metadata available to tooling that reads
+ * the UML model without needing to inspect the transformation configuration.
+ *
+ * The String primitive type is resolved from the UML2 primitive types library
+ * (UMLPrimitiveTypes.library.uml) which is part of the UML2 distribution and
+ * does not require loading the source model.
+ *
+ * @param mainPkg     The main package (created by createMainPackage)
+ * @param configPath  Path to the JSON mapping configuration file
+ */
+mapping UML::Package::createMetadataPackage(configPath : String) {
+    -- Create the "metadata" package nested inside the main package.
+    var metaPkg : UML::Package := object UML::Package {
+        name := 'metadata';
+    };
+    self.packagedElement += metaPkg;
+
+    -- Resolve the UML String primitive type from the bundled primitive types library.
+    -- ResourceSet registration of this pathmap URI is handled by the UML2 plugin.
+    var stringType : UML::PrimitiveType :=
+        UML::PrimitiveType.allInstances()->selectOne(pt | pt.name = 'String');
+
+    -- Create the "metadata" DataType inside the metadata package.
+    var metaDT : UML::DataType := object UML::DataType {
+        name := 'metadata';
+    };
+    metaPkg.packagedElement += metaDT;
+
+    -- Create each read-only String attribute on the DataType.
+    -- Values are stored as LiteralString default values so they are
+    -- part of the model and visible without the config file.
+    metaDT.ownedAttribute += makeMetadataAttr('acronym',
+        getTargetModelAcronym(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('modelTitle',
+        getTargetModelTitle(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('subTitle',
+        getTargetModelSubTitle(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('majorVersion',
+        getTargetModelMajorVersion(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('minorVersion',
+        getTargetModelMinorVersion(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('language',
+        getTargetModelLanguage(configPath), stringType);
+    metaDT.ownedAttribute += makeMetadataAttr('uri',
+        getTargetModelUri(configPath), stringType);
+}
+
+/**
+ * Creates a single read-only String attribute for the metadata DataType.
+ * The attribute value is stored as a LiteralString default value.
+ *
+ * isReadOnly = true marks these attributes as model constants, not mutable
+ * instance fields. This communicates to model consumers that the values
+ * are fixed and describe the model itself.
+ *
+ * @param attrName   Name of the metadata attribute
+ * @param attrValue  Value to store as the default
+ * @param strType    The UML String primitive type for typing the attribute
+ * @return           The created Property element
+ */
+query makeMetadataAttr(attrName : String, attrValue : String,
+                        strType : UML::PrimitiveType) : UML::Property {
+    var prop : UML::Property := object UML::Property {
+        name       := attrName;
+        type       := strType;    -- String primitive type
+        isReadOnly := true;       -- Marks this as a model constant
+        -- LiteralString stores the actual value as a default value specification.
+        defaultValue := object UML::LiteralString {
+            value := attrValue;
+        };
+    };
+    return prop;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 4. Config-defined additional packages
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates all additional packages declared in the configuration's "package"
+ * array. Each package is nested under its declared parent.
+ *
+ * In the DDI-CDI to DDSC configuration there is one entry: the "Classes"
+ * package as a child of "DDSC". This is where all mapped classes, associations,
+ * and dependencies land.
+ *
+ * Parent resolution uses findTargetPackageByName() which scans all already-
+ * created packages. The main package and metadata package must therefore
+ * exist before this operation is called (ensured by m2m.qvto ordering).
+ *
+ * @param rootModel   Used as fallback parent if a parent name matches the model name
+ * @param configPath  Path to the JSON mapping configuration file
+ */
+mapping UML::Model::createDefinedPackages(configPath : String) {
+    -- Iterate packages in config order. Each may depend on a previously created
+    -- package as parent, so config ordering is important for multi-level hierarchies.
+    getDefinedPackageNames(configPath)->forEach(pkgName) {
+        var parentName : String := getDefinedPackageParent(configPath, pkgName);
+        var definition : String := getDefinedPackageDefinition(configPath, pkgName);
+
+        -- Locate the parent: first try finding a Package, then fall back to the Model.
+        var parentPkg : UML::Package := findTargetPackageByName(parentName);
+
+        var newPkg : UML::Package := object UML::Package {
+            name := pkgName;
+        };
+
+        if parentPkg <> null then
+            -- Parent is an existing Package — nest the new package inside it.
+            parentPkg.packagedElement += newPkg;
+        else
+            -- Parent not found as a Package — assume it refers to the root model.
+            self.packagedElement += newPkg;
+        endif;
+
+        -- Attach the package definition as a UML comment if provided.
+        if definition <> '' then
+            newPkg.map addComment(definition);
+        endif;
+    };
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 5. Class creation — "map" (one source -> one target)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Maps a single source class to a single target class.
+ *
+ * Steps:
+ *   a. Look up the source class in inModel by name.
+ *   b. Determine the target class name and target package from config.
+ *   c. Create the target class in the target package.
+ *   d. Copy the class definition (OwnedComment) from the source.
+ *   e. Copy selected attributes as listed in the config.
+ *
+ * Inheritance is NOT copied. The source class may inherit attributes from
+ * superclasses; getAllAttributesIncludingInherited() handles flattening.
+ *
+ * @param inModel     The source UML model
+ * @param configPath  Path to the JSON mapping configuration file
+ * @param sourceClass Name of the source class to map from
+ */
+mapping mapClass(inModel : UML::Model, configPath : String,
+                 sourceClass : String) {
+    -- Locate the source class. Fatal error if missing — config must be valid.
+    var srcCls : UML::Class := requireSourceClassByName(inModel, sourceClass);
+
+    -- Determine the target class name and owning package from configuration.
+    var targetClassName : String  := getTargetClassForSourceClass(configPath, sourceClass);
+    var targetPkgName   : String  := getTargetPackageForSourceClass(configPath, sourceClass);
+    var targetPkg       : UML::Package := findTargetPackageByName(targetPkgName);
+
+    assert fatal (targetPkg <> null)
+        with log('Target package not found for class ' + sourceClass + ': ' + targetPkgName);
+
+    -- Create the target class and place it in the target package.
+    var tgtCls : UML::Class := object UML::Class {
+        name := targetClassName;
+    };
+    targetPkg.packagedElement += tgtCls;
+
+    -- Copy the class definition from the source class's first OwnedComment.
+    var defn : String := firstCommentBody(srcCls);
+    if defn <> '' then
+        tgtCls.map addComment(defn);
+    endif;
+
+    -- Copy each explicitly listed attribute. The classKey for "map" mappings
+    -- is the sourceClass name (used to look up the attribute list in the config).
+    getClassAttributeNames(configPath, sourceClass)->forEach(attrName) {
+        tgtCls.map copyAttribute(inModel, configPath, sourceClass, attrName, sourceClass);
+    };
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 6. Class creation — "merge" (two sources -> one target)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Merges two source classes into a single target class.
+ *
+ * Merge differs from map in two ways:
+ *   - Two source classes are involved; each attribute names the one it comes from.
+ *   - The class definition is taken from the source class named in "definitionFrom".
+ *
+ * Steps:
+ *   a. Look up both source classes in inModel.
+ *   b. Create the target class in the target package.
+ *   c. Copy the definition from the "definitionFrom" source class.
+ *   d. Copy selected attributes, routing each to its named source class.
+ *
+ * @param inModel     The source UML model
+ * @param configPath  Path to the JSON mapping configuration file
+ * @param targetClass Name of the target class to create
+ */
+mapping mergeClass(inModel : UML::Model, configPath : String,
+                   targetClass : String) {
+    -- Get both source class names. Order matches the config's sourceClass array.
+    var sourceClasses : Sequence(String) := getMergeSourceClasses(configPath, targetClass);
+    assert fatal (sourceClasses->size() = 2)
+        with log('Merge mapping for ' + targetClass + ' must have exactly 2 source classes');
+
+    var srcName1 : String := sourceClasses->at(1);
+    var srcName2 : String := sourceClasses->at(2);
+
+    -- Locate both source classes. Fatal if either is missing.
+    var srcCls1 : UML::Class := requireSourceClassByName(inModel, srcName1);
+    var srcCls2 : UML::Class := requireSourceClassByName(inModel, srcName2);
+
+    -- Locate the target package.
+    var targetPkgName : String     := getTargetPackageForTargetClass(configPath, targetClass);
+    var targetPkg     : UML::Package := findTargetPackageByName(targetPkgName);
+    assert fatal (targetPkg <> null)
+        with log('Target package not found for merged class ' + targetClass + ': ' + targetPkgName);
+
+    -- Create the target class.
+    var tgtCls : UML::Class := object UML::Class {
+        name := targetClass;
+    };
+    targetPkg.packagedElement += tgtCls;
+
+    -- Copy the class definition from the designated "definitionFrom" source class.
+    var defnFromName : String    := getMergeDefinitionFromClass(configPath, targetClass);
+    var defnFromCls  : UML::Class := requireSourceClassByName(inModel, defnFromName);
+    var defn         : String    := firstCommentBody(defnFromCls);
+    if defn <> '' then
+        tgtCls.map addComment(defn);
+    endif;
+
+    -- Copy each selected attribute, routing to the correct source class.
+    -- getClassAttributeNames for merge mappings uses targetClass as the classKey.
+    getClassAttributeNames(configPath, targetClass)->forEach(attrName) {
+        -- getMergeAttributeSourceClass tells us which source class owns this attribute.
+        var fromSrcClass : String := getMergeAttributeSourceClass(configPath, targetClass, attrName);
+        tgtCls.map copyAttribute(inModel, configPath, targetClass, attrName, fromSrcClass);
+    };
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 7. Class creation — "new" (no source -> one target)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates a target class that has no source class equivalent.
+ * No Dependency relationship is created for "new" classes.
+ *
+ * In the current DDI-CDI to DDSC configuration there are no "new" mappings,
+ * but this operation is included for completeness and future configurations.
+ *
+ * @param configPath  Path to the JSON mapping configuration file
+ * @param targetClass Name of the target class to create
+ */
+mapping newClass(configPath : String, targetClass : String) {
+    var targetPkgName : String     := getTargetPackageForTargetClass(configPath, targetClass);
+    var targetPkg     : UML::Package := findTargetPackageByName(targetPkgName);
+    assert fatal (targetPkg <> null)
+        with log('Target package not found for new class ' + targetClass + ': ' + targetPkgName);
+
+    var tgtCls : UML::Class := object UML::Class {
+        name := targetClass;
+    };
+    targetPkg.packagedElement += tgtCls;
+
+    -- Attach the definition from the configuration.
+    var defn : String := getNewClassDefinition(configPath, targetClass);
+    if defn <> '' then
+        tgtCls.map addComment(defn);
+    endif;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 8. Attribute copy
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Copies a single named attribute from a source class to the target class.
+ *
+ * Attribute lookup uses getAllAttributesIncludingInherited() so that attributes
+ * defined on superclasses are reachable even though the target class hierarchy
+ * is flat (no inheritance relationships are copied).
+ *
+ * Multiplicity override: if the configuration provides a lower or upper bound
+ * for this attribute, those values are used. Otherwise the source Property's
+ * bounds are copied as-is.
+ *
+ * Definition override: if the configuration provides a definition string for
+ * this attribute, it replaces the source Property's OwnedComment. Otherwise
+ * the source comment (which may be on a superclass Property) is copied.
+ *
+ * Note: the type is set to the source Property's type reference. Data type
+ * objects are not copied at this stage — that happens in copyDataTypes() after
+ * all classes and attributes exist (phase 9 in m2m.qvto).
+ *
+ * @param self         The target Class that will own the new attribute
+ * @param inModel      The source model
+ * @param configPath   Path to the JSON mapping configuration file
+ * @param classKey     sourceClass (for map) or targetClass (for merge/new)
+ * @param attrName     Name of the attribute to copy
+ * @param srcClassName Name of the source class that owns this attribute
+ */
+mapping UML::Class::copyAttribute(inModel : UML::Model, configPath : String,
+                                   classKey : String, attrName : String,
+                                   srcClassName : String) {
+    -- Locate the source class and attribute. Supports inheritance lookup.
+    var srcCls  : UML::Class    := requireSourceClassByName(inModel, srcClassName);
+    var srcProp : UML::Property := requireAttributeByName(srcCls, attrName);
+
+    -- Create the target attribute.
+    var tgtProp : UML::Property := object UML::Property {
+        name       := attrName;
+        -- Copy isReadOnly from the source (preserves model semantics).
+        isReadOnly := srcProp.isReadOnly;
+        -- Type reference: points to the source type object for now.
+        -- After copyDataTypes() runs, the type will resolve to the copied
+        -- target DataType or the UML primitive type (String, Integer, etc.).
+        type       := srcProp.type;
+    };
+
+    -- Place the new attribute in the target class's ownedAttribute containment.
+    self.ownedAttribute += tgtProp;
+
+    -- ── Multiplicity ──────────────────────────────────────────────────────
+    -- Use configuration overrides if provided; otherwise copy from source.
+    var lowerOverride : String := getAttributeLower(configPath, classKey, attrName);
+    var upperOverride : String := getAttributeUpper(configPath, classKey, attrName);
+
+    var lowerStr : String;
+    var upperStr : String;
+
+    if lowerOverride <> '' then
+        lowerStr := lowerOverride;
+    else
+        -- No override: take the lower bound from the source Property.
+        lowerStr := sourceLowerStr(srcProp);
+    endif;
+
+    if upperOverride <> '' then
+        upperStr := upperOverride;
+    else
+        upperStr := sourceUpperStr(srcProp);
+    endif;
+
+    -- Apply the resolved lower/upper bounds to the target attribute.
+    tgtProp.map applyMultiplicity(lowerStr, upperStr);
+
+    -- ── Definition (OwnedComment) ─────────────────────────────────────────
+    var defnOverride : String := getAttributeDefinition(configPath, classKey, attrName);
+
+    if defnOverride <> '' then
+        -- Configuration provides an explicit definition — use it.
+        tgtProp.map addComment(defnOverride);
+    else
+        -- No override: copy the source Property's comment (may be empty).
+        var srcDefn : String := firstCommentBody(srcProp);
+        if srcDefn <> '' then
+            tgtProp.map addComment(srcDefn);
+        endif;
+    endif;
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 9. Data type post-pass (phase coordinator)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Post-pass that copies all data types needed by target class attributes.
+ * Must run after all classes and attributes exist so that the complete set
+ * of required types is known.
+ *
+ * Iterates all attributes on all target classes. For each attribute whose
+ * type is a DataType (not a PrimitiveType or Class), delegates to
+ * copyOneDataType() which handles tracking and recursion.
+ *
+ * @param inModel     The source model (data types are copied from here)
+ * @param outModel    The target model root (data types package is looked up here)
+ * @param configPath  Path to the JSON mapping configuration file
+ */
+mapping copyDataTypes(inModel : UML::Model, configPath : String) {
+    -- Collect all attributes across all target classes.
+    UML::Class.allInstances()->forEach(tgtCls) {
+        tgtCls.ownedAttribute->forEach(tgtProp) {
+            -- Only process attributes whose type is a DataType.
+            -- PrimitiveTypes (String, Integer, etc.) are resolved from the
+            -- UML2 primitive types library, not copied from the source model.
+            if tgtProp.type <> null
+               and tgtProp.type.oclIsKindOf(UML::DataType)
+               and not tgtProp.type.oclIsKindOf(UML::PrimitiveType) then
+
+                var typeName : String := tgtProp.type.name;
+
+                -- Delegate to the tracking-aware single-type copy operation.
+                copyOneDataType(inModel, configPath, typeName);
+
+                -- Update the attribute's type reference to point to the
+                -- newly created target DataType instead of the source one.
+                tgtProp.type := findTargetDataTypeByName(typeName);
+            endif;
+        };
+    };
+}
+
+/**
+ * Copies a single named data type from the source model into the target model,
+ * placing it in the correct sub-package under the target data types package.
+ * Tracks copied types to prevent duplicates and infinite recursion.
+ *
+ * For structured DataTypes that have their own attributes (ownedAttribute),
+ * those attributes' types are also copied recursively.
+ *
+ * @param inModel     The source model
+ * @param configPath  Path to the JSON mapping configuration file
+ * @param typeName    Name of the DataType to copy
+ */
+mapping copyOneDataType(inModel : UML::Model, configPath : String,
+                         typeName : String) {
+    -- Guard: skip if already copied or currently being copied (recursion guard).
+    if copiedTypeNames->includes(typeName) then
+        return;
+    endif;
+
+    -- Mark as in-progress immediately to prevent re-entry for recursive types.
+    copiedTypeNames := copiedTypeNames->including(typeName);
+
+    -- Find the source DataType.
+    var srcDT : UML::DataType := findSourceDataTypeByName(inModel, typeName);
+    if srcDT = null then
+        -- Type not found in source (may be a primitive resolved elsewhere). Skip.
+        return;
+    endif;
+
+    -- Determine the sub-package path from the source model.
+    -- Example: if the DataType lives at DDI-CDI > DataTypes > Structured,
+    -- the path is ["DataTypes", "Structured"].
+    var mainPkgName : String := getSourceModelMainPackage(configPath);
+    var pkgPath     : Sequence(String) := getDataTypePackagePath(srcDT, mainPkgName);
+
+    -- Find (or create) the equivalent sub-package hierarchy under the target
+    -- data types package. In the DDI-CDI to DDSC config, dataTypesPackage = mainPackage,
+    -- so sub-packages land directly under DDSC.
+    var dtPkgName : String     := getTargetModelDataTypesPackage(configPath);
+    var dtPkg     : UML::Package := findTargetPackageByName(dtPkgName);
+
+    -- Navigate or create each level of the package path.
+    var currentPkg : UML::Package := dtPkg;
+    pkgPath->forEach(segmentName) {
+        -- Check if this sub-package already exists at the current level.
+        var existingPkg : UML::Package :=
+            currentPkg.nestedPackage->selectOne(p | p.name = segmentName);
+
+        if existingPkg = null then
+            -- Sub-package does not exist yet — create it.
+            var newPkg : UML::Package := object UML::Package {
+                name := segmentName;
+            };
+            currentPkg.packagedElement += newPkg;
+            currentPkg := newPkg;
+        else
+            currentPkg := existingPkg;
+        endif;
+    };
+
+    -- Create the DataType in the resolved package.
+    var tgtDT : UML::DataType := object UML::DataType {
+        name := typeName;
+    };
+    currentPkg.packagedElement += tgtDT;
+
+    -- Copy the DataType's own OwnedComment if present.
+    var dtDefn : String := firstCommentBody(srcDT);
+    if dtDefn <> '' then
+        tgtDT.map addComment(dtDefn);
+    endif;
+
+    -- If the source DataType has its own attributes (structured type), copy
+    -- each attribute and recursively process its type.
+    srcDT.ownedAttribute->forEach(srcAttr) {
+        var tgtAttr : UML::Property := object UML::Property {
+            name       := srcAttr.name;
+            isReadOnly := srcAttr.isReadOnly;
+            type       := srcAttr.type;    -- type reference updated after recursion
+        };
+        tgtDT.ownedAttribute += tgtAttr;
+        tgtAttr.map applyMultiplicity(sourceLowerStr(srcAttr), sourceUpperStr(srcAttr));
+
+        -- Recursively copy this attribute's type if it is a DataType.
+        if srcAttr.type <> null
+           and srcAttr.type.oclIsKindOf(UML::DataType)
+           and not srcAttr.type.oclIsKindOf(UML::PrimitiveType) then
+            copyOneDataType(inModel, configPath, srcAttr.type.name);
+            -- Update the reference to the newly created target DataType.
+            tgtAttr.type := findTargetDataTypeByName(srcAttr.type.name);
+        endif;
+    };
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 11. Association creation
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates a single UML Association in the target model.
+ *
+ * Association placement follows the UCMIS convention: associations are owned
+ * by the package of the object (target end) class. This is consistent with
+ * standard UML practice and the source model structure.
+ *
+ * Each association has two member ends (Properties):
+ *   - Subject end: points from the association back to the subject class.
+ *                  Name is derived from the subject class name (camelCase).
+ *   - Object end:  points from the association to the object class.
+ *                  Name is derived from the object class name (camelCase).
+ *
+ * Multiplicity: configuration overrides take precedence over source model values.
+ *
+ * Fan-out (one source association mapped to multiple target associations) is
+ * handled naturally: this operation is called once per target association name,
+ * so multiple calls with the same source name simply create multiple independent
+ * target associations.
+ *
+ * @param inModel       The source UML model
+ * @param configPath    Path to the JSON mapping configuration file
+ * @param targetAssocName  The target association triple name
+ */
+mapping createAssociation(inModel : UML::Model, configPath : String,
+                           targetAssocName : String) {
+    -- Parse the triple to get subject and object class names.
+    var subjectClassName : String := getAssociationSubjectClass(configPath, targetAssocName);
+    var objectClassName  : String := getAssociationObjectClass(configPath, targetAssocName);
+    var predicateName    : String := getAssociationPredicate(configPath, targetAssocName);
+
+    -- Locate the already-created target classes for both ends.
+    var subjectCls : UML::Class := findTargetClassByName(subjectClassName);
+    var objectCls  : UML::Class := findTargetClassByName(objectClassName);
+
+    assert fatal (subjectCls <> null)
+        with log('Target subject class not found for association: '
+                 + targetAssocName + ' (expected class: ' + subjectClassName + ')');
+    assert fatal (objectCls <> null)
+        with log('Target object class not found for association: '
+                 + targetAssocName + ' (expected class: ' + objectClassName + ')');
+
+    -- Locate the source association for multiplicity and definition defaults.
+    var srcAssocName : String      := getSourceAssociationName(configPath, targetAssocName);
+    var srcAssoc     : UML::Association := findSourceAssociationByName(inModel, srcAssocName);
+
+    -- The association is owned by the object class's package (UCMIS convention).
+    var ownerPkg : UML::Package := objectCls.namespace.oclAsType(UML::Package);
+
+    -- Create the target association.
+    var tgtAssoc : UML::Association := object UML::Association {
+        name := targetAssocName;
+    };
+    ownerPkg.packagedElement += tgtAssoc;
+
+    -- ── Object end (navigable, points to the object class) ───────────────
+    var objEnd : UML::Property := object UML::Property {
+        -- End name is the object class name in lowerCamelCase (UML convention).
+        name := toLowerFirst(objectClassName);
+        type := objectCls;
+        -- Navigability: object end is navigable by default (it is the "to" end).
+        association := tgtAssoc;
+    };
+    tgtAssoc.ownedEnd   += objEnd;
+    tgtAssoc.memberEnd  += objEnd;
+
+    -- Apply object end multiplicity: config override or source value.
+    var objLower : String := getAssociationObjectLower(configPath, targetAssocName);
+    var objUpper : String := getAssociationObjectUpper(configPath, targetAssocName);
+    if objLower = '' and srcAssoc <> null then
+        -- No override: use the source association's object end multiplicity.
+        var srcObjEnd : UML::Property := getAssociationEndByTypeName(srcAssoc, srcAssocName.split('_')->last());
+        if srcObjEnd <> null then
+            objLower := sourceLowerStr(srcObjEnd);
+            objUpper := sourceUpperStr(srcObjEnd);
+        else
+            objLower := '0'; objUpper := '*';  -- safe fallback
+        endif;
+    endif;
+    objEnd.map applyMultiplicity(objLower, objUpper);
+
+    -- ── Subject end (non-navigable, points back to the subject class) ────
+    var subEnd : UML::Property := object UML::Property {
+        name := toLowerFirst(subjectClassName);
+        type := subjectCls;
+        association := tgtAssoc;
+    };
+    tgtAssoc.ownedEnd   += subEnd;
+    tgtAssoc.memberEnd  += subEnd;
+
+    -- Apply subject end multiplicity: config override or source value.
+    var subLower : String := getAssociationSubjectLower(configPath, targetAssocName);
+    var subUpper : String := getAssociationSubjectUpper(configPath, targetAssocName);
+    if subLower = '' and srcAssoc <> null then
+        var srcSubEnd : UML::Property := getAssociationEndByTypeName(srcAssoc, subjectClassName);
+        if srcSubEnd <> null then
+            subLower := sourceLowerStr(srcSubEnd);
+            subUpper := sourceUpperStr(srcSubEnd);
+        else
+            subLower := '0'; subUpper := '1';  -- safe fallback
+        endif;
+    endif;
+    subEnd.map applyMultiplicity(subLower, subUpper);
+
+    -- ── Association comment ───────────────────────────────────────────────
+    var defnOverride : String := getAssociationDefinition(configPath, targetAssocName);
+    if defnOverride <> '' then
+        tgtAssoc.map addComment(defnOverride);
+    else
+        -- Copy from source association if available.
+        if srcAssoc <> null then
+            var srcDefn : String := firstCommentBody(srcAssoc);
+            if srcDefn <> '' then
+                tgtAssoc.map addComment(srcDefn);
+            endif;
+        endif;
+    endif;
+}
+
+/**
+ * Converts the first character of a string to lowercase.
+ * Used to produce lowerCamelCase association end names from class names.
+ * Example: "LogicalRecord" -> "logicalRecord"
+ */
+query toLowerFirst(s : String) : String {
+    if s.size() = 0 then return '' endif;
+    return s.substring(1, 1).toLower() + s.substring(2, s.size());
+}
+
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 12. Dependency and provenance creation
+-- ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Creates all provenance Dependency relationships in the target model.
+ * One Dependency is created per (targetClass, sourceClass) pair.
+ *
+ * Mapping type rules:
+ *   "map"   — one source class => one Dependency
+ *   "merge" — two source classes => two Dependencies (same SSSOM if present)
+ *   "new"   — no source class   => no Dependency
+ *
+ * Each Dependency has:
+ *   - name    = "TargetClass_dependsOn_SourceClass"
+ *   - client  = the target class element
+ *   - supplier = an unresolved EMF proxy pointing to the source class URI
+ *   - comment  = full provenance text (RST + RDF Turtle) from buildProvenanceCommentBody
+ *
+ * The Dependency is owned by the same package as the target (client) class.
+ *
+ * @param configPath  Path to the JSON mapping configuration file
+ */
+mapping createDependencies(configPath : String) {
+    -- ── "map" mappings — one Dependency per source class ─────────────────
+    getMapSourceClasses(configPath)->forEach(sourceClass) {
+        var targetClass : String := getTargetClassForSourceClass(configPath, sourceClass);
+        createOneDependency(configPath, targetClass, sourceClass);
+    };
+
+    -- ── "merge" mappings — two Dependencies per merge target ──────────────
+    getMergeTargetClasses(configPath)->forEach(targetClass) {
+        -- Both source classes get their own Dependency pointing to the same target.
+        getMergeSourceClasses(configPath, targetClass)->forEach(sourceClass) {
+            createOneDependency(configPath, targetClass, sourceClass);
+        };
+    };
+
+    -- "new" mappings: no Dependencies are created (no source class to depend on).
+}
+
+/**
+ * Creates a single Dependency relationship in the target model.
+ *
+ * The supplier is an EMF proxy object — it carries the source class URI
+ * as its proxy URI. When the XMI is serialised, EMF writes this as
+ * href="<supplierUri>" rather than a local ID reference. This means the
+ * source model does not need to be loaded at serialisation time.
+ *
+ * @param configPath  Path to the JSON mapping configuration file
+ * @param targetClass Name of the target (client) class
+ * @param sourceClass Name of the source (supplier) class
+ */
+mapping createOneDependency(configPath : String,
+                             targetClass : String,
+                             sourceClass : String) {
+    -- Locate the target class (the Dependency client).
+    var tgtCls : UML::Class := findTargetClassByName(targetClass);
+    assert fatal (tgtCls <> null)
+        with log('Target class not found when creating Dependency for: ' + targetClass);
+
+    -- The Dependency is owned by the same package as the target class.
+    var ownerPkg : UML::Package := tgtCls.namespace.oclAsType(UML::Package);
+
+    -- Create the Dependency element.
+    var dep : UML::Dependency := object UML::Dependency {
+        -- Naming convention: TargetClass_dependsOn_SourceClass
+        name := targetClass + '_dependsOn_' + sourceClass;
+    };
+    ownerPkg.packagedElement += dep;
+
+    -- ── Client (target class) ─────────────────────────────────────────────
+    -- The 'client' derived association on Dependency is derived from
+    -- clientDependency on NamedElement. Set it via the Dependency's
+    -- clientDependency back-reference.
+    dep.client += tgtCls;
+
+    -- ── Supplier (source class proxy) ─────────────────────────────────────
+    -- createSupplierProxy() returns OclAny (declared that way in ConfigLib.qvto
+    -- because library files have no modeltype scope). Cast to NamedElement here
+    -- where UML::NamedElement is in scope via the transformation's modeltype.
+    var supplierUri : String := getSupplierUri(configPath, sourceClass);
+    dep.supplier += createSupplierProxy(supplierUri).oclAsType(UML::NamedElement);
+
+    -- ── Provenance comment ────────────────────────────────────────────────
+    -- buildProvenanceCommentBody() generates the full RST + RDF Turtle body.
+    var commentBody : String :=
+        buildProvenanceCommentBody(configPath, targetClass, sourceClass);
+    dep.map addComment(commentBody);
+}

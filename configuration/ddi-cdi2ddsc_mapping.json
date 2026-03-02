@@ -482,7 +482,7 @@
             "name": "lineTerminator"
           },
           {
-            "name": "quoteChatacter"
+            "name": "quoteCharacter"
           },
           {
             "name": "skipInitialSpace"
@@ -516,6 +516,7 @@
         ]
       },
       {
+        "_comment": "attribute 'indexes' doesn't exist",
         "mappingType": "map",
         "sourceClass": "ValueMappingPosition",
         "targetPackage": "Classes",
@@ -523,13 +524,6 @@
         "attribute": [
           {
             "name": "value",
-            "multiplicity": {
-              "lower": "1",
-              "upper": "1"
-            }
-          },
-          {
-            "name": "indexes",
             "multiplicity": {
               "lower": "1",
               "upper": "1"
