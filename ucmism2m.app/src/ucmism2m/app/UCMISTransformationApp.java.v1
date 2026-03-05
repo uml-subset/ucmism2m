@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
@@ -174,74 +173,32 @@ public class UCMISTransformationApp implements IApplication {
     
     /**
      * Save the output model extent to file.
-     *
-     * XMI serialisation is configured for canonical output:
-     *   - UTF-8 encoding declared in the XML processing instruction
-     *     (Canonical XMI requires Unicode encoding).
-     *   - xmi:type instead of xsi:type for type discriminator attributes
-     *     (UML2/XMI convention; eliminates the superfluous xmlns:xsi
-     *     namespace declaration as a side-effect).
-     *   - Random UUID assigned as xmi:id to every EObject that carries none;
-     *     QVTo-created objects have no IDs, so all output elements receive one.
-     *     IDs differ on each run. Switch to deterministic hashed IDs later if
-     *     round-trip stability across repeated transformations is required.
-     *
-     *   - Output resource created via UMLResource.Factory.INSTANCE, which
-     *     serialises the model as a bare {@code <uml:Model>} root element with
-     *     the correct XMI 2.5.1 namespace declaration and no xmi:XMI wrapper.
-     *     This is the native Eclipse UML2 / Papyrus .uml format.
      */
-    private void saveOutputModel(ModelExtent outputExtent, String outputPath,
+    private void saveOutputModel(ModelExtent outputExtent, String outputPath, 
                                  ResourceSet resourceSet) throws Exception {
-
+        
         List<EObject> outObjects = outputExtent.getContents();
-
+        
         if (outObjects.isEmpty()) {
             System.out.println("Warning: Output model is empty");
             return;
         }
-
-        // Create the output resource using UMLResource.Factory, which produces
-        // a native .uml resource with a bare <uml:Model> root element and the
-        // correct XMI 2.5.1 namespace (xmlns:xmi="http://www.omg.org/spec/XMI/20131001").
-        // No <xmi:XMI> wrapper is emitted; this is the standard Eclipse UML2 format.
+        
+        // Create output resource
         URI outputURI = createFileURI(outputPath);
-        Resource rawResource = UMLResource.Factory.INSTANCE.createResource(outputURI);
-        resourceSet.getResources().add(rawResource);
-        XMIResource outputResource = (XMIResource) rawResource;
-
+        Resource outputResource = resourceSet.createResource(outputURI);
+        
         // Add output objects
         outputResource.getContents().addAll(outObjects);
-
-        // Resolve all proxies before ID assignment and save.
+        
+        // Resolve all proxies
         EcoreUtil.resolveAll(resourceSet);
-
-        // UMLResource implements XMIResource — call XMI-specific operations directly.
-        outputResource.setEncoding("UTF-8");
-
-        // Assign a random UUID as xmi:id to every object that has none.
-        outputResource.getAllContents().forEachRemaining(eObj -> {
-            if (outputResource.getID(eObj) == null) {
-                outputResource.setID(eObj, EcoreUtil.generateUUID());
-            }
-        });
-
+        
         // Save with options
         Map<String, Object> saveOptions = new HashMap<>();
-
-        // Only rewrite the file when content has actually changed.
-        saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-                        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-
-        // Use the platform line delimiter.
-        saveOptions.put(Resource.OPTION_LINE_DELIMITER,
-                        Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
-
-        // Use xmi:type instead of xsi:type for type discriminator attributes.
-        // The xmlns:xsi namespace declaration is then no longer needed and
-        // will be omitted by EMF automatically.
-        saveOptions.put(XMIResource.OPTION_USE_XMI_TYPE, Boolean.TRUE);
-
+        saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+        saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+        
         outputResource.save(saveOptions);
     }
     
@@ -304,5 +261,4 @@ public class UCMISTransformationApp implements IApplication {
             printDiagnostic(child, indent + "  ");
         }
     }
-
 }

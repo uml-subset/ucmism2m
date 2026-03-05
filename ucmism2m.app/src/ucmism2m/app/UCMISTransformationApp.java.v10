@@ -8,6 +8,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMISaveImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
@@ -186,10 +190,13 @@ public class UCMISTransformationApp implements IApplication {
      *     IDs differ on each run. Switch to deterministic hashed IDs later if
      *     round-trip stability across repeated transformations is required.
      *
-     *   - Output resource created via UMLResource.Factory.INSTANCE, which
-     *     serialises the model as a bare {@code <uml:Model>} root element with
-     *     the correct XMI 2.5.1 namespace declaration and no xmi:XMI wrapper.
-     *     This is the native Eclipse UML2 / Papyrus .uml format.
+     *   - xmi:XMI wrapper element enclosing the root uml:Model element.
+     *     Produced by WrappedXMIResource, a minimal XMIResourceImpl subclass
+     *     whose createXMLSave() injects WrappedXMISaveImpl. That subclass
+     *     overrides writeTopObject() to delegate to writeTopObjects(), which
+     *     is the XMISaveImpl method that emits the <xmi:XMI> envelope.
+     *     The standard XMISaveImpl only calls writeTopObjects() for multiple
+     *     roots; writeTopObject() (single root, no envelope) is the default.
      */
     private void saveOutputModel(ModelExtent outputExtent, String outputPath,
                                  ResourceSet resourceSet) throws Exception {
@@ -201,14 +208,13 @@ public class UCMISTransformationApp implements IApplication {
             return;
         }
 
-        // Create the output resource using UMLResource.Factory, which produces
-        // a native .uml resource with a bare <uml:Model> root element and the
-        // correct XMI 2.5.1 namespace (xmlns:xmi="http://www.omg.org/spec/XMI/20131001").
-        // No <xmi:XMI> wrapper is emitted; this is the standard Eclipse UML2 format.
+        // Create output resource
+        // Create output resource as WrappedXMIResource, which forces the
+        // <xmi:XMI> wrapper even when there is only one root element.
+        // (The standard XMISaveImpl only writes the wrapper for multiple roots.)
         URI outputURI = createFileURI(outputPath);
-        Resource rawResource = UMLResource.Factory.INSTANCE.createResource(outputURI);
-        resourceSet.getResources().add(rawResource);
-        XMIResource outputResource = (XMIResource) rawResource;
+        WrappedXMIResource outputResource = new WrappedXMIResource(outputURI);
+        resourceSet.getResources().add(outputResource);
 
         // Add output objects
         outputResource.getContents().addAll(outObjects);
@@ -216,7 +222,7 @@ public class UCMISTransformationApp implements IApplication {
         // Resolve all proxies before ID assignment and save.
         EcoreUtil.resolveAll(resourceSet);
 
-        // UMLResource implements XMIResource — call XMI-specific operations directly.
+        // WrappedXMIResource is an XMIResource — call XMI-specific operations directly.
         outputResource.setEncoding("UTF-8");
 
         // Assign a random UUID as xmi:id to every object that has none.
@@ -305,4 +311,54 @@ public class UCMISTransformationApp implements IApplication {
         }
     }
 
+    /**
+     * XMIResourceImpl subclass that forces the {@code <xmi:XMI>} wrapper
+     * element even when the resource contains only a single root object.
+     *
+     * Background: {@code XMLSaveImpl.writeDoc()} calls {@code writeTopObject()}
+     * (no wrapper) for a single-root resource and {@code writeTopObjects()}
+     * (with wrapper) only for multiple roots. {@code XMISaveImpl} overrides
+     * {@code writeTopObjects()} to emit {@code <xmi:XMI>}, but does not
+     * override {@code writeTopObject()}, so a single-root XMI resource never
+     * gets the wrapper. This subclass overrides {@code createXMLSave()} to
+     * inject {@code WrappedXMISaveImpl}, which routes single-root saves
+     * through {@code writeTopObjects()} so the wrapper is always emitted.
+     */
+    private static final class WrappedXMIResource extends XMIResourceImpl {
+
+        WrappedXMIResource(URI uri) {
+            super(uri);
+        }
+
+        @Override
+        protected XMLSave createXMLSave() {
+            return new WrappedXMISaveImpl(createXMLHelper());
+        }
+    }
+
+    /**
+     * XMISaveImpl subclass that overrides {@code writeTopObject()} to delegate
+     * to {@code writeTopObjects()}, ensuring the {@code <xmi:XMI>} wrapper is
+     * always written regardless of how many root objects the resource contains.
+     *
+     * Signature notes (from XMLSaveImpl source):
+     *   writeTopObject(EObject)               → returns Object
+     *   writeTopObjects(List<? extends EObject>) → returns Object  (XMISaveImpl overrides
+     *                                             this to emit the xmi:XMI envelope)
+     *   xmlResource                           → protected field holding the current resource
+     */
+    private static final class WrappedXMISaveImpl extends XMISaveImpl {
+
+        WrappedXMISaveImpl(XMLHelper helper) {
+            super(helper);
+        }
+
+        @Override
+        protected Object writeTopObject(org.eclipse.emf.ecore.EObject top) {
+            // Delegate to writeTopObjects() so that XMISaveImpl's override
+            // emits the <xmi:XMI> envelope even for a single root element.
+            // xmlResource is the protected field set by XMLSaveImpl.save().
+            return writeTopObjects(xmlResource.getContents());
+        }
+    }
 }

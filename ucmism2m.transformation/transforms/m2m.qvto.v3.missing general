@@ -597,7 +597,7 @@ mapping copyOneDataType(srcRoot : UML::Model, configPath : String,
             -- subtype with its own ownedAttribute only (no flattening) and
             -- recurses exhaustively through the subtype hierarchy.
             getDirectSubDataTypes(srcRoot, srcDT)->forEach(subDT) {
-                map copySubDataType(srcRoot, configPath, subDT.name, typeName)
+                map copySubDataType(srcRoot, configPath, subDT.name)
             }
         }
         endif
@@ -612,14 +612,9 @@ mapping copyOneDataType(srcRoot : UML::Model, configPath : String,
 -- no inherited attributes are added. The copiedTypeNames guard is shared,
 -- so a subtype that is also referenced directly as a class attribute type
 -- will not be duplicated regardless of which path visits it first.
---
--- superTypeName: name of the immediate supertype that triggered this call.
--- A UML Generalization element is created on the target DataType pointing
--- to the already-copied target supertype, preserving the specialization
--- relationship in the output model.
 
 mapping copySubDataType(srcRoot : UML::Model, configPath : String,
-                         typeName : String, superTypeName : String) {
+                         typeName : String) {
     -- Shared guard: skip if already copied by any path.
     if not copiedTypeNames->includes(typeName) then {
         copiedTypeNames := copiedTypeNames->including(typeName);
@@ -657,18 +652,6 @@ mapping copySubDataType(srcRoot : UML::Model, configPath : String,
             }
             endif;
 
-            -- Wire the generalization relationship to the target supertype.
-            -- The supertype was placed in the target model before this call,
-            -- so findTargetDataTypeByName is guaranteed to find it.
-            var tgtSuperDT : UML::DataType := findTargetDataTypeByName(superTypeName);
-            if tgtSuperDT <> null then {
-                var gen : UML::Generalization := object UML::Generalization {
-                    general := tgtSuperDT;
-                };
-                tgtDT.generalization += gen
-            }
-            endif;
-
             -- Copy only directly-owned attributes (no flattening).
             -- Subtypes drawn in via subtype traversal are self-contained
             -- concrete types; their own attributes are sufficient.
@@ -692,10 +675,8 @@ mapping copySubDataType(srcRoot : UML::Model, configPath : String,
             };
 
             -- Recurse exhaustively into the subtype tree of this subtype.
-            -- Pass typeName as the superTypeName so each level gets its
-            -- generalization wired correctly.
             getDirectSubDataTypes(srcRoot, srcDT)->forEach(subDT) {
-                map copySubDataType(srcRoot, configPath, subDT.name, typeName)
+                map copySubDataType(srcRoot, configPath, subDT.name)
             }
         }
         endif

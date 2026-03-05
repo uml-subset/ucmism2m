@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
@@ -186,10 +187,9 @@ public class UCMISTransformationApp implements IApplication {
      *     IDs differ on each run. Switch to deterministic hashed IDs later if
      *     round-trip stability across repeated transformations is required.
      *
-     *   - Output resource created via UMLResource.Factory.INSTANCE, which
-     *     serialises the model as a bare {@code <uml:Model>} root element with
-     *     the correct XMI 2.5.1 namespace declaration and no xmi:XMI wrapper.
-     *     This is the native Eclipse UML2 / Papyrus .uml format.
+     *   - xmi:XMI wrapper element enclosing the root uml:Model element.
+     *     UMLResource.Factory suppresses this wrapper; creating the output
+     *     resource as XMIResourceImpl directly forces it to be emitted.
      */
     private void saveOutputModel(ModelExtent outputExtent, String outputPath,
                                  ResourceSet resourceSet) throws Exception {
@@ -201,14 +201,16 @@ public class UCMISTransformationApp implements IApplication {
             return;
         }
 
-        // Create the output resource using UMLResource.Factory, which produces
-        // a native .uml resource with a bare <uml:Model> root element and the
-        // correct XMI 2.5.1 namespace (xmlns:xmi="http://www.omg.org/spec/XMI/20131001").
-        // No <xmi:XMI> wrapper is emitted; this is the standard Eclipse UML2 format.
+        // Create output resource
         URI outputURI = createFileURI(outputPath);
-        Resource rawResource = UMLResource.Factory.INSTANCE.createResource(outputURI);
-        resourceSet.getResources().add(rawResource);
-        XMIResource outputResource = (XMIResource) rawResource;
+        // Create the output resource as XMIResourceImpl rather than via the
+        // ResourceSet factory. UMLResource.Factory.INSTANCE would produce a
+        // UML-specific resource that suppresses the <xmi:XMI> wrapper element.
+        // XMIResourceImpl always emits the wrapper, which is required here.
+        // The resource must be added to the ResourceSet so that cross-resource
+        // proxy resolution works correctly during EcoreUtil.resolveAll().
+        XMIResourceImpl outputResource = new XMIResourceImpl(outputURI);
+        resourceSet.getResources().add(outputResource);
 
         // Add output objects
         outputResource.getContents().addAll(outObjects);
@@ -216,7 +218,9 @@ public class UCMISTransformationApp implements IApplication {
         // Resolve all proxies before ID assignment and save.
         EcoreUtil.resolveAll(resourceSet);
 
-        // UMLResource implements XMIResource — call XMI-specific operations directly.
+        // UMLResource.Factory always produces an XMIResource; cast once for
+        // all XMI-specific operations (encoding, UUID, save options).
+        // Declare UTF-8 in the XML processing instruction.
         outputResource.setEncoding("UTF-8");
 
         // Assign a random UUID as xmi:id to every object that has none.
@@ -304,5 +308,4 @@ public class UCMISTransformationApp implements IApplication {
             printDiagnostic(child, indent + "  ");
         }
     }
-
 }
