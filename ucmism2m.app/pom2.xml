@@ -48,18 +48,6 @@
                                                 <ignore/>
                                             </action>
                                         </pluginExecution>
-                                        <!-- ADD THIS SECOND ENTRY: -->
-			                            <pluginExecution>
-			                                <pluginExecutionFilter>
-			                                    <groupId>org.eclipse.tycho</groupId>
-			                                    <artifactId>tycho-packaging-plugin</artifactId>
-			                                    <versionRange>[0,)</versionRange>
-			                                    <goals>
-			                                        <goal>package-plugin</goal>
-			                                    </goals>
-			                                </pluginExecutionFilter>
-			                                <action><ignore/></action>
-			                            </pluginExecution>
                                     </pluginExecutions>
                                 </lifecycleMappingMetadata>
                             </configuration>
