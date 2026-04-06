@@ -1,0 +1,18 @@
+// ── Issue 2 fix: UCMISTransformationApp.java ─────────────────────────────
+//
+// Add XMLResource to the imports (if not already present):
+//
+import org.eclipse.emf.ecore.xmi.XMLResource;
+//
+// In saveOutputModel(), add the following line to the save options map,
+// after the existing OPTION_USE_XMI_TYPE entry:
+//
+        // Emit xmi:type on all cross-resource href references whose EReference
+        // has an abstract or polymorphic EType (e.g. UML::Type on Property.type).
+        // Without this, EMF omits xmi:type on external hrefs such as UML primitive
+        // type references (pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml),
+        // leaving loading tools unable to resolve the metatype without
+        // dereferencing the href.
+        // The source model already carries xmi:type on these references; this
+        // option ensures the output model preserves that information.
+        saveOptions.put(XMLResource.OPTION_SAVE_TYPE_INFORMATION, Boolean.TRUE);

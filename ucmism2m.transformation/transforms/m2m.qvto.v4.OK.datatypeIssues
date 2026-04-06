@@ -511,50 +511,15 @@ mapping copyAttribute(srcRoot : UML::Model,
 -- ── 9. Data type post-pass coordinator ───────────────────────────────────
 
 mapping copyDataTypes(srcRoot : UML::Model, configPath : String) {
-    -- Pass A: re-resolve class attribute types that reference DataTypes.
-    -- result.type was set to the source-model object in copyAttribute(); after
-    -- copyOneDataType() creates the target-model copy, we redirect here.
-    -- Covers both structured DataTypes and user-defined PrimitiveTypes (those
-    -- declared as packagedElements in the source model, e.g. XsdAnyUri).
-    -- UML library primitives (Boolean, String, etc.) are not contained in the
-    -- source model, so findSourceDataTypeByName() returns null for them and
-    -- copyOneDataType() skips them via its existing 'if srcDT <> null' guard —
-    -- they remain as cross-resource href references in the output, as intended.
     outModel.rootObjects()[UML::Model]->any(true)
             .allSubobjectsOfKind(UML::Class)->forEach(tgtCls) {
         tgtCls.ownedAttribute->forEach(tgtProp) {
             if tgtProp.type <> null
-               and tgtProp.type.oclIsKindOf(UML::DataType) then {
+               and tgtProp.type.oclIsKindOf(UML::DataType)
+               and not tgtProp.type.oclIsKindOf(UML::PrimitiveType) then {
                 var typeName : String := tgtProp.type.name;
                 map copyOneDataType(srcRoot, configPath, typeName);
-                var tgtType : UML::DataType := findTargetDataTypeByName(typeName);
-                if tgtType <> null then
-                    tgtProp.type := tgtType
-                endif
-            }
-            endif
-        }
-    };
-
-    -- Pass B: re-resolve DataType attribute types that reference other DataTypes.
-    -- copyOneDataType() and copySubDataType() perform inline re-resolution for
-    -- attributes whose type is already in the target model at copy time, but a
-    -- DataType attribute whose type had not yet been copied at that moment still
-    -- points to the source-model object. This pass catches those residual
-    -- cross-extent references and redirects them to the target-model copies
-    -- created by pass A and the recursive copyOneDataType() calls it triggered.
-    -- User-defined PrimitiveTypes are included for the same reason as pass A.
-    outModel.rootObjects()[UML::Model]->any(true)
-            .allSubobjectsOfKind(UML::DataType)->forEach(tgtDT) {
-        tgtDT.ownedAttribute->forEach(tgtProp) {
-            if tgtProp.type <> null
-               and tgtProp.type.oclIsKindOf(UML::DataType) then {
-                var typeName : String := tgtProp.type.name;
-                map copyOneDataType(srcRoot, configPath, typeName);
-                var tgtType : UML::DataType := findTargetDataTypeByName(typeName);
-                if tgtType <> null then
-                    tgtProp.type := tgtType
-                endif
+                tgtProp.type := findTargetDataTypeByName(typeName)
             }
             endif
         }
@@ -592,21 +557,7 @@ mapping copyOneDataType(srcRoot : UML::Model, configPath : String,
                 endif
             };
 
-            -- Create the target element with the correct UML metatype.
-            -- User-defined PrimitiveTypes (e.g. XsdAnyUri) are declared as
-            -- uml:PrimitiveType packagedElements in the source model and must
-            -- be reproduced as such in the target. Structured DataTypes use
-            -- uml:DataType. The oclIsKindOf check on the source element is the
-            -- authoritative test; oclAsType cast is needed because tgtDT is
-            -- declared as UML::DataType (the common supertype) for the shared
-            -- comment and attribute logic that follows.
-            var tgtDT : UML::DataType;
-            if srcDT.oclIsKindOf(UML::PrimitiveType) then
-                tgtDT := object UML::PrimitiveType { name := typeName; }
-                              .oclAsType(UML::DataType)
-            else
-                tgtDT := object UML::DataType { name := typeName; }
-            endif;
+            var tgtDT : UML::DataType := object UML::DataType { name := typeName; };
             currentPkg.packagedElement += tgtDT;
 
             var dtDefn : String := firstCommentBody(srcDT);
@@ -695,15 +646,7 @@ mapping copySubDataType(srcRoot : UML::Model, configPath : String,
                 endif
             };
 
-            -- Create the target element with the correct UML metatype.
-            -- Mirrors the same branch in copyOneDataType(); see comment there.
-            var tgtDT : UML::DataType;
-            if srcDT.oclIsKindOf(UML::PrimitiveType) then
-                tgtDT := object UML::PrimitiveType { name := typeName; }
-                              .oclAsType(UML::DataType)
-            else
-                tgtDT := object UML::DataType { name := typeName; }
-            endif;
+            var tgtDT : UML::DataType := object UML::DataType { name := typeName; };
             currentPkg.packagedElement += tgtDT;
 
             var dtDefn : String := firstCommentBody(srcDT);
