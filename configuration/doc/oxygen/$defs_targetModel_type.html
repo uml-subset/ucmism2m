@@ -1,0 +1,1836 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Documentation for $defs_targetModel_type</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css"><script>var sourceBoxes= new Array('source_#/$defs/targetModel_type', 
+				'source_#/$defs/targetModel_type/properties/_comment', 
+				'source_#/$defs/targetModel_type/properties/acronym', 
+				'source_#/$defs/targetModel_type/properties/modelTitle', 
+				'source_#/$defs/targetModel_type/properties/subTitle', 
+				'source_#/$defs/targetModel_type/properties/majorVersion', 
+				'source_#/$defs/targetModel_type/properties/minorVersion', 
+				'source_#/$defs/targetModel_type/properties/language', 
+				'source_#/$defs/targetModel_type/properties/uri', 
+				'source_#/$defs/targetModel_type/properties/definition', 
+				'source_#/$defs/targetModel_type/properties/mainPackage', 
+				'source_#/$defs/targetModel_type/properties/mainPackageDefinition', 
+				'source_#/$defs/targetModel_type/properties/dataTypesPackage');
+var annotationsBoxes= new Array('annotations_#/$defs/targetModel_type', 
+				'annotations_#/$defs/targetModel_type/properties/acronym', 
+				'annotations_#/$defs/targetModel_type/properties/modelTitle', 
+				'annotations_#/$defs/targetModel_type/properties/subTitle', 
+				'annotations_#/$defs/targetModel_type/properties/majorVersion', 
+				'annotations_#/$defs/targetModel_type/properties/minorVersion', 
+				'annotations_#/$defs/targetModel_type/properties/language', 
+				'annotations_#/$defs/targetModel_type/properties/uri', 
+				'annotations_#/$defs/targetModel_type/properties/definition', 
+				'annotations_#/$defs/targetModel_type/properties/mainPackage', 
+				'annotations_#/$defs/targetModel_type/properties/dataTypesPackage');
+var diagramBoxes= new Array('diagram_#/$defs/targetModel_type', 
+				'diagram_#/$defs/targetModel_type/properties/_comment', 
+				'diagram_#/$defs/targetModel_type/properties/acronym', 
+				'diagram_#/$defs/targetModel_type/properties/modelTitle', 
+				'diagram_#/$defs/targetModel_type/properties/subTitle', 
+				'diagram_#/$defs/targetModel_type/properties/majorVersion', 
+				'diagram_#/$defs/targetModel_type/properties/minorVersion', 
+				'diagram_#/$defs/targetModel_type/properties/language', 
+				'diagram_#/$defs/targetModel_type/properties/uri', 
+				'diagram_#/$defs/targetModel_type/properties/definition', 
+				'diagram_#/$defs/targetModel_type/properties/mainPackage', 
+				'diagram_#/$defs/targetModel_type/properties/mainPackageDefinition', 
+				'diagram_#/$defs/targetModel_type/properties/dataTypesPackage');
+var propertiesBoxes= new Array('properties_#/$defs/targetModel_type');
+var constraintsBoxes= new Array('constraints_#/$defs/targetModel_type/properties/uri');
+var combinedBoxes= new Array('combined_#/$defs/targetModel_type', 
+				'combined_#/$defs/targetModel_type/properties/_comment', 
+				'combined_#/$defs/targetModel_type/properties/acronym', 
+				'combined_#/$defs/targetModel_type/properties/modelTitle', 
+				'combined_#/$defs/targetModel_type/properties/subTitle', 
+				'combined_#/$defs/targetModel_type/properties/majorVersion', 
+				'combined_#/$defs/targetModel_type/properties/minorVersion', 
+				'combined_#/$defs/targetModel_type/properties/language', 
+				'combined_#/$defs/targetModel_type/properties/uri', 
+				'combined_#/$defs/targetModel_type/properties/definition', 
+				'combined_#/$defs/targetModel_type/properties/mainPackage', 
+				'combined_#/$defs/targetModel_type/properties/mainPackageDefinition', 
+				'combined_#/$defs/targetModel_type/properties/dataTypesPackage');
+var usedByBoxes= new Array('usedBy_#/$defs/targetModel_type', 
+				'usedBy_#/$defs/targetModel_type/properties/_comment', 
+				'usedBy_#/$defs/targetModel_type/properties/acronym', 
+				'usedBy_#/$defs/targetModel_type/properties/modelTitle', 
+				'usedBy_#/$defs/targetModel_type/properties/subTitle', 
+				'usedBy_#/$defs/targetModel_type/properties/majorVersion', 
+				'usedBy_#/$defs/targetModel_type/properties/minorVersion', 
+				'usedBy_#/$defs/targetModel_type/properties/language', 
+				'usedBy_#/$defs/targetModel_type/properties/uri', 
+				'usedBy_#/$defs/targetModel_type/properties/definition', 
+				'usedBy_#/$defs/targetModel_type/properties/mainPackage', 
+				'usedBy_#/$defs/targetModel_type/properties/mainPackageDefinition', 
+				'usedBy_#/$defs/targetModel_type/properties/dataTypesPackage');
+
+            
+            var button_prefix = 'button_';
+            
+            /**
+            * Returns an element in the current HTML document.
+            *
+            * @param elementID Identifier of HTML element
+            * @return               HTML element object
+            */
+            function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+            elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+            }
+            
+            /**
+            * Switches the state of a collapseable box, e.g.
+            * if it's opened, it'll be closed, and vice versa.
+            *
+            * @param boxID Identifier of box
+            */
+            function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+            // Box or button not found
+            } else if (boxObj.style.display == "none") {
+            // Box is closed, so open it
+            openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+            // Box is opened, so close it
+            closeBox(boxObj, buttonObj);
+            }
+            }
+            
+            /**
+            * Opens a collapseable box.
+            *
+            * @param boxObj       Collapseable box
+            * @param buttonObj Button controlling box
+            */
+            function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+            // Box or button not found
+            } else {
+            // Change 'display' CSS property of box
+            boxObj.style.display = "block";
+            
+            // Change text of button
+            if (boxObj.style.display == "block") {
+            buttonObj.src = "img/btM.gif";
+            }
+            }
+            }
+            
+            /**
+            * Closes a collapseable box.
+            *
+            * @param boxObj       Collapseable box
+            * @param buttonObj Button controlling box
+            */
+            function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+            // Box or button not found
+            } else {
+            // Change 'display' CSS property of box
+            boxObj.style.display = "none";
+            
+            // Change text of button
+            if (boxObj.style.display == "none") {
+            buttonObj.src = "img/btP.gif";
+            }
+            }
+            }
+            
+            function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+            // button not found
+            } else if (buttonObj.value == "+") {
+            // Expand all
+            expandAll(boxList);
+            buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+            // Collapse all
+            collapseAll(boxList);
+            buttonObj.value = "+";
+            }
+            }
+            
+            /**
+            * Closes all boxes in a given list.
+            *
+            * @param boxList Array of box IDs
+            */
+            function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+            var boxObj = getElementObject(boxList[idx]);
+            var buttonObj = getElementObject(button_prefix + boxList[idx]);
+            closeBox(boxObj, buttonObj);
+            }
+            }
+            
+            /**
+            * Open all boxes in a given list.
+            *
+            * @param boxList Array of box IDs
+            */
+            function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+            var boxObj = getElementObject(boxList[idx]);
+            var buttonObj = getElementObject(button_prefix + boxList[idx]);
+            openBox(boxObj, buttonObj);
+            }
+            }
+            
+            /**
+            * Update the message presented in the title of the html page.
+            * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+            * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+            * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+            */
+            function updatePageTitle(message) {
+            top.document.title = message;
+            }
+            
+            
+            
+            /**
+            * Finds an HTML element by its ID and makes it floatable over the normal content.
+            *
+            * @param x_displacement The difference in pixels to the right side of the window from 
+            *           the left side of the element.
+            * @param y_displacement The difference in pixels to the right side of the window from 
+            *           the top of the element.          
+            */
+            function findAndFloat(id, x_displacement, y_displacement){
+            
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+            element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+            
+            element.floatElement = function(){
+            // It may be closed by an user action.
+            
+            // Target X and Y coordinates.
+            var x, y;
+            
+            var myWidth = 0, myHeight = 0;
+            if( typeof( window.innerWidth ) == 'number' ) {
+            //Non-IE
+            myWidth = window.innerWidth;
+            myHeight = window.innerHeight;
+            } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+            //IE 6+ in 'standards compliant mode'
+            myWidth = document.documentElement.clientWidth;
+            myHeight = document.documentElement.clientHeight;
+            } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+            //IE 4 compatible
+            myWidth = document.body.clientWidth;
+            myHeight = document.body.clientHeight;
+            }
+            
+            
+            x = myWidth - x_displacement;
+            
+            var ns = (navigator.appName.indexOf("Netscape") != -1);               
+            y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+            document.documentElement.scrollTop : document.body.scrollTop;               
+            y = y + y_displacement;               
+            
+            // The current y is the current coordinate of the floating element.
+            // This should be at the limit the y target coordinate.
+            this.current_y += (y - this.current_y)/1.25;
+            
+            // Add the pixels constant after the values
+            // and move the element.
+            var px = document.layers ? "" : "px";
+            this.style.left =  x + px;
+            this.style.top =  this.current_y + px;
+            
+            setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+            }
+            
+            /**
+            * Finds an HTML element by its ID and makes it floatable over the normal content.
+            *
+            * @param x_displacement The difference in pixels to the right side of the window from 
+            *           the left side of the element.
+            * @param y_displacement The difference in pixels to the right side of the window from 
+            *           the top of the element.          
+            */
+            function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+            
+            if (!isChunked) {
+            var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+            // Make all the tabs invisible.
+            for (i = 0; i < 3; i++){
+            var tab = getElementObject(selectIds[i]);
+            tab.style.display = 'none';
+            }
+            var selTab = getElementObject(id);
+            selTab.style.display = 'block';
+            } else {
+            if (id == 'toc_group_by_namespace') {
+            parent.indexFrame.location = indexFileNamespace;
+            } else  if (id == 'toc_group_by_location') {
+            parent.indexFrame.location = indexFileLocation;
+            } else  if (id == 'toc_group_by_component_type') {
+            parent.indexFrame.location = indexFileComponent;
+            }
+            }
+            }
+        </script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, annotationsBoxes);" class="control"></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, diagramBoxes);" class="control"></span><span class="globalControlName">Diagram</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, propertiesBoxes);" class="control"></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, constraintsBoxes);" class="control"></span><span class="globalControlName">Constraints</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, usedByBoxes);" class="control"></span><span class="globalControlName">Used By</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked onclick="switchStateForAll(this, sourceBoxes);" class="control"></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close"></span></td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div>
+      <table class="rt">
+         <tr>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td><a id="/$defs/targetModel_type"></a><div class="componentTitle">Schema <span class="Name">targetModel_type</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Target model definition</span></pre><br><pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Description  </span><span class="tT">Describes the UCMIS target model by name, URI, and other details.</span></pre>
+                                                            </td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type" style="display:block"><map name="schema/$defs/targetModel_type">
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/_comment" coords="569,27,654,69" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/_comment">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/acronym" coords="569,79,767,121" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/acronym">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/modelTitle" coords="569,161,654,203" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/modelTitle">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/subTitle" coords="569,243,654,285" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/subTitle">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/majorVersion" coords="569,325,665,367" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/majorVersion">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/minorVersion" coords="569,407,665,449" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/minorVersion">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/language" coords="569,489,654,531" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/language">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/uri" coords="569,571,668,631" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/uri">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/definition" coords="569,684,654,726" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/definition">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackage" coords="569,766,778,808" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackage">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackageDefinition" coords="569,874,717,916" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackageDefinition">
+                                                      
+                                                      <area shape="rect" alt="$defs_targetModel_type.html#/$defs/targetModel_type/properties/dataTypesPackage" coords="569,926,778,968" href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/dataTypesPackage">
+                                                      
+                                                      </map><img src="diagramImages/schema_defs_targetModel_type.png" useMap="#schema/$defs/targetModel_type" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>object</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Properties</b></div>
+                                                <div class="floatRight"><input id="button_properties_#/$defs/targetModel_type" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('properties_#/$defs/targetModel_type');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="properties_#/$defs/targetModel_type" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Name</td>
+                                                         <td style="font-family: Segoe UI; font-size: 8pt; color: #808080;">
+                                                            Occurrence </td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap;"><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/_comment"><span class="Name">_comment<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/acronym"><span class="Name">acronym<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/modelTitle"><span class="Name">modelTitle<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/subTitle"><span class="Name">subTitle<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/majorVersion"><span class="Name">majorVersion<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/minorVersion"><span class="Name">minorVersion<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/language"><span class="Name">language<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/uri"><span class="Name">uri<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/definition"><span class="Name">definition<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackage"><span class="Name">mainPackage<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/mainPackageDefinition"><span class="Name">mainPackageDefinition<br></span></a><a href="$defs_targetModel_type.html#/$defs/targetModel_type/properties/dataTypesPackage"><span class="Name">dataTypesPackage<br></span></a></td>
+                                                         <td><b>optional<br>required<br>required<br>required<br>required<br>required<br>required<br>required<br>required<br>required<br>required<br>required<br></b></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Additional Properties</b></td>
+                                             <td>false</td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_transformation_type.html#/$defs/transformation_type/properties/targetModel">#/$defs/transformation_type/properties/targetModel</a></span></td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_transformation_type.html#/$defs/transformation_type">#/$defs/transformation_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"targetModel_type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"object"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"additionalProperties"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,90)">false</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Target model definition"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Describes the UCMIS target model by name, URI, and other details."</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"required"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">[</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"acronym"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"modelTitle"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"subTitle"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"majorVersion"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"minorVersion"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"language"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"uri"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"definition"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"mainPackage"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"mainPackageDefinition"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(153,51,0)">"dataTypesPackage"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(40,40,40)">]</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"properties"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"_comment"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"acronym"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/modelName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Acronym"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"modelTitle"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Title"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"subTitle"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Subtitle"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"majorVersion"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Major version"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"minorVersion"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Minor version"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"language"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Language of the definitions in the model"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"uri"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"format"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"uri"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"URI"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The URI of the model namespace."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"definition"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Definition"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"mainPackage"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/elementName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Main package name"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The main package in the target model that contains all the mentioned classes and associations, including those within its subpackages."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"mainPackageDefinition"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(0,0,150)">"dataTypesPackage"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/elementName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Main package name for data types"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">      </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The data types package in the target model that contains all required data types according to the structure in the source model, including those within its subpackages."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">    </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/_comment"></a><div class="componentTitle">Schema <span class="Name">_comment</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/_comment" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/_comment');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/_comment" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_comment.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/_comment" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/_comment');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/_comment" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/_comment" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/_comment');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/_comment" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"_comment"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/acronym"></a><div class="componentTitle">Definition schema <span class="Name">acronym</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/acronym" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/acronym');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/acronym" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Acronym</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/acronym" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/acronym');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/acronym" style="display:block"><map name="schema/$defs/targetModel_type/properties/acronym">
+                                                      <area shape="rect" alt="$defs_modelName_type.html#/$defs/modelName_type" coords="0,0,198,42" href="$defs_modelName_type.html#/$defs/modelName_type">
+                                                      
+                                                      </map><img src="diagramImages/schema_defs_targetModel_type_properties_acronym.png" useMap="#schema/$defs/targetModel_type/properties/acronym" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>reference</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Refers </b></td>
+                                             <td><b><a href="$defs_modelName_type.html#/$defs/modelName_type">modelName_type</a></b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/acronym" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/acronym');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/acronym" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/acronym" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/acronym');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/acronym" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"acronym"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/modelName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Acronym"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          
+                                          
+                                          
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/modelTitle"></a><div class="componentTitle">Schema <span class="Name">modelTitle</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/modelTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/modelTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/modelTitle" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Title</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/modelTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/modelTitle');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/modelTitle" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_modelTitle.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/modelTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/modelTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/modelTitle" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/modelTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/modelTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/modelTitle" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"modelTitle"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Title"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/subTitle"></a><div class="componentTitle">Schema <span class="Name">subTitle</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/subTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/subTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/subTitle" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Subtitle</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/subTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/subTitle');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/subTitle" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_subTitle.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/subTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/subTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/subTitle" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/subTitle" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/subTitle');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/subTitle" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"subTitle"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Subtitle"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/majorVersion"></a><div class="componentTitle">Schema <span class="Name">majorVersion</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/majorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/majorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/majorVersion" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Major version</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/majorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/majorVersion');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/majorVersion" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_majorVersion.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/majorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/majorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/majorVersion" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/majorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/majorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/majorVersion" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"majorVersion"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Major version"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/minorVersion"></a><div class="componentTitle">Schema <span class="Name">minorVersion</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/minorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/minorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/minorVersion" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Minor version</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/minorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/minorVersion');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/minorVersion" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_minorVersion.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/minorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/minorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/minorVersion" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/minorVersion" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/minorVersion');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/minorVersion" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"minorVersion"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Minor version"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/language"></a><div class="componentTitle">Schema <span class="Name">language</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/language" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/language');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/language" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Language of the definitions in the model</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/language" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/language');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/language" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_language.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/language" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/language');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/language" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/language" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/language');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/language" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"language"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Language of the definitions in the model"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/uri"></a><div class="componentTitle">Schema <span class="Name">uri</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/uri" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/uri');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/uri" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">URI</span></pre><br><pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Description  </span><span class="tT">The URI of the model namespace.</span></pre>
+                                                            </td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/uri" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/uri');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/uri" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_uri.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Constraints</b></div>
+                                                <div class="floatRight"><input id="button_constraints_#/$defs/targetModel_type/properties/uri" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('constraints_#/$defs/targetModel_type/properties/uri');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="constraints_#/$defs/targetModel_type/properties/uri" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Format : </span><span class="tT">uri</span></pre>
+                                                            </td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/uri" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/uri');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/uri" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/uri" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/uri');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/uri" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"uri"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"format"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"uri"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"URI"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The URI of the model namespace."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/definition"></a><div class="componentTitle">Schema <span class="Name">definition</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/definition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/definition');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/definition" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Definition</span></pre><br></td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/definition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/definition');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/definition" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_definition.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/definition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/definition');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/definition" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/definition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/definition');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/definition" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"definition"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Definition"</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/mainPackage"></a><div class="componentTitle">Definition schema <span class="Name">mainPackage</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/mainPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/mainPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/mainPackage" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Main package name</span></pre><br><pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Description  </span><span class="tT">The main package in the target model that contains all the mentioned classes and associations, including those within its subpackages.</span></pre>
+                                                            </td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/mainPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/mainPackage');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/mainPackage" style="display:block"><map name="schema/$defs/targetModel_type/properties/mainPackage">
+                                                      <area shape="rect" alt="$defs_elementName_type.html#/$defs/elementName_type" coords="0,0,209,42" href="$defs_elementName_type.html#/$defs/elementName_type">
+                                                      
+                                                      </map><img src="diagramImages/schema_defs_targetModel_type_properties_mainPackage.png" useMap="#schema/$defs/targetModel_type/properties/mainPackage" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>reference</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Refers </b></td>
+                                             <td><b><a href="$defs_elementName_type.html#/$defs/elementName_type">elementName_type</a></b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/mainPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/mainPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/mainPackage" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/mainPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/mainPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/mainPackage" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"mainPackage"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/elementName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Main package name"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The main package in the target model that contains all the mentioned classes and associations, including those within its subpackages."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          
+                                          
+                                          
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/mainPackageDefinition"></a><div class="componentTitle">Schema <span class="Name">mainPackageDefinition</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/mainPackageDefinition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/mainPackageDefinition');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/mainPackageDefinition" style="display:block"><img src="diagramImages/schema_defs_targetModel_type_properties_mainPackageDefinition.png" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>string</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/mainPackageDefinition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/mainPackageDefinition');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/mainPackageDefinition" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/mainPackageDefinition" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/mainPackageDefinition');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/mainPackageDefinition" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"mainPackageDefinition"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,150)">"type"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"string"</span><span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br><a id="/$defs/targetModel_type/properties/dataTypesPackage"></a><div class="componentTitle">Definition schema <span class="Name">dataTypesPackage</span><span class="qname"></span></div>
+                           <table class="rt">
+                              <tr>
+                                 <td class="rt_cornerTopLeft"></td>
+                                 <td class="rt_lineTop"></td>
+                                 <td class="rt_cornerTopRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_lineLeft"></td>
+                                 <td class="rt_content">
+                                    <table class="component">
+                                       <tbody> 
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Annotations</b></div>
+                                                <div class="floatRight"><input id="button_annotations_#/$defs/targetModel_type/properties/dataTypesPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('annotations_#/$defs/targetModel_type/properties/dataTypesPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="annotations_#/$defs/targetModel_type/properties/dataTypesPackage" style="display:block">
+                                                   <div class="annotation">
+                                                      <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                         <tr>
+                                                            <td>
+                                                               <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Title  </span><span class="tT">Main package name for data types</span></pre><br><pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="DetailName">Description  </span><span class="tT">The data types package in the target model that contains all required data types according to the structure in the source model, including those within its subpackages.</span></pre>
+                                                            </td>
+                                                         </tr>
+                                                      </table>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Diagram</b></div>
+                                                <div class="floatRight"><input id="button_diagram_#/$defs/targetModel_type/properties/dataTypesPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('diagram_#/$defs/targetModel_type/properties/dataTypesPackage');" class="control"></div>
+                                             </td>
+                                             <td class="diagram">
+                                                <div id="diagram_#/$defs/targetModel_type/properties/dataTypesPackage" style="display:block"><map name="schema/$defs/targetModel_type/properties/dataTypesPackage">
+                                                      <area shape="rect" alt="$defs_elementName_type.html#/$defs/elementName_type" coords="0,0,209,42" href="$defs_elementName_type.html#/$defs/elementName_type">
+                                                      
+                                                      </map><img src="diagramImages/schema_defs_targetModel_type_properties_dataTypesPackage.png" useMap="#schema/$defs/targetModel_type/properties/dataTypesPackage" alt="diagram"></div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Type</b></td>
+                                             <td><b>reference</b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn"><b>Refers </b></td>
+                                             <td><b><a href="$defs_elementName_type.html#/$defs/elementName_type">elementName_type</a></b></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Used by</b></div>
+                                                <div class="floatRight"><input id="button_usedBy_#/$defs/targetModel_type/properties/dataTypesPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('usedBy_#/$defs/targetModel_type/properties/dataTypesPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="usedBy_#/$defs/targetModel_type/properties/dataTypesPackage" style="display:block">
+                                                   <table class="propertiesTable">
+                                                      <tr>
+                                                         <td class="firstColumn" style="white-space: nowrap; font-family: Segoe UI; font-size: 8pt; color: #808080;">Schema</td>
+                                                      </tr>
+                                                      <tr class="firstColumn" style="white-space: nowrap;">
+                                                         <td><span class="Name"><a href="$defs_targetModel_type.html#/$defs/targetModel_type">#/$defs/targetModel_type</a></span></td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          <tr>
+                                             <td class="firstColumn">
+                                                <div class="floatLeft"><b>Source</b></div>
+                                                <div class="floatRight"><input id="button_source_#/$defs/targetModel_type/properties/dataTypesPackage" type="image" src="img/btM.gif" alt="expand/collapse" onclick="switchState('source_#/$defs/targetModel_type/properties/dataTypesPackage');" class="control"></div>
+                                             </td>
+                                             <td>
+                                                <div id="source_#/$defs/targetModel_type/properties/dataTypesPackage" style="display:block">
+                                                   <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                                      <tr>
+                                                         <td>
+                                                            <pre style="white-space: pre-wrap;       /* Since CSS 2.1 */                                                 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */                                                 white-space: -pre-wrap;      /* Opera 4-6 */                                                 white-space: -o-pre-wrap;    /* Opera 7 */                                                 word-wrap: break-word;  "><span class="tEl">
+<span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(0,0,150)">"dataTypesPackage"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(40,40,40)">{</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"$ref"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"#/$defs/elementName_type"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"title"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"Main package name for data types"</span><span style="color: rgb(100,0,50)">,</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(0,0,0)">  </span><span style="color: rgb(0,0,150)">"description"</span><span style="color: rgb(100,0,50)">:</span><span style="color: rgb(0,0,0)"> </span><span style="color: rgb(153,51,0)">"The data types package in the target model that contains all required data types according to the structure in the source model, including those within its subpackages."</span><span style="color: rgb(0,0,0)"></span>
+<span style="color: rgb(40,40,40)">}</span><span style="color: rgb(40,40,40)"></span><span style="color: rgb(0,0,0)"></span>
+
+</span></pre>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                          
+                                          
+                                          
+                                          
+                                          </tbody>
+                                    </table>
+                                 </td>
+                                 <td class="rt_lineRight"></td>
+                              </tr>
+                              <tr>
+                                 <td class="rt_cornerBottomLeft"></td>
+                                 <td class="rt_lineBottom"></td>
+                                 <td class="rt_cornerBottomRight"></td>
+                              </tr>
+                           </table><br></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr>
+         <div style="text-align:center">JSON Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup></div>
+      </div><script>
+            // The namespace is the selected option in the TOC combo.
+            
+            // Floats the toolbar.
+            var globalControls = getElementObject("global_controls");
+            
+            if (globalControls != null) {
+                var browser = navigator.appName;
+                var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+                
+                var IE6 = false;
+                if ((browser == "Microsoft Internet Explorer")) {
+                    IE6 = true;
+                }
+                
+                //alert (IE6 + " |V| " + version);
+                
+                if (IE6) {
+                    // On IE 6 the 'fixed' property is not supported. We must use javascript.
+                    globalControls.style.position = 'absolute';
+                    // The global controls will do not exist in the TOC frame, when chunking.
+                    findAndFloat("global_controls", 225, 30);
+                } else {
+                    globalControls.style.position = 'fixed';
+                }
+                
+                globalControls.style.right = '0';
+            }</script></body>
+</html>
